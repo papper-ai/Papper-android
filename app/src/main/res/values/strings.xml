@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Papper</string>
+    <string name="sign_in">Вход</string>
+    <string name="sign_in2">Войти</string>
+    <string name="sign_up">Регистрация</string>
+    <string name="forgot_password">Не помню пароль</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="next">Далее</string>
+    <string name="fill_your_name">Введите ваше имя</string>
+    <string name="fill_name">Ваше имя</string>
+    <string name="fill_your_surname">Введите вашу фамилию</string>
+    <string name="fill_surname">Ваша Фамилия</string>
+    <string name="fill_your_login">Введите ваш логин</string>
+    <string name="fill_login">Логин</string>
+    <string name="fill_your_password">Введите ваш пароль</string>
+    <string name="fill_password">Пароль</string>
+    <string name="fill_your_code">Введите код</string>
+    <string name="fill_code">Код</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="login">Логин</string>
+    <string name="code">Код</string>
+    <string name="registration">Зарегистрироваться</string>
+</resources>
