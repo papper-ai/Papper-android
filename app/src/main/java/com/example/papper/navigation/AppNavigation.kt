@@ -11,23 +11,19 @@ import com.example.papper.features.auth.registration.presentation.RegistrationVi
 import com.example.papper.features.auth.sign_in.SignInScreen
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
 import com.example.papper.features.auth.start.StartScreen
-import com.example.papper.features.chat.ChatScreen
-import com.example.papper.features.chat.ChatsScreen
-import com.example.papper.features.chat.CreateChatScreen
+import com.example.papper.features.chat.chat.ChatScreen
+import com.example.papper.features.chat.chats.presentation.ChatsViewModel
+import com.example.papper.features.chat.chats.ChatsScreen
+import com.example.papper.features.chat.create_chat.CreateChatScreen
 import com.example.papper.features.profile.ProfileScreen
 import com.example.papper.features.storage.CreateStoragesScreen
 import com.example.papper.features.storage.StorageScreen
 import com.example.papper.features.storage.StoragesScreen
 
-
 @Composable
 fun AppNavigation(
     navHostController: NavHostController
 ) {
-
-    val signInViewModel: SignInViewModel = hiltViewModel()
-    val registrationViewModel: RegistrationViewModel = hiltViewModel()
-
     NavHost (
         navController = navHostController,
         startDestination = Screens.StartScreen.route
@@ -39,18 +35,21 @@ fun AppNavigation(
         }
         composable(route = Screens.RegistrationScreen.route) {
             RegistrationScreen(
-                viewModel = registrationViewModel,
+                viewModel = hiltViewModel(),
                 navHostController = navHostController,
             )
         }
         composable(route = Screens.SignInScreen.route) {
             SignInScreen(
-                viewModel = signInViewModel,
+                viewModel = hiltViewModel(),
                 navHostController = navHostController,
             )
         }
         composable(route = Screens.ChatsScreen.route) {
-            ChatsScreen()
+            ChatsScreen(
+                viewModel = hiltViewModel(),
+                navHostController = navHostController,
+            )
         }
         composable(route = Screens.CreateChatScreen.route) {
             CreateChatScreen()

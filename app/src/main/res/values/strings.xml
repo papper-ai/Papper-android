@@ -22,4 +22,6 @@
     <string name="login">Логин</string>
     <string name="code">Код</string>
     <string name="registration">Зарегистрироваться</string>
+    <string name="loading_chat_error">Ошибка загрузки чатов</string>
+    <string name="retry_response">Повторить запрос</string>
 </resources>

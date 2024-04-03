@@ -12,6 +12,7 @@ data class PapperColors(
     val secondaryButtonColor: Color,
     val disabledButtonColor: Color,
     val disabledTextColor: Color,
+    val chatBotColor: Color,
 )
 
 val darkPallet = PapperColors(
@@ -23,7 +24,8 @@ val darkPallet = PapperColors(
     primaryButtonColor = Color(0xFF008000),
     secondaryButtonColor = Color(0xFF292929),
     disabledButtonColor = Color(0xFF7E7E7E),
-    disabledTextColor = Color(0xFF555555)
+    disabledTextColor = Color(0xFF555555),
+    chatBotColor = Color(0xFF8D0088)
 )
 
 //TODO добавить светлую тему
@@ -36,5 +38,6 @@ val lightPallet = PapperColors(
     primaryButtonColor = Color(0xFF008000),
     secondaryButtonColor = Color(0xFF292929),
     disabledButtonColor = Color(0xFF7E7E7E),
-    disabledTextColor = Color(0xFF555555)
+    disabledTextColor = Color(0xFF555555),
+    chatBotColor = Color(0xFF8D0088)
 )
