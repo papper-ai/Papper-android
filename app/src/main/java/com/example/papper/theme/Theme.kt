@@ -2,6 +2,7 @@ package com.example.papper.theme
 
 import android.app.Activity
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -77,7 +78,7 @@ fun PapperTheme(
     val window = calculateWindowSizeClass(activity = activity)
     val config = LocalConfiguration.current
 
-    var appDimens = CompactDimens
+    var appDimens = CompactSmallDimens
 
     when (window.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
@@ -98,13 +99,15 @@ fun PapperTheme(
 //
 //        }
     }
-    
-    AppUtils(appDimens = appDimens) {}
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+
+    AppUtils(appDimens = appDimens) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    }
+
 }
 
 val MaterialTheme.dimens

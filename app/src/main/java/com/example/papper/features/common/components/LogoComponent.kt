@@ -1,8 +1,10 @@
 package com.example.papper.features.common.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -25,12 +27,17 @@ fun SmallLogoComponent(modifier: Modifier = Modifier) {
 
 @Composable
 fun BigLogoComponent(modifier: Modifier = Modifier) {
-    Text(
+    Box(
         modifier = modifier,
-        text = stringResource(id = R.string.app_name),
-        style = MaterialTheme.typography.Logo,
-        color = MaterialTheme.colorScheme.onPrimary,
-        textAlign = TextAlign.Center,
-        maxLines = 1,
-    )
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            modifier = modifier,
+            text = stringResource(id = R.string.app_name),
+            style = MaterialTheme.typography.Logo,
+            color = MaterialTheme.colorScheme.onPrimary,
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+        )
+    }
 }

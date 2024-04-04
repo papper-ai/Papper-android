@@ -14,8 +14,8 @@ fun AppUtils(
         appDimens
     }
     
-    CompositionLocalProvider(value = localAppDimens provides appDimens) {
-        
+    CompositionLocalProvider(localAppDimens provides appDimens) {
+        content()
     }
 }
 
