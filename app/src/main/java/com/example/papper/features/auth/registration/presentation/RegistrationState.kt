@@ -15,7 +15,12 @@ sealed class RegistrationScreenState {
     object TypingPassword: RegistrationScreenState()
     object TypingCode: RegistrationScreenState()
     object AllFields: RegistrationScreenState()
-    object Loading: RegistrationScreenState()
-    data class Error(val msg: String): RegistrationScreenState()
-    object Success: RegistrationScreenState()
+
+}
+
+sealed class AllFieldsScreenState {
+    object Default: AllFieldsScreenState()
+    object Loading: AllFieldsScreenState()
+    object Error: AllFieldsScreenState()
+
 }

@@ -14,7 +14,10 @@ fun SignInBtn(
     navHostController: NavHostController
 ) {
     ButtonComponent1(
-        onClick = { viewModel.signInClick() },
+        onClick = {
+            viewModel.signInClick()
+
+        },
         isEnable = viewModel.fieldsStatus.value,
         text = stringResource(id = R.string.sign_in2),
         isLoading = (viewModel.signInScreenState.value is SignInScreenState.Loading)

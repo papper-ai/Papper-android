@@ -45,7 +45,8 @@ class ChatsViewModel @Inject constructor(
                 state.value = state.value.copy(chatsState = state.value.chatsState.copy(listOfChats = list))
                 state
             }
-            postSideEffect(ChatsSideEffects.ShowError)
+            //postSideEffect(ChatsSideEffects.ShowError)
+            postSideEffect(ChatsSideEffects.ShowSuccess)
         }
     }
 

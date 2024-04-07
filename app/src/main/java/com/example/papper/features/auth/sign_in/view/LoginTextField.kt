@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.papper.R
+import com.example.papper.features.auth.sign_in.presentation.SignInScreenState
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
 import com.example.papper.features.common.components.OutlinedTextFieldComponent
 import org.orbitmvi.orbit.compose.collectAsState
@@ -32,5 +33,6 @@ fun LoginTextField(
         },
         placeholder = stringResource(id = R.string.email),
         singleLine = true,
+        isEnable = viewModel.signInScreenState.value !is SignInScreenState.Loading,
     )
 }

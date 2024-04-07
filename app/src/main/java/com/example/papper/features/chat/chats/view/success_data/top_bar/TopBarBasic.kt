@@ -1,4 +1,4 @@
-package com.example.papper.features.chat.chats.view.success_data
+package com.example.papper.features.chat.chats.view.success_data.top_bar
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -11,14 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.papper.features.chat.chats.view.success_data.top_bar.ArchiveBtn
-import com.example.papper.features.chat.chats.view.success_data.top_bar.Logo
-import com.example.papper.features.chat.chats.view.success_data.top_bar.ProfileBtn
-import com.example.papper.features.chat.chats.view.success_data.top_bar.StorageBtn
 import com.example.papper.theme.dimens
 
 @Composable
-fun TopBar(
+fun TopBarBasic(
     modifier: Modifier = Modifier,
     navHostController: NavHostController
 ) {

@@ -6,6 +6,6 @@ sealed class RegistrationSideEffects {
     object toPassword : RegistrationSideEffects()
     object toCode : RegistrationSideEffects()
     object toAllFields : RegistrationSideEffects()
-    object ShowLoadingState : RegistrationSideEffects()
-    object ShowErrorState : RegistrationSideEffects()
+//    object ShowLoadingState : RegistrationSideEffects()
+//    object ShowErrorState : RegistrationSideEffects()
 }

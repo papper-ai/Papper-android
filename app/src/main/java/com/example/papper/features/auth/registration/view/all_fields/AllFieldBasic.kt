@@ -1,5 +1,6 @@
 package com.example.papper.features.auth.registration.view.all_fields
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.example.papper.features.auth.registration.presentation.RegistrationScreenState
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
 import com.example.papper.theme.dimens
 
@@ -20,19 +22,17 @@ fun AllFieldBasic(
     viewModel: RegistrationViewModel,
     navHostController: NavHostController,
 ) {
+    BackHandler {
+        viewModel.registrationScreenState.value = RegistrationScreenState.TypingCode
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box(
-            modifier = Modifier
-                .weight(1f),
-            contentAlignment = Alignment.Center,
-        ) {
-            Logo()
-        }
+        Logo(modifier = modifier.weight(1f))
         BackgroundCard {
             RegistrationText()
             NameTextField(viewModel = viewModel)

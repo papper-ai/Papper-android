@@ -41,12 +41,12 @@ private fun handleSideEffects(
         is RegistrationSideEffects.toAllFields -> {
             viewModel.registrationScreenState.value = RegistrationScreenState.AllFields
         }
-        is RegistrationSideEffects.ShowLoadingState -> {
-            TODO()
-        }
-        is RegistrationSideEffects.ShowErrorState -> {
-            TODO()
-        }
+//        is RegistrationSideEffects.ShowLoadingState -> {
+//            viewModel.registrationScreenState.value = RegistrationScreenState.Loading
+//        }
+//        is RegistrationSideEffects.ShowErrorState -> {
+//            viewModel.registrationScreenState.value = RegistrationScreenState.Error
+//        }
 
     }
 }

@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.example.papper.R
 import com.example.papper.features.chat.chats.model.ChatDescription
+import com.example.papper.features.chat.chats.view.success_data.top_bar.TopBarBasic
 
 @Composable
 fun SuccessBasic(
@@ -23,7 +24,7 @@ fun SuccessBasic(
 ) {
     Scaffold(
         topBar = {
-            TopBar(
+            TopBarBasic(
                 navHostController = navHostController,
             )
         },

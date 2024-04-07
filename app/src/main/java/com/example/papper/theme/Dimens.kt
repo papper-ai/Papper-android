@@ -37,19 +37,32 @@ data class Dimens(
 )
 
 val CompactSmallDimens = Dimens(
-    gapBetweenComponents = 10.dp,
-    gapBetweenComponents2 = 20.dp,
-    gapBetweenComponents3 = 30.dp,
-    gapBetweenComponentScreen = 20.dp,
+    logoTextSize = 80.sp,
+    heading1TextSize = 20.sp,
+    heading2TextSize = 16.sp,
+    buttonsTextSize = 12.sp,
+    typingTextSize = 12.sp,
+    descriptionTextSize = 10.sp,
+    typingTextSize2 = 24.sp,
+
+    gapBetweenComponents = 5.dp,
+    gapBetweenComponents2 = 10.dp,
+    gapBetweenComponents3 = 20.dp,
+    gapBetweenComponentScreen = 15.dp,
     progressDotSize = 8.dp,
-    buttonsHeight = 55.dp,
+    buttonsHeight = 45.dp,
     buttonsWidth = 1.dp,
     progressBarWeight = 5.dp,
-    progressBarSize = 50.dp,
+    progressBarSize = 35.dp,
     buttonGap = 10.dp,
     bottomGap = 5.dp,
     bottomGap2 = 15.dp,
-    bottomGap3 = 30.dp,
+    bottomGap3 = 25.dp,
+
+    cardCornerRadius = 20.dp,
+    pageProgressRadius = 10.dp,
+    buttonCornerRadius = 15.dp,
+    textFieldCornerRadius = 11.dp,
 )
 
 val CompactMediumDimens = Dimens(

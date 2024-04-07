@@ -34,6 +34,7 @@ fun OutlinedTextFieldComponent(
     placeholder: String,
     singleLine: Boolean,
     keyboardType: KeyboardType = KeyboardType.Text,
+    isEnable: Boolean = true,
 ) {
     OutlinedTextField(
         modifier = modifier
@@ -61,6 +62,7 @@ fun OutlinedTextFieldComponent(
                 style = MaterialTheme.typography.TypingText,
             )
         },
+        enabled = isEnable,
         shape = RoundedCornerShape(MaterialTheme.dimens.textFieldCornerRadius),
         colors = OutlinedTextFieldDefaults.colors(
             focusedTextColor = MaterialTheme.colorScheme.onPrimary,
@@ -71,6 +73,8 @@ fun OutlinedTextFieldComponent(
             focusedBorderColor = MaterialTheme.colorScheme.primary,
             unfocusedBorderColor = MaterialTheme.colorScheme.onPrimary,
             errorBorderColor = MaterialTheme.colorScheme.error,
+            disabledBorderColor = MaterialTheme.colorScheme.secondaryContainer,
+            disabledTextColor = MaterialTheme.colorScheme.onPrimary,
         ),
     )
 }

@@ -43,9 +43,8 @@ class SignInViewModel @Inject constructor(
     }
 
     fun signInClick() = intent {
-        //todo сделать call в api
         postSideEffect(SignInSideEffects.ShowLoadingState)
-
+        //todo сделать call в api
     }
 
     private fun checkField() = intent {

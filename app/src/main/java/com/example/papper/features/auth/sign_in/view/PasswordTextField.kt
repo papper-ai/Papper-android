@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.papper.R
+import com.example.papper.features.auth.sign_in.presentation.SignInScreenState
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
 import com.example.papper.features.common.components.OutlinedTextFieldComponent
 import org.orbitmvi.orbit.compose.collectAsState
@@ -31,6 +32,7 @@ fun PasswordTextField(
         },
         placeholder = stringResource(id = R.string.password),
         singleLine = true,
-        keyboardType = KeyboardType.Password
+        keyboardType = KeyboardType.Password,
+        isEnable = viewModel.signInScreenState.value !is SignInScreenState.Loading,
     )
 }

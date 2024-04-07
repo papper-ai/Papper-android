@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.example.papper.features.chat.chats.view.success_data.TopBar
+import com.example.papper.features.chat.chats.view.success_data.top_bar.TopBarBasic
 
 @Composable
 fun LoadingBasic(
@@ -19,7 +19,7 @@ fun LoadingBasic(
 ) {
     Scaffold(
         topBar = {
-            TopBar(
+            TopBarBasic(
                 navHostController = navHostController,
             )
         },
