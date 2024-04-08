@@ -25,4 +25,11 @@
     <string name="loading_chat_error">Ошибка загрузки чатов</string>
     <string name="create_acc_error">Ошибка регистрации</string>
     <string name="retry_response">Повторить запрос</string>
+    <string name="fill_chat_title">Введите название чата</string>
+    <string name="title">Название</string>
+    <string name="storage">Хранилище</string>
+    <string name="create_new">Создать новое</string>
+    <string name="select_existing">Выбрать существующее</string>
+    <string name="skip">Пропустить</string>
+    <string name="create">Создать</string>
 </resources>
