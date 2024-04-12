@@ -32,4 +32,7 @@
     <string name="select_existing">Выбрать существующее</string>
     <string name="skip">Пропустить</string>
     <string name="create">Создать</string>
+    <string name="fill_storage_title">Введите название хранилища</string>
+    <string name="add_files_into_storage">Добавьте файлы в хранилище</string>
+    <string name="attach_file">Прикрепить файл</string>
 </resources>

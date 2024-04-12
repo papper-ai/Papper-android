@@ -7,16 +7,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.papper.features.archive.ArchivesScreen
 import com.example.papper.features.auth.registration.RegistrationScreen
-import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
 import com.example.papper.features.auth.sign_in.SignInScreen
-import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
 import com.example.papper.features.auth.start.StartScreen
 import com.example.papper.features.chat.chat.ChatScreen
-import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.features.chat.chats.ChatsScreen
 import com.example.papper.features.chat.create_chat.CreateChatScreen
 import com.example.papper.features.profile.ProfileScreen
-import com.example.papper.features.storage.CreateStoragesScreen
+import com.example.papper.features.storage.create_storage.CreateStoragesScreen
 import com.example.papper.features.storage.StorageScreen
 import com.example.papper.features.storage.StoragesScreen
 
@@ -27,7 +24,7 @@ fun AppNavigation(
     NavHost (
         navController = navHostController,
         //startDestination = Screens.StartScreen.route
-        startDestination = Screens.ChatsScreen.route
+        startDestination = Screens.CreateStorageScreen.route
     ) {
         composable(route = Screens.StartScreen.route) {
             StartScreen(
@@ -65,7 +62,10 @@ fun AppNavigation(
             StoragesScreen()
         }
         composable(route = Screens.CreateStorageScreen.route) {
-            CreateStoragesScreen()
+            CreateStoragesScreen(
+                viewModel = hiltViewModel(),
+                navHostController = navHostController,
+            )
         }
         composable(route = Screens.StorageScreen.route) {
             StorageScreen()
