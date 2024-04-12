@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.papper.R
+import com.example.papper.navigation.Screens
 
 @Composable
 fun StorageBtn(
@@ -25,7 +26,7 @@ fun StorageBtn(
             .size(48.dp)
             .clip(CircleShape)
             .clickable {
-
+                navHostController.navigate(Screens.StoragesScreen.route)
             },
         contentAlignment = Alignment.Center,
     ) {

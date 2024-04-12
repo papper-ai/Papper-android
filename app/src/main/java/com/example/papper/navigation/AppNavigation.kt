@@ -15,7 +15,7 @@ import com.example.papper.features.chat.create_chat.CreateChatScreen
 import com.example.papper.features.profile.ProfileScreen
 import com.example.papper.features.storage.create_storage.CreateStoragesScreen
 import com.example.papper.features.storage.StorageScreen
-import com.example.papper.features.storage.StoragesScreen
+import com.example.papper.features.storage.storages.StoragesScreen
 
 @Composable
 fun AppNavigation(
@@ -24,7 +24,7 @@ fun AppNavigation(
     NavHost (
         navController = navHostController,
         //startDestination = Screens.StartScreen.route
-        startDestination = Screens.CreateStorageScreen.route
+        startDestination = Screens.StoragesScreen.route
     ) {
         composable(route = Screens.StartScreen.route) {
             StartScreen(
@@ -59,7 +59,10 @@ fun AppNavigation(
             ChatScreen()
         }
         composable(route = Screens.StoragesScreen.route) {
-            StoragesScreen()
+            StoragesScreen(
+                viewModel = hiltViewModel(),
+                navHostController = navHostController,
+            )
         }
         composable(route = Screens.CreateStorageScreen.route) {
             CreateStoragesScreen(
@@ -68,7 +71,9 @@ fun AppNavigation(
             )
         }
         composable(route = Screens.StorageScreen.route) {
-            StorageScreen()
+            StorageScreen(
+
+            )
         }
         composable(route = Screens.ArchivesScreen.route) {
             ArchivesScreen()
