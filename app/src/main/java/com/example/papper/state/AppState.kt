@@ -1,5 +1,6 @@
 package com.example.papper.state
 
+import com.example.papper.features.archive.presentation.ArchivesState
 import com.example.papper.features.auth.registration.presentation.RegistrationState
 import com.example.papper.features.auth.sign_in.presentation.SignInState
 import com.example.papper.features.chat.chats.presentation.ChatsState
@@ -14,4 +15,5 @@ data class AppState(
     val createChatState: CreateChatState = CreateChatState(),
     val createStorageState: CreateStorageState = CreateStorageState(),
     val storagesState: StoragesState = StoragesState(),
+    val archivesState: ArchivesState = ArchivesState(),
 )

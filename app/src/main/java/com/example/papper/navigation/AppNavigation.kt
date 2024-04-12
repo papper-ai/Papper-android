@@ -23,8 +23,8 @@ fun AppNavigation(
 ) {
     NavHost (
         navController = navHostController,
-        //startDestination = Screens.StartScreen.route
-        startDestination = Screens.StoragesScreen.route
+        startDestination = Screens.StartScreen.route
+        //startDestination = Screens.StoragesScreen.route
     ) {
         composable(route = Screens.StartScreen.route) {
             StartScreen(
@@ -76,7 +76,10 @@ fun AppNavigation(
             )
         }
         composable(route = Screens.ArchivesScreen.route) {
-            ArchivesScreen()
+            ArchivesScreen(
+                viewModel = hiltViewModel(),
+                navHostController = navHostController,
+            )
         }
         composable(route = Screens.ProfileScreen.route) {
             ProfileScreen()
