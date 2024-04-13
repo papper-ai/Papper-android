@@ -6,6 +6,7 @@ import com.example.papper.features.auth.sign_in.presentation.SignInState
 import com.example.papper.features.chat.chats.presentation.ChatsState
 import com.example.papper.features.chat.create_chat.presentation.CreateChatState
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageState
+import com.example.papper.features.storage.storage.presentation.StorageState
 import com.example.papper.features.storage.storages.presentation.StoragesState
 
 data class AppState(
@@ -16,4 +17,5 @@ data class AppState(
     val createStorageState: CreateStorageState = CreateStorageState(),
     val storagesState: StoragesState = StoragesState(),
     val archivesState: ArchivesState = ArchivesState(),
+    val storageState: StorageState = StorageState(),
 )

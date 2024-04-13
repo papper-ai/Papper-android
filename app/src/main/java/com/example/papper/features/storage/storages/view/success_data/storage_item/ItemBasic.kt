@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.papper.features.storage.storages.model.StorageDescription
+import com.example.papper.navigation.Screens
 import com.example.papper.theme.dimens
 
 @Composable
@@ -24,7 +25,7 @@ fun ItemBasic(
     Row(
         modifier = modifier
             .clickable {
-                //navHostController.navigate("${Screens.StorageScreen.route}/${storage.id}")
+                navHostController.navigate("${Screens.StorageScreen.route}/${storage.id}")
             }
             .fillMaxWidth()
             .wrapContentHeight()
