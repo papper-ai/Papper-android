@@ -1,4 +1,4 @@
-package com.example.papper.features.chat.chats.view.error_data
+package com.example.papper.features.chat.chat.view.error_data
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,7 +10,7 @@ import com.example.papper.features.common.components.ErrorMessageComponent
 fun ErrorMsg(
     modifier: Modifier = Modifier,
 ) {
-   ErrorMessageComponent(
-       errorText = stringResource(id = R.string.loading_chats_error)
-   )
+    ErrorMessageComponent(
+        errorText = stringResource(id = R.string.loading_chat_error)
+    )
 }

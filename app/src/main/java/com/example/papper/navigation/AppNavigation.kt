@@ -25,8 +25,8 @@ fun AppNavigation(
 ) {
     NavHost (
         navController = navHostController,
-        startDestination = Screens.StartScreen.route
-        //startDestination = Screens.StorageScreen.route
+        //startDestination = Screens.StartScreen.route
+        startDestination = Screens.ChatsScreen.route
     ) {
         composable(route = Screens.StartScreen.route) {
             StartScreen(
@@ -57,8 +57,17 @@ fun AppNavigation(
                 navHostController = navHostController,
             )
         }
-        composable(route = Screens.ChatScreen.route) {
-            ChatScreen()
+        composable(
+            route = "${Screens.ChatScreen.route}/{chatId}",
+            arguments = listOf(
+                navArgument("chatId") { type = NavType.StringType }
+            )
+        ) {
+            ChatScreen(
+                viewModel = hiltViewModel(),
+                navHostController = navHostController,
+                id = it.arguments?.getString("chatId") ?: throw Exception("Id not found")
+            )
         }
         composable(route = Screens.StoragesScreen.route) {
             StoragesScreen(

@@ -24,6 +24,7 @@ data class Dimens(
     val buttonsWidth: Dp = 0.dp, //1
     val progressBarWeight: Dp = 0.dp, //5
     val progressBarSize: Dp = 0.dp, //50
+    val sendBtnSize: Dp = 45.dp,
 
     val buttonGap: Dp = 0.dp, //10
     val bottomGap: Dp = 0.dp, //5

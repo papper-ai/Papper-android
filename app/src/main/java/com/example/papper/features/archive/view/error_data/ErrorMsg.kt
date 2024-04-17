@@ -11,6 +11,6 @@ fun ErrorMsg(
     modifier: Modifier = Modifier,
 ) {
    ErrorMessageComponent(
-       errorText = stringResource(id = R.string.loading_chat_error)
+       errorText = stringResource(id = R.string.loading_chats_error)
    )
 }

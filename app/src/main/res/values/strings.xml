@@ -22,7 +22,7 @@
     <string name="login">Логин</string>
     <string name="code">Код</string>
     <string name="registration">Зарегистрироваться</string>
-    <string name="loading_chat_error">Ошибка загрузки чатов</string>
+    <string name="loading_chats_error">Ошибка загрузки чатов</string>
     <string name="create_acc_error">Ошибка регистрации</string>
     <string name="retry_response">Повторить запрос</string>
     <string name="fill_chat_title">Введите название чата</string>
@@ -35,4 +35,7 @@
     <string name="fill_storage_title">Введите название хранилища</string>
     <string name="add_files_into_storage">Добавьте файлы в хранилище</string>
     <string name="attach_file">Прикрепить файл</string>
+    <string name="loading_chat_error">Ошибка загрузки чата</string>
+    <string name="start_chatting">Начните диалог</string>
+    <string name="message">Сообщение</string>
 </resources>
