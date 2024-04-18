@@ -1,8 +1,11 @@
 package com.example.papper.features.chat.chat.presentation
 
+import com.example.papper.features.chat.chat.model.Message
+
 data class ChatState(
     val title: String = "",
     val message: String = "",
+    val listOfMessages: List<Message> = emptyList(),
 )
 
 sealed class ChatScreenState {

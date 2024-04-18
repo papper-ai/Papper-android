@@ -1,53 +1,46 @@
 package com.example.papper.features.chat.chats.presentation
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.papper.base.BaseViewModel
-import com.example.papper.features.chat.chats.model.ChatDescription
-import com.example.papper.state.AppState
+import com.example.data.datasource.ChatRemoteDataSource
+import com.example.data.repository.ChatRepositoryImpl
+import com.example.domain.usecases.chat.GetAllChatsPreviewUseCase
+import com.example.papper.features.chat.chats.model.mapToPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatsViewModel @Inject constructor(
-    appState: MutableStateFlow<AppState>,
-) : BaseViewModel<ChatsSideEffects>(appState) {
+class ChatsViewModel @Inject constructor() : ViewModel(), ContainerHost<ChatsState, ChatsSideEffects> {
+
+    override val container = container<ChatsState, ChatsSideEffects>(ChatsState())
 
     val chatsScreenState = mutableStateOf<ChatsScreenState>(ChatsScreenState.Loading)
 
     init {
-        getData()
+        loadData()
     }
 
-    private fun getData() = intent {
-        val list = mutableListOf<ChatDescription>()
+    private fun loadData() = intent {
         postSideEffect(ChatsSideEffects.ShowLoading)
         viewModelScope.launch {
-            for (i in 1..15) {
-                delay(100)
-                list.add(
-                    ChatDescription(
-                        id = i.toString(),
-                        title = "title",
-                        lastMsg = "last msg"
-                    )
+            val getAllChatsUseCase = GetAllChatsPreviewUseCase(
+                repository = ChatRepositoryImpl(
+                    chatRemoteDataSource = ChatRemoteDataSource()
                 )
-                Log.d("Test", "getData: ${i}")
-            }
+            )
+            val result = getAllChatsUseCase.execute().mapToPresentationModel()
             reduce {
-                state.value = state.value.copy(chatsState = state.value.chatsState.copy(listOfChats = list))
-                state
+                state.copy(listOfChats = result)
             }
             //postSideEffect(ChatsSideEffects.ShowError)
             postSideEffect(ChatsSideEffects.ShowSuccess)
         }
     }
-
 }

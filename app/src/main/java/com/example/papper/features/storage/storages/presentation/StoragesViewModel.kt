@@ -1,20 +1,23 @@
 package com.example.papper.features.storage.storages.presentation
 
 import androidx.compose.runtime.mutableStateOf
-import com.example.papper.base.BaseViewModel
-import com.example.papper.features.storage.storages.model.StorageDescription
-import com.example.papper.state.AppState
+import androidx.lifecycle.ViewModel
+import com.example.data.datasource.StorageRemoteDataSource
+import com.example.data.repository.StorageRepositoryImpl
+import com.example.domain.usecases.chat.GetAllStoragesPreviewUseCase
+import com.example.papper.features.storage.storages.model.mapToPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class StoragesViewModel @Inject constructor(
-    appState: MutableStateFlow<AppState>,
-) : BaseViewModel<StoragesSideEffects>(appState) {
+class StoragesViewModel @Inject constructor() : ViewModel(), ContainerHost<StoragesState, StoragesSideEffects> {
+
+    override val container = container<StoragesState, StoragesSideEffects>(StoragesState())
 
     val storagesScreenState = mutableStateOf<StoragesScreenState>(StoragesScreenState.Loading)
 
@@ -23,19 +26,15 @@ class StoragesViewModel @Inject constructor(
     }
 
     fun loadData() = intent {
-        postSideEffect(StoragesSideEffects.ShowLoading)
-        val list = mutableListOf<StorageDescription>()
-        for (i in 1..10) {
-            list.add(
-                StorageDescription(
-                    id = i.toString(),
-                    title = "title of storage $i"
-                )
+        val getAllStoragesPreviewUseCase = GetAllStoragesPreviewUseCase(
+            repository = StorageRepositoryImpl(
+                storageDataSource = StorageRemoteDataSource()
             )
-        }
+        )
+        val result = getAllStoragesPreviewUseCase.execute().mapToPresentationModel()
+        postSideEffect(StoragesSideEffects.ShowLoading)
         reduce {
-            state.value = state.value.copy(storagesState = StoragesState(listOfStorages = list))
-            state
+            state.copy(listOfStorages = result)
         }
         postSideEffect(StoragesSideEffects.ShowSuccess)
     }

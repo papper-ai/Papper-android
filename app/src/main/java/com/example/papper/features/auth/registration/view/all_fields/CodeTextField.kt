@@ -11,7 +11,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import com.example.papper.R
 import com.example.papper.features.auth.registration.presentation.AllFieldsScreenState
-import com.example.papper.features.auth.registration.presentation.RegistrationScreenState
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
 import com.example.papper.features.common.components.OutlinedTextFieldComponent
 import org.orbitmvi.orbit.compose.collectAsState
@@ -22,7 +21,7 @@ fun CodeTextField(
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel,
 ) {
-    val code = viewModel.collectAsState().value.value.registrationState.code
+    val code = viewModel.collectAsState().value.code
     var state by remember {
         mutableStateOf(code)
     }

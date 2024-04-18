@@ -1,6 +1,5 @@
 package com.example.papper.features.storage.storage.view.success_data
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,9 +15,7 @@ import com.example.papper.features.storage.storage.presentation.StorageViewModel
 import com.example.papper.features.storage.storage.view.success_data.storage_item.TopBar
 import com.example.papper.theme.dimens
 import org.orbitmvi.orbit.compose.collectAsState
-import java.io.File
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun SuccessBasic(
     modifier: Modifier = Modifier,
@@ -29,7 +26,7 @@ fun SuccessBasic(
         topBar = {
             TopBar(
                 navHostController = navHostController,
-                title = viewModel.collectAsState().value.value.storageState.title,
+                title = viewModel.collectAsState().value.title,
             )
         },
         content = {
@@ -47,7 +44,7 @@ fun SuccessBasic(
                         modifier = modifier
                             .weight(1f),
                         viewModel = viewModel,
-                        list = viewModel.collectAsState().value.value.storageState.listOfStorages,
+                        list = viewModel.collectAsState().value.listOfStorages,
                     )
                     AddFilesBtn(
                         modifier = modifier

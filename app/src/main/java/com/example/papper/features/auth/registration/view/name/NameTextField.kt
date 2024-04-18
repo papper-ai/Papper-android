@@ -19,7 +19,7 @@ fun NameTextField(
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel,
 ) {
-    val name = viewModel.collectAsState().value.value.registrationState.name
+    val name = viewModel.collectAsState().value.name
     var textFieldState by remember {
         mutableStateOf(name)
     }

@@ -57,7 +57,7 @@ fun NameBasic(
                     viewModel.toSurname()
                 },
                 viewModel = viewModel,
-                isEnable = viewModel.nameStatus.value
+                isEnable = viewModel.collectAsState().value.name.isNotEmpty(),
             )
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
         }

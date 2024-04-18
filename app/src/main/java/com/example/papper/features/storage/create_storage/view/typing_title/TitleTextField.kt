@@ -19,7 +19,7 @@ fun TitleTextField(
     modifier: Modifier = Modifier,
     viewModel: CreateStorageViewModel,
 ) {
-    val title = viewModel.collectAsState().value.value.createChatState.title
+    val title = viewModel.collectAsState().value.title
     var textFieldState by remember {
         mutableStateOf(title)
     }

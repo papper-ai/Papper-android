@@ -19,7 +19,7 @@ fun MessageTextField(
     modifier: Modifier = Modifier,
     viewModel: ChatViewModel,
 ) {
-    val message = viewModel.collectAsState().value.value.chatState.message
+    val message = viewModel.collectAsState().value.message
     var textFieldState by remember {
         mutableStateOf(message)
     }

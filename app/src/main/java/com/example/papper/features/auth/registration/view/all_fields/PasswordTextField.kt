@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.papper.R
 import com.example.papper.features.auth.registration.presentation.AllFieldsScreenState
-import com.example.papper.features.auth.registration.presentation.RegistrationScreenState
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
 import com.example.papper.features.common.components.OutlinedTextFieldComponent
 import org.orbitmvi.orbit.compose.collectAsState
@@ -21,7 +20,7 @@ fun PasswordTextField(
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel,
 ) {
-    val password = viewModel.collectAsState().value.value.registrationState.password
+    val password = viewModel.collectAsState().value.password
     var state by remember {
         mutableStateOf(password)
     }

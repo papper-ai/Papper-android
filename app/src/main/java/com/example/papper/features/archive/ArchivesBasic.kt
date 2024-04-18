@@ -61,7 +61,7 @@ fun ArchivesBasic(
                             modifier = Modifier
                                 .fillMaxSize(),
                             navHostController = navHostController,
-                            list = viewModel.collectAsState().value.value.archivesState.listOfChats
+                            list = viewModel.collectAsState().value.listOfChats
                         )
                     }
                 }

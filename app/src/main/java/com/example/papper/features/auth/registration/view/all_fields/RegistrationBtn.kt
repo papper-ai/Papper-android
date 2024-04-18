@@ -8,6 +8,7 @@ import com.example.papper.R
 import com.example.papper.features.auth.registration.presentation.AllFieldsScreenState
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
 import com.example.papper.features.common.components.ButtonComponent
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 fun RegistrationBtn(
@@ -15,6 +16,7 @@ fun RegistrationBtn(
     viewModel: RegistrationViewModel,
     navHostController: NavHostController,
 ) {
+    val state = viewModel.collectAsState()
     ButtonComponent(
         modifier = modifier,
         onClick = {
@@ -22,9 +24,9 @@ fun RegistrationBtn(
         },
         text = stringResource(id = R.string.registration),
         isEnable = (
-                (viewModel.nameStatus.value && viewModel.surnameStatus.value &&
-                viewModel.loginStatus.value && viewModel.passwordStatus.value &&
-                viewModel.codeStatus.value) && (viewModel.allFieldScreenState.value !is AllFieldsScreenState.Loading)
+                state.value.name.isNotEmpty() && state.value.surname.isNotEmpty() &&
+                state.value.login.isNotEmpty() && state.value.password.isNotEmpty() &&
+                state.value.code.isNotEmpty() && (viewModel.allFieldScreenState.value !is AllFieldsScreenState.Loading)
         ),
         isLoading = viewModel.allFieldScreenState.value is AllFieldsScreenState.Loading,
     )

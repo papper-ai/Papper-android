@@ -20,7 +20,7 @@ fun CodeTextField(
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel,
 ) {
-    val code = viewModel.collectAsState().value.value.registrationState.code
+    val code = viewModel.collectAsState().value.code
     var textFieldState by remember {
         mutableStateOf(code)
     }

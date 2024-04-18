@@ -19,7 +19,7 @@ fun LoginTextField(
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel,
 ) {
-    val login = viewModel.collectAsState().value.value.registrationState.login
+    val login = viewModel.collectAsState().value.login
     var textFieldState by remember {
         mutableStateOf(login)
     }

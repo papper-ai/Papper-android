@@ -21,7 +21,7 @@ fun LoginTextField(
     viewModel: SignInViewModel,
     //navHostController: NavHostController,
 ) {
-    val login = viewModel.collectAsState().value.value.signInState.login
+    val login = viewModel.collectAsState().value.login
     var textFieldState by remember {
         mutableStateOf(login)
     }

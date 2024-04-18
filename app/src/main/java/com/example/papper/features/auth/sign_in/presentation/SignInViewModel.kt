@@ -1,41 +1,35 @@
 package com.example.papper.features.auth.sign_in.presentation
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import com.example.papper.base.BaseViewModel
-import com.example.papper.state.AppState
+import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor(
-    // TODO: api для авторизации
-    appState: MutableStateFlow<AppState>,
-) : BaseViewModel<SignInSideEffects>(appState) {
+class SignInViewModel @Inject constructor() : ViewModel(), ContainerHost<SignInState, SignInSideEffects> {
+
+    override val container = container<SignInState, SignInSideEffects>(SignInState())
 
     val signInScreenState = mutableStateOf<SignInScreenState>(SignInScreenState.Default)
     val fieldsStatus = mutableStateOf<Boolean>(false)
 
     fun typingLogin(text: String) = intent {
         reduce {
-            state.value = state.value.copy(signInState = state.value.signInState.copy(login = text))
-            state
+            state.copy(login = text)
         }
         checkField()
-        Log.d("SignInViewModel", "typingLogin: Л:${state.value.signInState.login} П:${state.value.signInState.password}")
     }
 
     fun typingPassword(text: String) = intent {
         reduce {
-            state.value = state.value.copy(signInState = state.value.signInState.copy(password = text))
-            state
+            state.copy(password = text)
         }
         checkField()
-        Log.d("SignInViewModel", "typingLogin: Л:${state.value.signInState.login} П:${state.value.signInState.password}")
     }
 
     fun forgotPasswordClick() = intent {
@@ -50,7 +44,7 @@ class SignInViewModel @Inject constructor(
     private fun checkField() = intent {
         postSideEffect(
             SignInSideEffects.FieldsFilled(
-                status = (state.value.signInState.login.isNotEmpty() && state.value.signInState.password.isNotEmpty())
+                status = (state.login.isNotEmpty() && state.password.isNotEmpty())
             ),
         )
     }

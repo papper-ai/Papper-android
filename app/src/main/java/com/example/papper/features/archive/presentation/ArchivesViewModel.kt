@@ -2,23 +2,23 @@ package com.example.papper.features.archive.presentation
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.papper.base.BaseViewModel
 import com.example.papper.features.chat.chats.model.ChatDescription
-import com.example.papper.state.AppState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class ArchivesViewModel @Inject constructor(
-    appState: MutableStateFlow<AppState>,
-) : BaseViewModel<ArchivesSideEffects>(appState) {
+class ArchivesViewModel @Inject constructor() : ViewModel(), ContainerHost<ArchivesState, ArchivesSideEffects> {
+
+    override val container = container<ArchivesState, ArchivesSideEffects>(ArchivesState())
 
     val archivesScreenState = mutableStateOf<ArchivesScreenState>(ArchivesScreenState.Loading)
 
@@ -42,8 +42,7 @@ class ArchivesViewModel @Inject constructor(
                 Log.d("Test", "getData: ${i}")
             }
             reduce {
-                state.value = state.value.copy(archivesState = state.value.archivesState.copy(listOfChats = list))
-                state
+                state.copy(listOfChats = list)
             }
             //postSideEffect(ArchivesSideEffects.ShowError)
             postSideEffect(ArchivesSideEffects.ShowSuccess)

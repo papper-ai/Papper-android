@@ -12,7 +12,6 @@ import com.example.papper.features.auth.registration.presentation.RegistrationVi
 import com.example.papper.features.auth.registration.view.TopBar
 import com.example.papper.features.auth.registration.view.all_fields.AllFieldBasic
 import com.example.papper.features.auth.registration.view.code.CodeBasic
-import com.example.papper.features.auth.registration.view.error.ErrorBasic
 import com.example.papper.features.auth.registration.view.login.LoginBasic
 import com.example.papper.features.auth.registration.view.name.NameBasic
 import com.example.papper.features.auth.registration.view.password.PasswordBasic

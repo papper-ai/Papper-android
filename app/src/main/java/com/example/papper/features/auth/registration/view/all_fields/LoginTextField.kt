@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.papper.R
 import com.example.papper.features.auth.registration.presentation.AllFieldsScreenState
-import com.example.papper.features.auth.registration.presentation.RegistrationScreenState
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
 import com.example.papper.features.common.components.OutlinedTextFieldComponent
 import org.orbitmvi.orbit.compose.collectAsState
@@ -21,7 +20,7 @@ fun LoginTextField(
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel,
 ) {
-    val login = viewModel.collectAsState().value.value.registrationState.login
+    val login = viewModel.collectAsState().value.login
     var state by remember {
         mutableStateOf(login)
     }

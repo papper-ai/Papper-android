@@ -20,7 +20,7 @@ fun PasswordTextField(
     viewModel: SignInViewModel,
     //navHostController: NavHostController,
 ) {
-    val password = viewModel.collectAsState().value.value.signInState.password
+    val password = viewModel.collectAsState().value.password
     var textFieldState by remember {
         mutableStateOf(password)
     }

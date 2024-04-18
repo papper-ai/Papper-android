@@ -1,6 +1,5 @@
 package com.example.papper.features.storage.storages.view.success_data
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,7 +11,6 @@ import com.example.papper.features.storage.storages.presentation.StoragesViewMod
 import com.example.papper.theme.dimens
 import org.orbitmvi.orbit.compose.collectAsState
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun SuccessBasic(
     modifier: Modifier = Modifier,
@@ -26,7 +24,7 @@ fun SuccessBasic(
     ) {
         ColumnOfStorages(
             navHostController = navHostController,
-            listOfChats = viewModel.collectAsState().value.value.storagesState.listOfStorages,
+            listOfChats = viewModel.collectAsState().value.listOfStorages,
         )
     }
 }

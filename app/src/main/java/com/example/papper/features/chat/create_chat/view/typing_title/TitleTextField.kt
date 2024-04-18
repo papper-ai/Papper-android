@@ -1,6 +1,5 @@
 package com.example.papper.features.chat.create_chat.view.typing_title
 
-import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,13 +12,12 @@ import com.example.papper.features.chat.create_chat.presentation.CreateChatViewM
 import com.example.papper.features.common.components.WithoutlinedTextFieldComponent
 import org.orbitmvi.orbit.compose.collectAsState
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun TitleTextField(
     modifier: Modifier = Modifier,
     viewModel: CreateChatViewModel,
 ) {
-    val title = viewModel.collectAsState().value.value.createChatState.title
+    val title = viewModel.collectAsState().value.title
     var textFieldState by remember {
         mutableStateOf(title)
     }

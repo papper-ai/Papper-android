@@ -9,7 +9,6 @@ import com.example.papper.features.storage.storage.presentation.StorageViewModel
 import com.example.papper.features.storage.storage.view.error_data.ErrorBasic
 import com.example.papper.features.storage.storage.view.loading_data.LoadingBasic
 import com.example.papper.features.storage.storage.view.success_data.SuccessBasic
-import org.orbitmvi.orbit.compose.collectAsState
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable

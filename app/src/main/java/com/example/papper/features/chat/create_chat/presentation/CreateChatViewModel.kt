@@ -1,28 +1,26 @@
 package com.example.papper.features.chat.create_chat.presentation
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import com.example.papper.base.BaseViewModel
-import com.example.papper.state.AppState
+import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class CreateChatViewModel @Inject constructor(
-    appState: MutableStateFlow<AppState>,
-) : BaseViewModel<CreateChatSideEffects>(appState) {
+class CreateChatViewModel @Inject constructor() : ViewModel(), ContainerHost<CreateChatState, CreateChatSideEffects> {
+
+    override val container = container<CreateChatState, CreateChatSideEffects>(CreateChatState())
 
     val createChatScreenState = mutableStateOf<CreateChatScreenState>(CreateChatScreenState.TypingTitle)
     val createBtn = mutableStateOf<Boolean>(false)
 
     fun updateTitle(title: String) = intent {
         reduce {
-            state.value = state.value.copy(createChatState = state.value.createChatState.copy(title = title))
-            state
+            state.copy(title = title)
         }
     }
 
@@ -38,15 +36,12 @@ class CreateChatViewModel @Inject constructor(
         reduce {
             createBtn.value = status
             if (status) {
-                state.value = state.value.copy(createChatState = state.value.createChatState.copy(listOfFiles = emptyList()))
-                state
+                state.copy(listOfFiles = emptyList())
             }
             else {
-                state.value = state.value.copy(createChatState = state.value.createChatState.copy(listOfFiles = null))
-                state
+                state.copy(listOfFiles = null)
             }
         }
-        Log.d("Test", "skipClicked: state: ${(state.value.createChatState.listOfFiles != null)}")
     }
 
 }

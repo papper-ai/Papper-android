@@ -18,6 +18,7 @@ import com.example.papper.features.auth.registration.presentation.RegistrationVi
 import com.example.papper.features.auth.registration.view.ContinueBtn
 import com.example.papper.features.common.components.PageProgressComponent
 import com.example.papper.theme.dimens
+import org.orbitmvi.orbit.compose.collectAsState
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -60,7 +61,7 @@ fun CodeBasic(
             ContinueBtn(
                 onClick = { viewModel.toAllFields() },
                 viewModel = viewModel,
-                isEnable = viewModel.codeStatus.value,
+                isEnable = viewModel.collectAsState().value.code.isNotEmpty(),
             )
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
         }

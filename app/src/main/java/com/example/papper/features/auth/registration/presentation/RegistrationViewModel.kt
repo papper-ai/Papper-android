@@ -2,39 +2,32 @@ package com.example.papper.features.auth.registration.presentation
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import com.example.papper.base.BaseViewModel
 import com.example.papper.navigation.Screens
-import com.example.papper.state.AppState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
+import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class RegistrationViewModel @Inject constructor(
-    appState: MutableStateFlow<AppState>,
-) : BaseViewModel<RegistrationSideEffects>(appState) {
+class RegistrationViewModel @Inject constructor() : ViewModel(), ContainerHost<RegistrationState, RegistrationSideEffects> {
+
+    override val container = container<RegistrationState, RegistrationSideEffects>(RegistrationState())
 
     val registrationScreenState = mutableStateOf<RegistrationScreenState>(RegistrationScreenState.TypingName)
     val allFieldScreenState = mutableStateOf<AllFieldsScreenState>(AllFieldsScreenState.Default)
-    val nameStatus = mutableStateOf<Boolean>(appState.value.registrationState.name.isNotEmpty())
-    val surnameStatus = mutableStateOf<Boolean>(appState.value.registrationState.surname.isNotEmpty())
-    val loginStatus = mutableStateOf<Boolean>(appState.value.registrationState.login.isNotEmpty())
-    val passwordStatus = mutableStateOf<Boolean>(appState.value.registrationState.password.isNotEmpty())
-    val codeStatus = mutableStateOf<Boolean>(appState.value.registrationState.code.isNotEmpty())
 
     fun updateName(name: String) = intent {
         reduce {
-            state.value = state.value.copy(registrationState = state.value.registrationState.copy(name = name))
-            state
+            state.copy(name = name)
         }
-        nameStatus.value = state.value.registrationState.name.isNotEmpty()
     }
 
     fun toSurname() = intent {
@@ -43,10 +36,8 @@ class RegistrationViewModel @Inject constructor(
 
     fun updateSurname(surname: String) = intent {
         reduce {
-            state.value = state.value.copy(registrationState = state.value.registrationState.copy(surname = surname))
-            state
+            state.copy(surname = surname)
         }
-        surnameStatus.value = state.value.registrationState.surname.isNotEmpty()
     }
 
     fun toLogin() = intent {
@@ -55,10 +46,8 @@ class RegistrationViewModel @Inject constructor(
 
     fun updateLogin(login: String) = intent {
         reduce {
-            state.value = state.value.copy(registrationState = state.value.registrationState.copy(login = login))
-            state
+            state.copy(login = login)
         }
-        loginStatus.value = state.value.registrationState.login.isNotEmpty()
     }
 
     fun toPassword() = intent {
@@ -67,10 +56,8 @@ class RegistrationViewModel @Inject constructor(
 
     fun updatePassword(password: String) = intent {
         reduce {
-            state.value = state.value.copy(registrationState = state.value.registrationState.copy(password = password))
-            state
+            state.copy(password = password)
         }
-        passwordStatus.value = state.value.registrationState.password.isNotEmpty()
     }
 
     fun toCode() = intent {
@@ -79,10 +66,8 @@ class RegistrationViewModel @Inject constructor(
 
     fun updateCode(code: String) = intent {
         reduce {
-            state.value = state.value.copy(registrationState = state.value.registrationState.copy(code = code))
-            state
+            state.copy(code = code)
         }
-        codeStatus.value = state.value.registrationState.code.isNotEmpty()
     }
 
     fun toAllFields() = intent {

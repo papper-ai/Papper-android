@@ -19,7 +19,7 @@ fun PasswordTextField(
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel,
 ) {
-    val password = viewModel.collectAsState().value.value.registrationState.password
+    val password = viewModel.collectAsState().value.password
     var textFieldState by remember {
         mutableStateOf(password)
     }

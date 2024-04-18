@@ -73,6 +73,10 @@ dependencies {
     val work_runtime_version = "2.7.1"
     val kotlin_version = "1.8.10"
 
+    //modules
+    implementation(project(path = ":domain"))
+    implementation(project(path = ":data"))
+
     //navigation
     implementation("androidx.navigation:navigation-compose:$navigation_version")
 
