@@ -60,7 +60,7 @@ fun PasswordBasic(
             ContinueBtn(
                 onClick = {viewModel.toCode()},
                 viewModel = viewModel,
-                isEnable = true,
+                isEnable = viewModel.passwordStatus.value,
             )
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
         }

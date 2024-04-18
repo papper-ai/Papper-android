@@ -60,7 +60,7 @@ fun SurnameBasic(
             ContinueBtn(
                 onClick = {viewModel.toLogin()},
                 viewModel = viewModel,
-                isEnable = true,
+                isEnable = viewModel.surnameStatus.value
             )
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
         }

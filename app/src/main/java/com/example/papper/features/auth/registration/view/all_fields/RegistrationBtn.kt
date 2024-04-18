@@ -21,7 +21,11 @@ fun RegistrationBtn(
             viewModel.createAccount(navHostController = navHostController)
         },
         text = stringResource(id = R.string.registration),
-        isEnable = viewModel.allFieldScreenState.value !is AllFieldsScreenState.Loading,
+        isEnable = (
+                (viewModel.nameStatus.value && viewModel.surnameStatus.value &&
+                viewModel.loginStatus.value && viewModel.passwordStatus.value &&
+                viewModel.codeStatus.value) && (viewModel.allFieldScreenState.value !is AllFieldsScreenState.Loading)
+        ),
         isLoading = viewModel.allFieldScreenState.value is AllFieldsScreenState.Loading,
     )
 }

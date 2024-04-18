@@ -23,12 +23,18 @@ class RegistrationViewModel @Inject constructor(
 
     val registrationScreenState = mutableStateOf<RegistrationScreenState>(RegistrationScreenState.TypingName)
     val allFieldScreenState = mutableStateOf<AllFieldsScreenState>(AllFieldsScreenState.Default)
+    val nameStatus = mutableStateOf<Boolean>(appState.value.registrationState.name.isNotEmpty())
+    val surnameStatus = mutableStateOf<Boolean>(appState.value.registrationState.surname.isNotEmpty())
+    val loginStatus = mutableStateOf<Boolean>(appState.value.registrationState.login.isNotEmpty())
+    val passwordStatus = mutableStateOf<Boolean>(appState.value.registrationState.password.isNotEmpty())
+    val codeStatus = mutableStateOf<Boolean>(appState.value.registrationState.code.isNotEmpty())
 
     fun updateName(name: String) = intent {
         reduce {
             state.value = state.value.copy(registrationState = state.value.registrationState.copy(name = name))
             state
         }
+        nameStatus.value = state.value.registrationState.name.isNotEmpty()
     }
 
     fun toSurname() = intent {
@@ -40,6 +46,7 @@ class RegistrationViewModel @Inject constructor(
             state.value = state.value.copy(registrationState = state.value.registrationState.copy(surname = surname))
             state
         }
+        surnameStatus.value = state.value.registrationState.surname.isNotEmpty()
     }
 
     fun toLogin() = intent {
@@ -51,6 +58,7 @@ class RegistrationViewModel @Inject constructor(
             state.value = state.value.copy(registrationState = state.value.registrationState.copy(login = login))
             state
         }
+        loginStatus.value = state.value.registrationState.login.isNotEmpty()
     }
 
     fun toPassword() = intent {
@@ -62,6 +70,7 @@ class RegistrationViewModel @Inject constructor(
             state.value = state.value.copy(registrationState = state.value.registrationState.copy(password = password))
             state
         }
+        passwordStatus.value = state.value.registrationState.password.isNotEmpty()
     }
 
     fun toCode() = intent {
@@ -73,6 +82,7 @@ class RegistrationViewModel @Inject constructor(
             state.value = state.value.copy(registrationState = state.value.registrationState.copy(code = code))
             state
         }
+        codeStatus.value = state.value.registrationState.code.isNotEmpty()
     }
 
     fun toAllFields() = intent {

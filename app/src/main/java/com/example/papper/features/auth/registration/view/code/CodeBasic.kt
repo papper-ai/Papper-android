@@ -60,7 +60,7 @@ fun CodeBasic(
             ContinueBtn(
                 onClick = { viewModel.toAllFields() },
                 viewModel = viewModel,
-                isEnable = true,
+                isEnable = viewModel.codeStatus.value,
             )
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
         }
