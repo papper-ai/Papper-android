@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import com.example.papper.features.common.components.PageProgressComponent
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
 import com.example.papper.theme.dimens
+import org.orbitmvi.orbit.compose.collectAsState
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -53,7 +54,7 @@ fun TitleBasic(
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
             ContinueBtn(
                 viewModel = viewModel,
-                isEnable = true
+                isEnable = viewModel.collectAsState().value.title.isNotEmpty()
             )
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
         }

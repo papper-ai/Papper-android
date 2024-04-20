@@ -5,9 +5,10 @@ import com.example.data.model.mapToDomainModel
 import com.example.domain.model.ChatModel
 import com.example.domain.model.ChatsPreviewModel
 import com.example.domain.repository.ChatRepository
+import javax.inject.Inject
 
 
-class ChatRepositoryImpl(
+class ChatRepositoryImpl @Inject constructor(
     val chatRemoteDataSource: ChatRemoteDataSource,
 ) : ChatRepository{
     override suspend fun getChatsPreview(): List<ChatsPreviewModel> {

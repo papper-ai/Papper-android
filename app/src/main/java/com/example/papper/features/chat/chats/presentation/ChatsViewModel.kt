@@ -17,7 +17,9 @@ import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class ChatsViewModel @Inject constructor() : ViewModel(), ContainerHost<ChatsState, ChatsSideEffects> {
+class ChatsViewModel @Inject constructor(
+    private val getAllChatsUseCase: GetAllChatsPreviewUseCase,
+) : ViewModel(), ContainerHost<ChatsState, ChatsSideEffects> {
 
     override val container = container<ChatsState, ChatsSideEffects>(ChatsState())
 
@@ -30,11 +32,6 @@ class ChatsViewModel @Inject constructor() : ViewModel(), ContainerHost<ChatsSta
     private fun loadData() = intent {
         postSideEffect(ChatsSideEffects.ShowLoading)
         viewModelScope.launch {
-            val getAllChatsUseCase = GetAllChatsPreviewUseCase(
-                repository = ChatRepositoryImpl(
-                    chatRemoteDataSource = ChatRemoteDataSource()
-                )
-            )
             val result = getAllChatsUseCase.execute().mapToPresentationModel()
             reduce {
                 state.copy(listOfChats = result)

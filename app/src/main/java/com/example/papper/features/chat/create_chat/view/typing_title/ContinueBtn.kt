@@ -5,16 +5,16 @@ import androidx.compose.ui.res.stringResource
 import com.example.papper.R
 import com.example.papper.features.chat.create_chat.presentation.CreateChatViewModel
 import com.example.papper.features.common.components.ButtonComponent
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 fun ContinueBtn(
     onClick: () -> Unit,
     viewModel: CreateChatViewModel,
-    isEnable: Boolean = true,
 ) {
     ButtonComponent(
         onClick = { onClick() },
         text = stringResource(id = R.string.next),
-        isEnable = isEnable
+        isEnable = viewModel.collectAsState().value.title.isNotEmpty()
     )
 }

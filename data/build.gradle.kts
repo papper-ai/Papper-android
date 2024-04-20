@@ -1,4 +1,8 @@
 plugins {
+    //kapt
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
+
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
 }
@@ -34,7 +38,24 @@ android {
 
 dependencies {
     //modules
-    implementation(project(path = ":domain"))
+    implementation(project(":domain"))
+
+    val hilt_version = "2.51"
+    val retrofit_version = "2.9.0"
+    val okhttp_version = "4.12.0"
+    val logging_interceptor_version = "4.12.0"
+
+    //Dagger-hilt
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+
+    //Retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+
+    //OkHttp
+    implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
+    implementation("com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

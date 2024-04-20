@@ -16,9 +16,8 @@ fun SignInBtn(
     ButtonComponent(
         onClick = {
             viewModel.signInClick()
-
         },
-        isEnable = viewModel.fieldsStatus.value,
+        isEnable = (viewModel.fieldsStatus.value && viewModel.signInScreenState.value !is SignInScreenState.Loading),
         text = stringResource(id = R.string.sign_in2),
         isLoading = (viewModel.signInScreenState.value is SignInScreenState.Loading)
     )

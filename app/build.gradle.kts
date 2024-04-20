@@ -61,8 +61,6 @@ dependencies {
 
     val navigation_version = "2.7.7"
     val coroutines_version = "1.7.3"
-    val retrofit_version = "2.9.0"
-    val okhttp_version = "4.12.0"
     val picasso_version = "2.8"
     val dagger2_version = "2.50"
     val hilt_version = "2.51"
@@ -72,9 +70,9 @@ dependencies {
     val orbit_version = "7.0.0"
     val work_runtime_version = "2.7.1"
     val kotlin_version = "1.8.10"
+    implementation(project(":domain"))
 
     //modules
-    implementation(project(path = ":domain"))
     implementation(project(path = ":data"))
 
     //navigation
@@ -82,13 +80,6 @@ dependencies {
 
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
-
-    //Retrofit
-    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
-
-    //OkHttp
-    implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
 
     //Json
 

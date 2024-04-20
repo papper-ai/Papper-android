@@ -15,5 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Papper"
 include(":app")
-include(":domain")
 include(":data")
+include(":domain")

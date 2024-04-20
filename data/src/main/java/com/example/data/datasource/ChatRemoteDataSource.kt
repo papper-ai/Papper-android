@@ -1,12 +1,16 @@
 package com.example.data.datasource
 
+import com.example.data.api.ApiService
 import com.example.data.model.ChatPreviewModel
 import com.example.data.model.ChatResponse
 import com.example.data.model.ChatsPreviewResponse
 import com.example.data.model.Message
 import kotlinx.coroutines.delay
+import javax.inject.Inject
 
-class ChatRemoteDataSource {
+class ChatRemoteDataSource @Inject constructor(
+    private val apiService: ApiService,
+) {
 
     suspend fun fetchChatsPreview(): ChatsPreviewResponse {
         val list = mutableListOf<ChatPreviewModel>()

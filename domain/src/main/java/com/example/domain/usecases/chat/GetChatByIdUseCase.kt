@@ -2,9 +2,10 @@ package com.example.domain.usecases.chat
 
 import com.example.domain.model.ChatModel
 import com.example.domain.repository.ChatRepository
+import javax.inject.Inject
 
-class GetChatByIdUseCase(
-    val repository: ChatRepository
+class GetChatByIdUseCase @Inject constructor(
+    private val repository: ChatRepository
 ) {
     suspend fun execute(id: String) : ChatModel {
         return repository.getChatById(id)

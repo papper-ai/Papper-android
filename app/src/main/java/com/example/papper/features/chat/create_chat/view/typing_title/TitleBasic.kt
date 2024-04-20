@@ -55,7 +55,6 @@ fun TitleBasic(
                     viewModel.toChooseStorage()
                 },
                 viewModel = viewModel,
-                isEnable = true
             )
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
         }
