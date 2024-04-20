@@ -14,7 +14,7 @@ fun ReloadBtn(
 ) {
     ButtonComponent(
         modifier = modifier,
-        onClick = { /*TODO повторный запрос на получение чатов*/ },
+        onClick = { viewModel.loadData() },
         text = stringResource(id = R.string.retry_response)
     )
 }

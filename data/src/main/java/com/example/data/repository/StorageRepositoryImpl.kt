@@ -18,11 +18,15 @@ class StorageRepositoryImpl @Inject constructor(
         return storageDataSource.getStorageById(id = id).mapToDomainModel()
     }
 
-    override suspend fun deleteStorageById(id: String) {
+    override suspend fun deleteStorage(id: String) {
         TODO("Not yet implemented")
     }
 
     override suspend fun createStorage() {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun renameStorage(id: String, name: String) {
         TODO("Not yet implemented")
     }
 }

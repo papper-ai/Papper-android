@@ -26,20 +26,36 @@ class ChatViewModel @Inject constructor(
 
     override val container: Container<ChatState, ChatSideEffects> = container<ChatState, ChatSideEffects>(ChatState())
 
+    var id: String = ""
     val chatScreenState = mutableStateOf<ChatScreenState>(ChatScreenState.Loading)
-    val successState = mutableStateOf<SuccessState>(SuccessState.NotEmptyChat)
+    val successState = mutableStateOf<SuccessState>(SuccessState.EmptyChat)
 
-    fun loadData(id: String) = intent {
+    init {
+        loadData()
+    }
+
+    fun loadData() = intent {
         postSideEffect(ChatSideEffects.ShowLoading)
         val result = getChatByIdUseCase.execute(id).mapToPresentationModel()
-
-        reduce {
-            state.copy(
-                title = result.title,
-                listOfMessages = result.listOfMessages
-            )
+        if (result.isSuccess) {
+            reduce {
+                state.copy(
+                    title = result.title,
+                    listOfMessages = result.listOfMessages
+                )
+            }
+            if (state.listOfMessages.isNotEmpty()) {
+                successState.value = SuccessState.NotEmptyChat
+            }
+            else {
+                successState.value = SuccessState.EmptyChat
+            }
+            Log.d("Test", "loadData: попал")
+            postSideEffect(ChatSideEffects.ShowSuccess)
         }
-        postSideEffect(ChatSideEffects.ShowSuccess)
+        else {
+            postSideEffect(ChatSideEffects.ShowError)
+        }
     }
 
     fun updateMessage(message: String) = intent {
@@ -49,6 +65,9 @@ class ChatViewModel @Inject constructor(
     }
 
     fun sendMessage(text: String) = intent {
+        if (state.listOfMessages.isEmpty()) {
+            successState.value = SuccessState.NotEmptyChat
+        }
         reduce {
             state.copy(listOfMessages = state.listOfMessages.plus(Message(text = text, from = MessageSender.User)))
         }

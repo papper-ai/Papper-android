@@ -3,11 +3,11 @@ package com.example.data.di
 import com.example.data.api.ApiService
 import com.example.data.datasource.ChatRemoteDataSource
 import com.example.data.datasource.StorageRemoteDataSource
-import com.example.data.repository.AuthRepositoryImpl
+import com.example.data.repository.AccountRepositoryImpl
 import com.example.data.repository.ChatRepositoryImpl
 import com.example.data.repository.StorageRepositoryImpl
 import com.example.data.service.AuthService
-import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.AccountRepository
 import com.example.domain.repository.ChatRepository
 import com.example.domain.repository.StorageRepository
 import dagger.Module
@@ -40,8 +40,8 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(authService: AuthService): AuthRepository {
-        return AuthRepositoryImpl(service = authService)
+    fun provideAuthRepository(authService: AuthService): AccountRepository {
+        return AccountRepositoryImpl(service = authService)
     }
 
     @Provides

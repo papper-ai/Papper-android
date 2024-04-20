@@ -15,7 +15,7 @@ fun ChatScreen(
     navHostController: NavHostController,
     id: String,
 ) {
-    viewModel.loadData(id = id)
+    viewModel.id = id
 
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffects(

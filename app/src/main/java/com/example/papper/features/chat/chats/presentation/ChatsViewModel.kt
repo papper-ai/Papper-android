@@ -29,15 +29,19 @@ class ChatsViewModel @Inject constructor(
         loadData()
     }
 
-    private fun loadData() = intent {
+    fun loadData() = intent {
         postSideEffect(ChatsSideEffects.ShowLoading)
         viewModelScope.launch {
             val result = getAllChatsUseCase.execute().mapToPresentationModel()
-            reduce {
-                state.copy(listOfChats = result)
+            if (result.isSuccess) {
+                reduce {
+                    state.copy(listOfChats = result.list)
+                }
+                postSideEffect(ChatsSideEffects.ShowSuccess)
             }
-            //postSideEffect(ChatsSideEffects.ShowError)
-            postSideEffect(ChatsSideEffects.ShowSuccess)
+            else {
+                postSideEffect(ChatsSideEffects.ShowError)
+            }
         }
     }
 }

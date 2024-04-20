@@ -1,9 +1,11 @@
 package com.example.papper.features.chat.chat.model
 
+import com.example.domain.model.ChatModelResult
 
-import com.example.domain.model.ChatModel
-
-data class PresentationChatModel(
+data class PresentationChatModelResult(
+    val isSuccess: Boolean,
+    val code: String,
+    val msg: String,
     val id: String,
     val title: String,
     val listOfMessages: List<Message>,
@@ -20,15 +22,18 @@ sealed class MessageSender {
     object User : MessageSender()
 }
 
-internal fun ChatModel.mapToPresentationModel() : PresentationChatModel =
-    PresentationChatModel(
-        id = id,
-        title = title,
-        listOfMessages = listOfMessages.map { message ->
+internal fun ChatModelResult.mapToPresentationModel() : PresentationChatModelResult =
+    PresentationChatModelResult(
+        isSuccess = isSuccess,
+        code = code,
+        msg = msg,
+        id = chatModel.id,
+        title = chatModel.title,
+        listOfMessages = chatModel.listOfMessages.map { message ->
             Message(
                 text = message.text,
-                from = if (message.from == "Bot") MessageSender.Bot else MessageSender.User,
+                from = if (message.from == "Bot") MessageSender.Bot else MessageSender.User
             )
         },
-        storageId = storageId
+        storageId = chatModel.storageId
     )

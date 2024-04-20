@@ -1,4 +1,12 @@
 package com.example.domain.model
+
+data class ChatModelResult(
+    val isSuccess: Boolean,
+    val code: String,
+    val msg: String,
+    val chatModel: ChatModel,
+)
+
 data class ChatModel(
     val id: String,
     val title: String,

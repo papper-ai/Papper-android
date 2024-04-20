@@ -6,6 +6,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.papper.R
 import com.example.papper.features.chat.chat.presentation.ChatViewModel
 import com.example.papper.features.common.components.ButtonComponent
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 fun ReloadBtn(
@@ -14,7 +15,7 @@ fun ReloadBtn(
 ) {
     ButtonComponent(
         modifier = modifier,
-        onClick = { /*TODO повторный запрос на создание аккаунта*/ },
+        onClick = { viewModel.loadData() },
         text = stringResource(id = R.string.retry_response)
     )
 }
