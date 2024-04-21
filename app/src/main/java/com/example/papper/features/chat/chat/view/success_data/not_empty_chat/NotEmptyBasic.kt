@@ -1,5 +1,6 @@
 package com.example.papper.features.chat.chat.view.success_data.not_empty_chat
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ fun NotEmptyBasic(
     Column(
         modifier = modifier
             .fillMaxSize(),
+        verticalArrangement = Arrangement.Bottom,
     ) {
         MessagesColumn(
             list = viewModel.collectAsState().value.listOfMessages,

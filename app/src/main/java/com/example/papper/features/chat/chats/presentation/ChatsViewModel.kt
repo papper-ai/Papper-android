@@ -3,8 +3,6 @@ package com.example.papper.features.chat.chats.presentation
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.datasource.ChatRemoteDataSource
-import com.example.data.repository.ChatRepositoryImpl
 import com.example.domain.usecases.chat.GetAllChatsPreviewUseCase
 import com.example.papper.features.chat.chats.model.mapToPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel

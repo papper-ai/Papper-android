@@ -2,7 +2,8 @@ package com.example.papper.features.chat.chat.view.success_data.not_empty_chat
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -25,7 +26,8 @@ fun MessagesColumn(
 
     LazyColumn(
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxWidth()
+            .wrapContentHeight(),
         contentPadding = PaddingValues(
             start = MaterialTheme.dimens.gapBetweenComponentScreen,
             end = MaterialTheme.dimens.gapBetweenComponentScreen,

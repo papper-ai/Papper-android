@@ -1,9 +1,8 @@
 package com.example.domain.repository
 
-import com.example.domain.model.ChatModel
 import com.example.domain.model.ChatModelResult
-import com.example.domain.model.ChatsPreviewModel
 import com.example.domain.model.ChatsPreviewModelResult
+import com.example.domain.model.SendMessageResult
 
 interface ChatRepository {
     suspend fun getChatsPreview(): ChatsPreviewModelResult
@@ -14,5 +13,5 @@ interface ChatRepository {
     suspend fun unarchiveChat(id: String)
     suspend fun renameChat(id: String, name: String)
     suspend fun createChat()
-    suspend fun sendMessage()
+    suspend fun sendMessage(message: String) : SendMessageResult
 }

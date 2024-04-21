@@ -15,7 +15,7 @@ fun StorageScreen(
     navHostController: NavHostController,
     id: String,
 ) {
-    viewModel.getData(id = id)
+    viewModel.id = id
 
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffect(

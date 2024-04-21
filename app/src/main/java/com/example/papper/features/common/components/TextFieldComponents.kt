@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -32,6 +33,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.example.papper.R
 import com.example.papper.theme.TypingText
 import com.example.papper.theme.TypingText2
@@ -154,6 +156,7 @@ fun ChatOutlinedTextFieldComponent(
     isEnable: Boolean = true,
     onClick: () -> Unit,
     isBtnEnable: Boolean,
+    isSendingMsg: Boolean,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -207,10 +210,20 @@ fun ChatOutlinedTextFieldComponent(
                 onClick = { onClick() },
                 enabled = isBtnEnable,
                 content = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.send_icon),
-                        contentDescription = "send",
-                    )
+                    if (isSendingMsg) {
+                        CircularProgressIndicator(
+                            modifier = modifier
+                                .size(15.dp),
+                            color = MaterialTheme.colorScheme.onPrimary,
+                            strokeWidth = 2.dp
+                        )
+                    }
+                    else {
+                        Icon(
+                            painter = painterResource(id = R.drawable.send_icon),
+                            contentDescription = "send",
+                        )
+                    }
                 }
             )
         },

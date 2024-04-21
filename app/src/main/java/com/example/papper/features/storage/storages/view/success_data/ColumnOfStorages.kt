@@ -10,7 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.example.papper.features.storage.storages.model.StorageDescription
+import com.example.papper.features.storage.storages.model.PresentationStoragePreviewModel
 import com.example.papper.features.storage.storages.view.success_data.storage_item.ItemBasic
 import com.example.papper.theme.dimens
 
@@ -18,7 +18,7 @@ import com.example.papper.theme.dimens
 fun ColumnOfStorages(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
-    listOfChats: List<StorageDescription>,
+    listOfChats: List<PresentationStoragePreviewModel>,
 ) {
     LazyColumn(
         modifier = modifier

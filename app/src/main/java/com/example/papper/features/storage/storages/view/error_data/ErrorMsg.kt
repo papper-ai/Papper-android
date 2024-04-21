@@ -1,4 +1,4 @@
-package com.example.papper.features.storage.storage.view.error_data
+package com.example.papper.features.storage.storages.view.error_data
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,6 +11,6 @@ fun ErrorMsg(
     modifier: Modifier = Modifier,
 ) {
    ErrorMessageComponent(
-       errorText = stringResource(id = R.string.loading_storage_error)
+       errorText = stringResource(id = R.string.loading_storages_error)
    )
 }

@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import com.example.papper.features.chat.chat.presentation.ChatViewModel
 import com.example.papper.features.common.components.CardComponent
 import com.example.papper.theme.dimens
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 fun BottomBar(
@@ -28,7 +29,7 @@ fun BottomBar(
             verticalArrangement = Arrangement.Center,
         ) {
             Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.cardCornerRadius))
-            MessageTextField(viewModel = viewModel)
+            MessageTextField(viewModel = viewModel, message = viewModel.collectAsState().value.message)
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.cardCornerRadius))
         }
     }

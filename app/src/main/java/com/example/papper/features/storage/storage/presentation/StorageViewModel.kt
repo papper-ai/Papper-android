@@ -2,8 +2,6 @@ package com.example.papper.features.storage.storage.presentation
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.data.datasource.StorageRemoteDataSource
-import com.example.data.repository.StorageRepositoryImpl
 import com.example.domain.usecases.storage.GetStorageByIdUseCase
 import com.example.papper.features.storage.storage.model.mapToPresentationModel
 import com.example.papper.utils.AppDispatchers
@@ -23,20 +21,32 @@ class StorageViewModel @Inject constructor(
 
     override val container = container<StorageState, StorageSideEffects>(StorageState())
 
+    var id: String? = null
     val storageScreenState = mutableStateOf<StorageScreenState>(StorageScreenState.Loading)
 
-    fun getData(id: String) = intent {
+    init {
+        getData()
+    }
+
+    fun getData() = intent {
         postSideEffect(StorageSideEffects.ShowLoading)
         val result = withContext(AppDispatchers.io) {
-            getStorageByIdUseCase.execute(id = id).mapToPresentationModel()
+            id?.let { getStorageByIdUseCase.execute(id = it).mapToPresentationModel() }
         }
-        reduce {
-            state.copy(title = result.title, listOfStorages = result.listOfFiles)
+        if (result != null) {
+            if (result.isSuccess) {
+                reduce {
+                    state.copy(title = result.title, listOfStorages = result.listOfFiles)
+                }
+                postSideEffect(StorageSideEffects.ShowSuccess)
+            }
+            else {
+                postSideEffect(StorageSideEffects.ShowError)
+            }
         }
-
-        //postSideEffect(ChatsSideEffects.ShowError)
-        postSideEffect(StorageSideEffects.ShowSuccess)
-
+        else {
+            postSideEffect(StorageSideEffects.ShowError)
+        }
     }
 
 }

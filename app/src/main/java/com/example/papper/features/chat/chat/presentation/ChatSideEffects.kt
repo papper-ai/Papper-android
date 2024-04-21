@@ -4,4 +4,5 @@ sealed class ChatSideEffects {
     object ShowLoading : ChatSideEffects()
     object ShowSuccess : ChatSideEffects()
     object ShowError : ChatSideEffects()
+    object ShowErrorToast : ChatSideEffects()
 }

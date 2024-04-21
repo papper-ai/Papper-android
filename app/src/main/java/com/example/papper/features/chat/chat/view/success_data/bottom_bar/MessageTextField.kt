@@ -11,32 +11,41 @@ import androidx.compose.ui.res.stringResource
 import com.example.papper.R
 import com.example.papper.features.chat.chat.presentation.ChatViewModel
 import com.example.papper.features.common.components.ChatOutlinedTextFieldComponent
-import org.orbitmvi.orbit.compose.collectAsState
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun MessageTextField(
     modifier: Modifier = Modifier,
     viewModel: ChatViewModel,
+    message: String,
 ) {
-    val message = viewModel.collectAsState().value.message
     var textFieldState by remember {
         mutableStateOf(message)
     }
 
     ChatOutlinedTextFieldComponent(
         modifier = modifier,
-        onValueChange = { message ->
-            viewModel.updateMessage(message)
-            textFieldState = message
+        onValueChange = { newMessage ->
+            viewModel.updateMessage(newMessage)
+            textFieldState = newMessage
         },
         value = textFieldState,
         placeholder = stringResource(id = R.string.message),
         singleLine = false,
         onClick = {
-            viewModel.sendMessage(text = textFieldState)
-            textFieldState = ""
+            viewModel.sendMessage(text = textFieldState).invokeOnCompletion {
+                if (viewModel.isSendingMessage.value.isSuccess) {
+                    textFieldState = ""
+                }
+            }
         },
-        isBtnEnable = textFieldState.isNotEmpty()
+        isEnable = !viewModel.isSendingMessage.value.isSendingMsg,
+        isBtnEnable = (textFieldState.isNotEmpty() && !viewModel.isSendingMessage.value.isSendingMsg),
+        isSendingMsg = viewModel.isSendingMessage.value.isSendingMsg,
     )
 }
+
+data class MessageStatus(
+    val isSendingMsg: Boolean,
+    val isSuccess: Boolean,
+)

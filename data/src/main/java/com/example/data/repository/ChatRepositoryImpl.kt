@@ -2,10 +2,9 @@ package com.example.data.repository
 
 import com.example.data.datasource.ChatRemoteDataSource
 import com.example.data.model.mapToDomainModel
-import com.example.domain.model.ChatModel
 import com.example.domain.model.ChatModelResult
-import com.example.domain.model.ChatsPreviewModel
 import com.example.domain.model.ChatsPreviewModelResult
+import com.example.domain.model.SendMessageResult
 import com.example.domain.repository.ChatRepository
 import javax.inject.Inject
 
@@ -45,8 +44,8 @@ class ChatRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun sendMessage() {
-        TODO("Not yet implemented")
+    override suspend fun sendMessage(message: String): SendMessageResult {
+        return chatRemoteDataSource.sendMessage(message = message).mapToDomainModel()
     }
 
 }

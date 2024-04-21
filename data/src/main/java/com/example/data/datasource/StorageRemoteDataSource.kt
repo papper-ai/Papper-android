@@ -5,6 +5,7 @@ import com.example.data.api.ApiService
 import com.example.data.model.StoragePreviewModel
 import com.example.data.model.StoragePreviewResponse
 import com.example.data.model.StorageResponse
+import com.example.data.utils.BaseResponseImitation
 
 import kotlinx.coroutines.delay
 import java.io.File
@@ -25,7 +26,7 @@ class StorageRemoteDataSource @Inject constructor(
                 )
             )
         }
-        return StoragePreviewResponse(listOfStoragePreviews = list)
+        return StoragePreviewResponse(baseResponse = BaseResponseImitation.execute(), listOfStoragePreviews = list)
     }
 
     suspend fun getStorageById(id: String): StorageResponse {
@@ -38,6 +39,7 @@ class StorageRemoteDataSource @Inject constructor(
             Log.d("Test", "getData: $i")
         }
         return StorageResponse(
+            baseResponse = BaseResponseImitation.execute(),
             id = id,
             title = "$id title from remote",
             listOfStorages = list
