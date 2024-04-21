@@ -12,7 +12,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import com.example.papper.features.chat.create_chat.presentation.ChooseStorageScreenState
 import com.example.papper.features.chat.create_chat.presentation.CreateChatViewModel
+import com.example.papper.features.chat.create_chat.view.choose_storage.attach_files.AttachFilesBasic
+import com.example.papper.features.chat.create_chat.view.choose_storage.choose_variable.ChooseVariableBasic
+import com.example.papper.features.chat.create_chat.view.loading.LoadingBasic
 import com.example.papper.features.common.components.PageProgressComponent
 import com.example.papper.theme.dimens
 
@@ -21,44 +26,31 @@ import com.example.papper.theme.dimens
 fun ChooseStorageBasic(
     modifier: Modifier = Modifier,
     viewModel: CreateChatViewModel,
+    navHostController: NavHostController,
 ) {
-    Box(
-        modifier = modifier
-            .fillMaxSize(1f),
-        contentAlignment = Alignment.TopCenter
-    ) {
-        Column(
-            modifier = Modifier
-                .wrapContentSize(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.gapBetweenComponents3))
-            StorageText()
-            Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.gapBetweenComponents2))
-            CreateNewStorageBtn()
-            Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.bottomGap))
-            ChooseStorageBtn()
-            Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.bottomGap))
-            SkipBtn(viewModel = viewModel)
+    when (viewModel.chooseStorageScreenState.value) {
+        ChooseStorageScreenState.ChooseVariable -> {
+            ChooseVariableBasic(
+                modifier = modifier,
+                viewModel = viewModel,
+                navHostController = navHostController,
+            )
+        }
+
+        ChooseStorageScreenState.ListOfFiles -> {
+            AttachFilesBasic(
+                modifier = modifier,
+                viewModel = viewModel,
+                navHostController = navHostController,
+            )
+        }
+
+        ChooseStorageScreenState.Loading -> {
+            LoadingBasic(
+                viewModel = viewModel,
+                navHostController = navHostController,
+            )
         }
     }
 
-    Box(
-        modifier = modifier
-            .fillMaxSize(1f),
-        contentAlignment = Alignment.BottomCenter
-    ) {
-        Column(
-            modifier = modifier
-        ) {
-            PageProgressComponent(pageCount = 2, currentPage = 2)
-            Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
-            CreateBtn(
-                viewModel = viewModel,
-                isEnable = viewModel.createBtn.value
-            )
-            Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
-        }
-    }
 }

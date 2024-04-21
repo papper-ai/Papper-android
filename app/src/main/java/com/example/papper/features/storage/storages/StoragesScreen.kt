@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import com.example.papper.features.storage.storages.presentation.StoragesScreenState
 import com.example.papper.features.storage.storages.presentation.StoragesSideEffects
 import com.example.papper.features.storage.storages.presentation.StoragesViewModel
+import com.example.papper.navigation.Screens
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -18,19 +19,21 @@ fun StoragesScreen(
         handleSideEffects(
             viewModel = viewModel,
             sideEffect = sideEffect,
+            navHostController = navHostController,
         )
     }
 
     StorageScreenBasic(
         modifier = modifier,
         viewModel = viewModel,
-        navHostController = navHostController
+        navHostController = navHostController,
     )
 }
 
 private fun handleSideEffects(
     viewModel: StoragesViewModel,
-    sideEffect: StoragesSideEffects
+    sideEffect: StoragesSideEffects,
+    navHostController: NavHostController,
 ) {
     when(sideEffect) {
         StoragesSideEffects.ShowLoading -> {
@@ -41,6 +44,13 @@ private fun handleSideEffects(
         }
         StoragesSideEffects.ShowError -> {
             viewModel.storagesScreenState.value = StoragesScreenState.Error
+        }
+        is StoragesSideEffects.NavigateToCreateChatScreen -> {
+            navHostController.previousBackStackEntry?.savedStateHandle?.set("storageId", sideEffect.id)
+            navHostController.popBackStack()
+        }
+        is StoragesSideEffects.NavigateToStorageScreen -> {
+            navHostController.navigate(Screens.StorageScreen.route + "/${sideEffect.id}")
         }
     }
 }

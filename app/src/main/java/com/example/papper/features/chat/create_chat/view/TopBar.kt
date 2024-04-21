@@ -23,9 +23,6 @@ fun TopBar(
                 CreateChatScreenState.ChooseStorage -> {
                     viewModel.createChatScreenState.value = CreateChatScreenState.TypingTitle
                 }
-                CreateChatScreenState.ListOfFiles -> {
-                    viewModel.createChatScreenState.value = CreateChatScreenState.ChooseStorage
-                }
             }
         }
     )

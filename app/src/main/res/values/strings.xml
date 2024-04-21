@@ -41,4 +41,5 @@
     <string name="loading_storages_error">Ошибка загрузки хранилищ</string>
     <string name="loading_storage_error">Ошибка загрузки хранилища</string>
     <string name="send_message_error">Ошибка отправки сообщения</string>
+    <string name="create_storage_error">Ошибка создания хранилища</string>
 </resources>

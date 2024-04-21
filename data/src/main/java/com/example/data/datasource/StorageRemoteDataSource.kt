@@ -2,6 +2,7 @@ package com.example.data.datasource
 
 import android.util.Log
 import com.example.data.api.ApiService
+import com.example.data.model.CreateStorageResponse
 import com.example.data.model.StoragePreviewModel
 import com.example.data.model.StoragePreviewResponse
 import com.example.data.model.StorageResponse
@@ -43,6 +44,14 @@ class StorageRemoteDataSource @Inject constructor(
             id = id,
             title = "$id title from remote",
             listOfStorages = list
+        )
+    }
+
+    suspend fun createStorage(title: String, list: List<File>): CreateStorageResponse {
+        delay(1500)
+        return CreateStorageResponse(
+            baseResponse = BaseResponseImitation.execute(),
+            id = "123"
         )
     }
 

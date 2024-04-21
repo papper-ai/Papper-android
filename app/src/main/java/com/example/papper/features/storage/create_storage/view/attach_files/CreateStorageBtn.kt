@@ -7,6 +7,8 @@ import androidx.navigation.NavHostController
 import com.example.papper.R
 import com.example.papper.features.common.components.ButtonComponent
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
+import com.example.papper.navigation.Screens
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 fun CreateStorageBtn(
@@ -16,7 +18,20 @@ fun CreateStorageBtn(
 ) {
     ButtonComponent(
         modifier = modifier,
-        onClick = { /*TODO*/ },
-        text = stringResource(id = R.string.create)
+        onClick = {
+            navHostController.previousBackStackEntry?.destination?.route?.let { route ->
+                viewModel.createStorage(
+                    route
+                )
+            }
+        },
+        text = stringResource(id = R.string.create),
+        isLoading = viewModel.createStorageBtnStatus.value.isLoading,
+        isEnable = viewModel.createStorageBtnStatus.value.isEnable,
     )
 }
+
+data class CreateStorageBtnStatus(
+    val isLoading: Boolean,
+    val isEnable: Boolean,
+)

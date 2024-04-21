@@ -1,4 +1,4 @@
-package com.example.papper.features.chat.create_chat.view.choose_storage
+package com.example.papper.features.chat.create_chat.view.choose_storage.choose_variable
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

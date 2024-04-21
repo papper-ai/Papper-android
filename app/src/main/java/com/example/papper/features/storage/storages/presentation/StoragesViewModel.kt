@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.storage.GetAllStoragesPreviewUseCase
 import com.example.papper.features.storage.storages.model.mapToPresentationModel
+import com.example.papper.navigation.Screens
 import com.example.papper.utils.AppDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
@@ -42,5 +43,12 @@ class StoragesViewModel @Inject constructor(
             postSideEffect(StoragesSideEffects.ShowError)
         }
 
+    }
+
+    fun onStorageItemClick(id: String, lastDestination: String) = intent {
+        when (lastDestination) {
+            Screens.ChatsScreen.route -> postSideEffect(StoragesSideEffects.NavigateToStorageScreen(id = id))
+            Screens.CreateChatScreen.route -> postSideEffect(StoragesSideEffects.NavigateToCreateChatScreen(id = id))
+        }
     }
 }

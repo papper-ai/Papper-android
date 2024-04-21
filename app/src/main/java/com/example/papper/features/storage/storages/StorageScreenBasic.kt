@@ -12,6 +12,7 @@ import com.example.papper.features.storage.storages.view.error_data.ErrorBasic
 import com.example.papper.features.storage.storages.view.loading_data.LoadingBasic
 import com.example.papper.features.storage.storages.view.success_data.FloatingBtn
 import com.example.papper.features.storage.storages.view.success_data.SuccessBasic
+import com.example.papper.navigation.Screens
 
 @Composable
 fun StorageScreenBasic(
@@ -34,23 +35,41 @@ fun StorageScreenBasic(
         }
 
         StoragesScreenState.Success -> {
-            Scaffold (
-                topBar = {
-                    TopBar(modifier = modifier, navHostController = navHostController)
-                },
-                floatingActionButton = {
-                    FloatingBtn(
-                        navHostController = navHostController,
+            when (navHostController.previousBackStackEntry?.destination?.route) {
+                Screens.ChatsScreen.route -> {
+                    Scaffold (
+                        topBar = {
+                            TopBar(modifier = modifier, navHostController = navHostController)
+                        },
+                        floatingActionButton = {
+                            FloatingBtn(
+                                navHostController = navHostController,
+                            )
+                        },
+                        content = {
+                            SuccessBasic(
+                                modifier = Modifier.padding(it),
+                                viewModel = viewModel,
+                                navHostController = navHostController,
+                            )
+                        },
                     )
-                },
-                content = {
-                    SuccessBasic(
-                        modifier = Modifier.padding(it),
-                        viewModel = viewModel,
-                        navHostController = navHostController,
+                }
+                Screens.CreateChatScreen.route -> {
+                    Scaffold (
+                        topBar = {
+                            TopBar(modifier = modifier, navHostController = navHostController)
+                        },
+                        content = {
+                            SuccessBasic(
+                                modifier = Modifier.padding(it),
+                                viewModel = viewModel,
+                                navHostController = navHostController,
+                            )
+                        },
                     )
-                },
-            )
+                }
+            }
         }
 
         StoragesScreenState.Error -> {

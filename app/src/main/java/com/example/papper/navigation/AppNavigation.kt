@@ -51,10 +51,12 @@ fun AppNavigation(
                 navHostController = navHostController,
             )
         }
-        composable(route = Screens.CreateChatScreen.route) {
+        composable(route = Screens.CreateChatScreen.route) { entry ->
+            val id = entry.savedStateHandle.get<String>("storageId")
             CreateChatScreen(
                 viewModel = hiltViewModel(),
                 navHostController = navHostController,
+                id = id,
             )
         }
         composable(
@@ -81,7 +83,6 @@ fun AppNavigation(
             CreateStoragesScreen(
                 viewModel = hiltViewModel(),
                 navHostController = navHostController,
-
             )
         }
         composable(

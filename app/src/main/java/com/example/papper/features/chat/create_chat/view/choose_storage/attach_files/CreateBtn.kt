@@ -1,4 +1,4 @@
-package com.example.papper.features.chat.create_chat.view.choose_storage
+package com.example.papper.features.chat.create_chat.view.choose_storage.attach_files
 
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable

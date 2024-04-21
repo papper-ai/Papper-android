@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import com.example.papper.features.chat.create_chat.presentation.CreateChatScreenState
 import com.example.papper.features.chat.create_chat.presentation.CreateChatViewModel
 import com.example.papper.features.chat.create_chat.view.TopBar
+import com.example.papper.features.chat.create_chat.view.choose_storage.attach_files.AttachFilesBasic
 import com.example.papper.features.chat.create_chat.view.choose_storage.ChooseStorageBasic
 import com.example.papper.features.chat.create_chat.view.typing_title.TitleBasic
 
@@ -55,13 +56,10 @@ fun CreateChatBasic(
                         ChooseStorageBasic(
                             modifier = modifier.padding(it),
                             viewModel = viewModel,
+                            navHostController = navHostController,
                         )
                     }
                 )
-            }
-
-            CreateChatScreenState.ListOfFiles -> {
-                TODO()
             }
         }
     }

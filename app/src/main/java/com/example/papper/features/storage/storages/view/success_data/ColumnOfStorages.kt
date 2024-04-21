@@ -11,12 +11,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.papper.features.storage.storages.model.PresentationStoragePreviewModel
+import com.example.papper.features.storage.storages.presentation.StoragesViewModel
 import com.example.papper.features.storage.storages.view.success_data.storage_item.ItemBasic
 import com.example.papper.theme.dimens
 
 @Composable
 fun ColumnOfStorages(
     modifier: Modifier = Modifier,
+    viewModel: StoragesViewModel,
     navHostController: NavHostController,
     listOfChats: List<PresentationStoragePreviewModel>,
 ) {
@@ -28,7 +30,7 @@ fun ColumnOfStorages(
         items(
             items = listOfChats,
         ) { storage ->
-            ItemBasic(navHostController = navHostController, storage = storage)
+            ItemBasic(viewModel = viewModel, navHostController = navHostController, storage = storage)
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap))
         }
     }

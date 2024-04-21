@@ -5,7 +5,7 @@ import com.example.data.base.BaseResponse
 object BaseResponseImitation{
     fun execute(): BaseResponse {
         //val isSuccess = ((0..4).random() != 4)
-        val isSuccess = ((0..2).random() != 2)
+        val isSuccess = ((0..100).random() != 2)
         return BaseResponse(
             isSuccess = isSuccess,
             code = if (isSuccess) "200" else "404",

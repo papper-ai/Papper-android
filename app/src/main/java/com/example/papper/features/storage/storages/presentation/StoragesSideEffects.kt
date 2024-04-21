@@ -4,4 +4,6 @@ sealed class StoragesSideEffects {
     object ShowLoading : StoragesSideEffects()
     object ShowError : StoragesSideEffects()
     object ShowSuccess : StoragesSideEffects()
+    data class NavigateToStorageScreen(val id: String) : StoragesSideEffects()
+    data class NavigateToCreateChatScreen(val id: String) : StoragesSideEffects()
 }

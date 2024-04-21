@@ -8,9 +8,13 @@ data class CreateChatState(
 )
 
 sealed class CreateChatScreenState {
-
     object TypingTitle: CreateChatScreenState()
     object ChooseStorage: CreateChatScreenState()
 
-    object ListOfFiles: CreateChatScreenState()
+}
+
+sealed class ChooseStorageScreenState {
+    object Loading: ChooseStorageScreenState()
+    object ChooseVariable: ChooseStorageScreenState()
+    object ListOfFiles: ChooseStorageScreenState()
 }
