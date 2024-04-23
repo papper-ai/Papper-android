@@ -1,8 +1,11 @@
 package com.example.data.di
 
-import com.example.data.api.ApiService
-import com.example.data.datasource.ChatRemoteDataSource
-import com.example.data.datasource.StorageRemoteDataSource
+import com.example.data.api.AuthApiService
+import com.example.data.api.ChatApiService
+import com.example.data.api.StorageApiService
+import com.example.data.datasource.local.AuthLocalDataSource
+import com.example.data.datasource.remote.ChatRemoteDataSource
+import com.example.data.datasource.remote.StorageRemoteDataSource
 import com.example.data.repository.AccountRepositoryImpl
 import com.example.data.repository.ChatRepositoryImpl
 import com.example.data.repository.StorageRepositoryImpl
@@ -22,20 +25,20 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideChatRemoteDataSource(apiService: ApiService): ChatRemoteDataSource {
+    fun provideChatRemoteDataSource(apiService: ChatApiService): ChatRemoteDataSource {
         return ChatRemoteDataSource(apiService = apiService)
     }
 
     @Provides
     @Singleton
-    fun provideStorageRemoteDataSource(apiService: ApiService): StorageRemoteDataSource {
+    fun provideStorageRemoteDataSource(apiService: StorageApiService): StorageRemoteDataSource {
         return StorageRemoteDataSource(apiService = apiService)
     }
 
     @Provides
     @Singleton
-    fun provideAuthService(): AuthService {
-        return AuthService()
+    fun provideAuthService(apiService: AuthApiService, authLocalDataSource: AuthLocalDataSource): AuthService {
+        return AuthService(apiService = apiService, authLocalDataSource = authLocalDataSource)
     }
 
     @Provides

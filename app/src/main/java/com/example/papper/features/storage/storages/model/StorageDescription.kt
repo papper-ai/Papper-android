@@ -1,6 +1,6 @@
 package com.example.papper.features.storage.storages.model
 
-import com.example.domain.model.StoragePreviewModelResult
+import com.example.domain.model.storage.StoragePreviewModelResult
 
 data class StorageDescription(
     val isSuccess: Boolean,

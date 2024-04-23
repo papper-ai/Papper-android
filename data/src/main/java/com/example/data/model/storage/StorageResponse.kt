@@ -1,6 +1,7 @@
-package com.example.data.model
+package com.example.data.model.storage
 
 import com.example.data.base.BaseResponse
+import com.example.domain.model.storage.StorageModel
 import java.io.File
 
 data class StorageResponse(
@@ -10,8 +11,8 @@ data class StorageResponse(
     val listOfStorages: List<File>,
 )
 
-internal fun StorageResponse.mapToDomainModel() : com.example.domain.model.StorageModel =
-    com.example.domain.model.StorageModel(
+internal fun StorageResponse.mapToDomainModel() : StorageModel =
+    StorageModel(
         isSuccess = baseResponse.isSuccess,
         code = baseResponse.code,
         msg = baseResponse.msg,

@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.example.papper.R
 import com.example.papper.features.chat.chat.presentation.ChatScreenState

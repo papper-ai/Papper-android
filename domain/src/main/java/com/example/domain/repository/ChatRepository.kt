@@ -1,8 +1,8 @@
 package com.example.domain.repository
 
-import com.example.domain.model.ChatModelResult
-import com.example.domain.model.ChatsPreviewModelResult
-import com.example.domain.model.SendMessageResult
+import com.example.domain.model.chat.ChatModelResult
+import com.example.domain.model.chat.ChatsPreviewModelResult
+import com.example.domain.model.chat.SendMessageResult
 
 interface ChatRepository {
     suspend fun getChatsPreview(): ChatsPreviewModelResult

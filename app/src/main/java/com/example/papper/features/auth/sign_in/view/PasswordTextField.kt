@@ -18,7 +18,6 @@ import org.orbitmvi.orbit.compose.collectAsState
 @Composable
 fun PasswordTextField(
     viewModel: SignInViewModel,
-    //navHostController: NavHostController,
 ) {
     val password = viewModel.collectAsState().value.password
     var textFieldState by remember {
@@ -34,5 +33,6 @@ fun PasswordTextField(
         singleLine = true,
         keyboardType = KeyboardType.Password,
         isEnable = viewModel.signInScreenState.value !is SignInScreenState.Loading,
+        isError = viewModel.signInScreenState.value is SignInScreenState.Error,
     )
 }

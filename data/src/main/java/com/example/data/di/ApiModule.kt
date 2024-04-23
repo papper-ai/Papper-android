@@ -1,6 +1,8 @@
 package com.example.data.di
 
-import com.example.data.api.ApiService
+import com.example.data.api.AuthApiService
+import com.example.data.api.ChatApiService
+import com.example.data.api.StorageApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +16,17 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideApiService(retrofit: Retrofit): ApiService =
-        retrofit.create(ApiService::class.java)
+    fun provideAuthApiService(retrofit: Retrofit): AuthApiService =
+        retrofit.create(AuthApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideChatApiService(retrofit: Retrofit): ChatApiService =
+        retrofit.create(ChatApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideStorageApiService(retrofit: Retrofit): StorageApiService =
+        retrofit.create(StorageApiService::class.java)
 
 }

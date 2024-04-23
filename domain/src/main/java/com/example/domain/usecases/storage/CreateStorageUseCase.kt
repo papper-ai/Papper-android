@@ -1,6 +1,6 @@
 package com.example.domain.usecases.storage
 
-import com.example.domain.model.CreateStorageResult
+import com.example.domain.model.storage.CreateStorageResult
 import com.example.domain.repository.StorageRepository
 import java.io.File
 import javax.inject.Inject

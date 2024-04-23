@@ -7,8 +7,6 @@ import androidx.navigation.NavHostController
 import com.example.papper.R
 import com.example.papper.features.common.components.ButtonComponent
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
-import com.example.papper.navigation.Screens
-import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 fun CreateStorageBtn(

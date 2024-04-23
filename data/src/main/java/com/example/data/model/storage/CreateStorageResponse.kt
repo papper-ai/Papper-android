@@ -1,7 +1,7 @@
-package com.example.data.model
+package com.example.data.model.storage
 
 import com.example.data.base.BaseResponse
-import com.example.domain.model.CreateStorageResult
+import com.example.domain.model.storage.CreateStorageResult
 
 data class CreateStorageResponse(
     val baseResponse: BaseResponse,

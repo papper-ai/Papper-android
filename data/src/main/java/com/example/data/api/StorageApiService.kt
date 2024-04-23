@@ -1,6 +1,4 @@
 package com.example.data.api
 
-interface ApiService {
-
-
+interface StorageApiService {
 }

@@ -1,6 +1,5 @@
 package com.example.papper.features.chat.create_chat
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController

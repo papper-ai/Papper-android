@@ -117,7 +117,6 @@ fun RegistrationBasic(
                 AllFieldBasic(
                     modifier = modifier,
                     viewModel = viewModel,
-                    navHostController = navHostController,
                 )
             }
 

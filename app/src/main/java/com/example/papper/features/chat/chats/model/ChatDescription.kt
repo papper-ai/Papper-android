@@ -1,6 +1,6 @@
 package com.example.papper.features.chat.chats.model
 
-import com.example.domain.model.ChatsPreviewModelResult
+import com.example.domain.model.chat.ChatsPreviewModelResult
 
 data class ChatDescriptionResult(
     val isSuccess: Boolean,

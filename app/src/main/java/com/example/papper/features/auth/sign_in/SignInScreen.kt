@@ -1,11 +1,15 @@
 package com.example.papper.features.auth.sign_in
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.papper.features.auth.sign_in.presentation.SignInScreenState
 import com.example.papper.features.auth.sign_in.presentation.SignInSideEffects
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
+import com.example.papper.navigation.Screens
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -14,22 +18,29 @@ fun SignInScreen(
     viewModel: SignInViewModel,
     navHostController: NavHostController,
 ) {
+    val context = LocalContext.current
+
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffects(
             sideEffects = sideEffect,
-            viewModel = viewModel
+            viewModel = viewModel,
+            navHostController = navHostController,
+            context = context,
         )
     }
-    SignInBasic(viewModel = viewModel, navHostController = navHostController)
+    SignInBasic(viewModel = viewModel)
 }
 
 private fun handleSideEffects(
     sideEffects: SignInSideEffects,
-    viewModel: SignInViewModel
+    viewModel: SignInViewModel,
+    navHostController: NavHostController,
+    context: Context,
 ) {
     when (sideEffects) {
         is SignInSideEffects.ShowErrorState -> {
             viewModel.signInScreenState.value = SignInScreenState.Error
+            Toast.makeText(context, sideEffects.msg, Toast.LENGTH_SHORT).show()
         }
         is SignInSideEffects.ShowLoadingState -> {
             viewModel.signInScreenState.value = SignInScreenState.Loading
@@ -39,6 +50,18 @@ private fun handleSideEffects(
         }
         is SignInSideEffects.FieldsFilled -> {
             viewModel.fieldsStatus.value = sideEffects.status
+        }
+
+        SignInSideEffects.NavigateToChatsScreen -> {
+            navHostController.navigate(
+                Screens.ChatsScreen.route,
+            ) {
+                popUpTo(Screens.StartScreen.route) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
         }
     }
 }

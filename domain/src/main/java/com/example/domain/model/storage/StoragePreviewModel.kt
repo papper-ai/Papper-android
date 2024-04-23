@@ -1,4 +1,4 @@
-package com.example.domain.model
+package com.example.domain.model.storage
 
 data class StoragePreviewModelResult(
     val isSuccess: Boolean,

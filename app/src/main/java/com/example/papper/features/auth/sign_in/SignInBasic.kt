@@ -10,7 +10,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
 import com.example.papper.features.auth.sign_in.view.ForgotPasswordBtn
 import com.example.papper.features.auth.sign_in.view.LoginTextField
@@ -25,7 +24,6 @@ import com.example.papper.theme.dimens
 fun SignInBasic(
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel,
-    navHostController: NavHostController,
 ) {
     Surface(
         modifier = modifier.fillMaxSize(),
@@ -45,7 +43,7 @@ fun SignInBasic(
                 Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap))
                 PasswordTextField(viewModel = viewModel)
                 Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap))
-                SignInBtn(viewModel = viewModel, navHostController = navHostController)
+                SignInBtn(viewModel = viewModel)
                 Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
                 ForgotPasswordBtn()
                 Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))

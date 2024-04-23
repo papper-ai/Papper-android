@@ -1,7 +1,7 @@
-package com.example.data.model
+package com.example.data.model.storage
 
 import com.example.data.base.BaseResponse
-import com.example.domain.model.StoragePreviewModelResult
+import com.example.domain.model.storage.StoragePreviewModelResult
 
 data class StoragePreviewResponse (
     val baseResponse: BaseResponse,
@@ -15,7 +15,7 @@ data class StoragePreviewModel (
 
 internal fun StoragePreviewResponse.mapToDomainModel() : StoragePreviewModelResult {
     val newList = listOfStoragePreviews.map { storagePreviewModel ->
-        com.example.domain.model.StoragePreviewModel(
+        com.example.domain.model.storage.StoragePreviewModel(
             id = storagePreviewModel.id,
             title = storagePreviewModel.title
         )

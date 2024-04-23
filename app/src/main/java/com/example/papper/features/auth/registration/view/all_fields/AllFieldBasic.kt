@@ -10,7 +10,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import com.example.papper.features.auth.registration.presentation.RegistrationScreenState
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
 import com.example.papper.theme.dimens
@@ -19,7 +18,6 @@ import com.example.papper.theme.dimens
 fun AllFieldBasic(
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel,
-    navHostController: NavHostController,
 ) {
     BackHandler {
         viewModel.registrationScreenState.value = RegistrationScreenState.TypingCode
@@ -44,7 +42,7 @@ fun AllFieldBasic(
             Spacer(modifier = modifier.padding(bottom = MaterialTheme.dimens.bottomGap))
             CodeTextField(viewModel = viewModel)
             Spacer(modifier = modifier.padding(bottom = MaterialTheme.dimens.bottomGap))
-            RegistrationBtn(viewModel = viewModel, navHostController = navHostController)
+            RegistrationBtn(viewModel = viewModel)
             Spacer(modifier = modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
         }
     }

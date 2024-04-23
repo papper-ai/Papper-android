@@ -11,39 +11,65 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.example.papper.features.auth.start.presentation.StartScreenState
+import com.example.papper.features.auth.start.presentation.StartViewModel
 import com.example.papper.features.auth.start.view.CompanyPolicyClickableText
 import com.example.papper.features.auth.start.view.SignInBtn
 import com.example.papper.features.auth.start.view.SignUpBtn
 import com.example.papper.features.common.components.BigLogoComponent
+import com.example.papper.features.common.components.ProgressBarComponent
 import com.example.papper.theme.dimens
 
 @Composable
 fun StartBasic(
     modifier: Modifier = Modifier,
+    viewModel: StartViewModel,
     navHostController: NavHostController,
 ) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        Column (
-            modifier = modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Bottom,
-        ) {
-            BigLogoComponent(modifier = modifier.weight(1f))
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom,
+    when (viewModel.startScreenState.value) {
+        StartScreenState.Loading -> {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
             ) {
-                CompanyPolicyClickableText(modifier = modifier)
-                Spacer(modifier = Modifier.padding(MaterialTheme.dimens.bottomGap))
-                SignInBtn(navHostController = navHostController)
-                Spacer(modifier = Modifier.padding(MaterialTheme.dimens.bottomGap))
-                SignUpBtn(navHostController = navHostController)
-                Spacer(modifier = Modifier.padding(MaterialTheme.dimens.bottomGap2))
+                Column (
+                    modifier = modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    BigLogoComponent()
+                    Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
+                    ProgressBarComponent()
+                }
             }
         }
+        StartScreenState.Default -> {
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                Column (
+                    modifier = modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Bottom,
+                ) {
+                    BigLogoComponent(modifier = modifier.weight(1f))
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Bottom,
+                    ) {
+                        CompanyPolicyClickableText(modifier = modifier)
+                        Spacer(modifier = Modifier.padding(MaterialTheme.dimens.bottomGap))
+                        SignInBtn(navHostController = navHostController)
+                        Spacer(modifier = Modifier.padding(MaterialTheme.dimens.bottomGap))
+                        SignUpBtn(navHostController = navHostController)
+                        Spacer(modifier = Modifier.padding(MaterialTheme.dimens.bottomGap2))
+                    }
+                }
+            }
+        }
+        StartScreenState.Error -> TODO()
     }
 }

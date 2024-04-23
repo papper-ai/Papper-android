@@ -1,10 +1,10 @@
 package com.example.data.repository
 
-import com.example.data.datasource.StorageRemoteDataSource
-import com.example.data.model.mapToDomainModel
-import com.example.domain.model.CreateStorageResult
-import com.example.domain.model.StorageModel
-import com.example.domain.model.StoragePreviewModelResult
+import com.example.data.datasource.remote.StorageRemoteDataSource
+import com.example.data.model.storage.mapToDomainModel
+import com.example.domain.model.storage.CreateStorageResult
+import com.example.domain.model.storage.StorageModel
+import com.example.domain.model.storage.StoragePreviewModelResult
 import com.example.domain.repository.StorageRepository
 import java.io.File
 import javax.inject.Inject

@@ -2,7 +2,10 @@ package com.example.papper.features.auth.sign_in.presentation
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.domain.usecases.account.SignInUseCase
+import com.example.papper.utils.AppDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
@@ -11,7 +14,9 @@ import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInViewModel @Inject constructor() : ViewModel(), ContainerHost<SignInState, SignInSideEffects> {
+class SignInViewModel @Inject constructor(
+    private val signInUseCase: SignInUseCase,
+) : ViewModel(), ContainerHost<SignInState, SignInSideEffects> {
 
     override val container = container<SignInState, SignInSideEffects>(SignInState())
 
@@ -19,6 +24,7 @@ class SignInViewModel @Inject constructor() : ViewModel(), ContainerHost<SignInS
     val fieldsStatus = mutableStateOf<Boolean>(false)
 
     fun typingLogin(text: String) = intent {
+        if (signInScreenState.value is SignInScreenState.Error) {signInScreenState.value = SignInScreenState.Default}
         reduce {
             state.copy(login = text)
         }
@@ -26,6 +32,7 @@ class SignInViewModel @Inject constructor() : ViewModel(), ContainerHost<SignInS
     }
 
     fun typingPassword(text: String) = intent {
+        if (signInScreenState.value is SignInScreenState.Error) {signInScreenState.value = SignInScreenState.Default}
         reduce {
             state.copy(password = text)
         }
@@ -36,9 +43,17 @@ class SignInViewModel @Inject constructor() : ViewModel(), ContainerHost<SignInS
         //todo сделать call в api
     }
 
-    fun signInClick() = intent {
+    fun signIn() = intent {
         postSideEffect(SignInSideEffects.ShowLoadingState)
-        //todo сделать call в api
+        val result = withContext(AppDispatchers.io) {
+            signInUseCase.execute(login = state.login, password = state.password)
+        }
+        if (result.isSuccess) {
+            postSideEffect(SignInSideEffects.NavigateToChatsScreen)
+        }
+        else {
+            postSideEffect(SignInSideEffects.ShowErrorState(result.msg))
+        }
     }
 
     private fun checkField() = intent {

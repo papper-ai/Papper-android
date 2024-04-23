@@ -1,8 +1,8 @@
-package com.example.data.model
+package com.example.data.model.chat
 
 import com.example.data.base.BaseResponse
-import com.example.domain.model.ChatsPreviewModel
-import com.example.domain.model.ChatsPreviewModelResult
+import com.example.domain.model.chat.ChatsPreviewModel
+import com.example.domain.model.chat.ChatsPreviewModelResult
 
 
 data class ChatsPreviewResponse(
@@ -16,7 +16,7 @@ data class ChatPreviewModel(
     val lastMessage: String,
 )
 
-internal fun ChatsPreviewResponse.mapToDomainModel(): ChatsPreviewModelResult  {
+internal fun ChatsPreviewResponse.mapToDomainModel(): ChatsPreviewModelResult {
     val newList = listOfChatsPreview.map { chatPreviewModel ->
         ChatsPreviewModel(
             id = chatPreviewModel.id,

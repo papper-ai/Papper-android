@@ -1,8 +1,8 @@
-package com.example.data.model
+package com.example.data.model.chat
 
 import com.example.data.base.BaseResponse
-import com.example.domain.model.ChatModel
-import com.example.domain.model.ChatModelResult
+import com.example.domain.model.chat.ChatModel
+import com.example.domain.model.chat.ChatModelResult
 
 data class ChatResponse(
     val baseResponse: BaseResponse,
@@ -25,7 +25,7 @@ internal fun ChatResponse.mapToDomainModel() = ChatModelResult(
             id = id,
             title = title,
             listOfMessages = listOfMessages.map { message ->
-                com.example.domain.model.Message(
+                com.example.domain.model.chat.Message(
                     text = message.text,
                     from = message.from,
                 )

@@ -1,17 +1,17 @@
-package com.example.data.datasource
+package com.example.data.datasource.remote
 
-import com.example.data.api.ApiService
-import com.example.data.model.ChatPreviewModel
-import com.example.data.model.ChatResponse
-import com.example.data.model.ChatsPreviewResponse
-import com.example.data.model.Message
-import com.example.data.model.SendMessageResponse
+import com.example.data.api.ChatApiService
+import com.example.data.model.chat.ChatPreviewModel
+import com.example.data.model.chat.ChatResponse
+import com.example.data.model.chat.ChatsPreviewResponse
+import com.example.data.model.chat.Message
+import com.example.data.model.chat.SendMessageResponse
 import com.example.data.utils.BaseResponseImitation
 import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class ChatRemoteDataSource @Inject constructor(
-    private val apiService: ApiService,
+    private val apiService: ChatApiService,
 ) {
 
     suspend fun fetchChatsPreview(): ChatsPreviewResponse {

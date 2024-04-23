@@ -1,11 +1,11 @@
-package com.example.data.datasource
+package com.example.data.datasource.remote
 
 import android.util.Log
-import com.example.data.api.ApiService
-import com.example.data.model.CreateStorageResponse
-import com.example.data.model.StoragePreviewModel
-import com.example.data.model.StoragePreviewResponse
-import com.example.data.model.StorageResponse
+import com.example.data.api.StorageApiService
+import com.example.data.model.storage.CreateStorageResponse
+import com.example.data.model.storage.StoragePreviewModel
+import com.example.data.model.storage.StoragePreviewResponse
+import com.example.data.model.storage.StorageResponse
 import com.example.data.utils.BaseResponseImitation
 
 import kotlinx.coroutines.delay
@@ -13,7 +13,7 @@ import java.io.File
 import javax.inject.Inject
 
 class StorageRemoteDataSource @Inject constructor(
-    private val apiService: ApiService,
+    private val apiService: StorageApiService,
 ) {
 
     suspend fun getAllStoragesPreview(): StoragePreviewResponse {

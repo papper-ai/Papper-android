@@ -1,10 +1,10 @@
 package com.example.data.repository
 
-import com.example.data.datasource.ChatRemoteDataSource
-import com.example.data.model.mapToDomainModel
-import com.example.domain.model.ChatModelResult
-import com.example.domain.model.ChatsPreviewModelResult
-import com.example.domain.model.SendMessageResult
+import com.example.data.datasource.remote.ChatRemoteDataSource
+import com.example.data.model.chat.mapToDomainModel
+import com.example.domain.model.chat.ChatModelResult
+import com.example.domain.model.chat.ChatsPreviewModelResult
+import com.example.domain.model.chat.SendMessageResult
 import com.example.domain.repository.ChatRepository
 import javax.inject.Inject
 

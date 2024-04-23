@@ -19,7 +19,6 @@ import org.orbitmvi.orbit.compose.collectAsState
 fun LoginTextField(
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel,
-    //navHostController: NavHostController,
 ) {
     val login = viewModel.collectAsState().value.login
     var textFieldState by remember {
@@ -34,5 +33,6 @@ fun LoginTextField(
         placeholder = stringResource(id = R.string.email),
         singleLine = true,
         isEnable = viewModel.signInScreenState.value !is SignInScreenState.Loading,
+        isError = viewModel.signInScreenState.value is SignInScreenState.Error,
     )
 }

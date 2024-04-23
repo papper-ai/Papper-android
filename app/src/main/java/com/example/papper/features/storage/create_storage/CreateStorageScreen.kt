@@ -1,7 +1,6 @@
 package com.example.papper.features.storage.create_storage
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

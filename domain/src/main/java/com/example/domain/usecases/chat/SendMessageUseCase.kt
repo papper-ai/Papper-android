@@ -1,6 +1,6 @@
 package com.example.domain.usecases.chat
 
-import com.example.domain.model.SendMessageResult
+import com.example.domain.model.chat.SendMessageResult
 import com.example.domain.repository.ChatRepository
 import javax.inject.Inject
 

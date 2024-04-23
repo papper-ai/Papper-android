@@ -25,11 +25,12 @@ fun AppNavigation(
 ) {
     NavHost (
         navController = navHostController,
-        //startDestination = Screens.StartScreen.route
-        startDestination = Screens.ChatsScreen.route
+        startDestination = Screens.StartScreen.route
+        //startDestination = Screens.ChatsScreen.route
     ) {
         composable(route = Screens.StartScreen.route) {
             StartScreen(
+                viewModel = hiltViewModel(),
                 navHostController = navHostController,
             )
         }

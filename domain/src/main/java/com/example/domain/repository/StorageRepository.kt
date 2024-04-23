@@ -1,8 +1,8 @@
 package com.example.domain.repository
 
-import com.example.domain.model.CreateStorageResult
-import com.example.domain.model.StorageModel
-import com.example.domain.model.StoragePreviewModelResult
+import com.example.domain.model.storage.CreateStorageResult
+import com.example.domain.model.storage.StorageModel
+import com.example.domain.model.storage.StoragePreviewModelResult
 import java.io.File
 
 interface StorageRepository {
