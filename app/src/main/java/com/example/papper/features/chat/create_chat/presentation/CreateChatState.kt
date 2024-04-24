@@ -1,10 +1,10 @@
 package com.example.papper.features.chat.create_chat.presentation
 
-import java.io.File
+import com.example.papper.features.storage.storage.model.FilePresentationModel
 
 data class CreateChatState(
     val title: String = "",
-    val listOfFiles: List<File>? = null
+    val listOfFiles: List<FilePresentationModel>? = null
 )
 
 sealed class CreateChatScreenState {

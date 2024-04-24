@@ -44,11 +44,12 @@ fun SuccessBasic(
                         modifier = modifier
                             .weight(1f),
                         viewModel = viewModel,
-                        list = viewModel.collectAsState().value.listOfStorages,
+                        list = viewModel.collectAsState().value.setOfStorages.toList(),
                     )
                     AddFilesBtn(
                         modifier = modifier
                             .weight(0.1f),
+                        viewModel = viewModel,
                     )
                     Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
                 }

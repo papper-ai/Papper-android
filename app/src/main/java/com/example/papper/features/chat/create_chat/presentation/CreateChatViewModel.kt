@@ -3,6 +3,7 @@ package com.example.papper.features.chat.create_chat.presentation
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.storage.GetStorageByIdUseCase
+import com.example.papper.features.storage.storage.model.mapToPresentationModel
 import com.example.papper.utils.AppDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
@@ -37,7 +38,7 @@ class CreateChatViewModel @Inject constructor(
     fun toListOfFiles(id: String) = intent {
         postSideEffect(CreateChatSideEffects.ShowLoading)
         val result = withContext(AppDispatchers.io) {
-            getStorageByIdUseCase.execute(id = id)
+            getStorageByIdUseCase.execute(id = id).mapToPresentationModel()
         }
         if (result.isSuccess) {
             reduce {

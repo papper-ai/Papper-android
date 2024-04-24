@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.theme.Heading2
 import com.example.papper.theme.dimens
 import java.io.File
@@ -21,7 +22,7 @@ import java.io.File
 @Composable
 fun ColumnOfFiles(
     modifier: Modifier = Modifier,
-    listOfFiles: List<File>?,
+    listOfFiles: List<FilePresentationModel>?,
 ) {
     LazyColumn(
         modifier = modifier
@@ -38,7 +39,7 @@ fun ColumnOfFiles(
 @Composable
 fun ItemBasic(
     modifier: Modifier = Modifier,
-    item: File,
+    item: FilePresentationModel,
 ) {
     Box(
         modifier = modifier
@@ -53,19 +54,11 @@ fun ItemBasic(
                     end = MaterialTheme.dimens.gapBetweenComponentScreen,
                     bottom = MaterialTheme.dimens.bottomGap,
                 ),
-            text = item.name,
+            text = item.title,
             style = MaterialTheme.typography.Heading2,
             color = MaterialTheme.colorScheme.onPrimary,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
     }
-}
-
-@Preview
-@Composable
-fun ColumnOfFilesPreview() {
-    ColumnOfFiles(
-        listOfFiles = listOf(File("item1item1item1item1item1item1item1item1item1"), File("item2"), File("item3")),
-    )
 }

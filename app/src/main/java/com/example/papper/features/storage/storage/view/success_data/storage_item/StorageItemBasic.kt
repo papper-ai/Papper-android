@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.features.storage.storage.presentation.StorageViewModel
 import com.example.papper.theme.Heading2
 import com.example.papper.theme.dimens
@@ -22,7 +23,7 @@ import java.io.File
 fun StorageItemBasic(
     modifier: Modifier = Modifier,
     viewModel: StorageViewModel,
-    file: File,
+    file: FilePresentationModel,
 ) {
     Row(
         modifier = modifier
@@ -47,7 +48,7 @@ fun StorageItemBasic(
         Text(
             modifier = modifier
                 .weight(1f),
-            text = file.name,
+            text = file.title,
             style = MaterialTheme.typography.Heading2,
             color = MaterialTheme.colorScheme.primary,
             maxLines = 1,
@@ -57,6 +58,7 @@ fun StorageItemBasic(
             modifier = modifier
                 .weight(0.2f),
             viewModel = viewModel,
+            file = file,
         )
     }
 }

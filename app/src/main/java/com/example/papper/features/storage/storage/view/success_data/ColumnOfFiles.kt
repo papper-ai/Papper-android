@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.features.storage.storage.presentation.StorageViewModel
 import com.example.papper.features.storage.storage.view.success_data.storage_item.StorageItemBasic
 import com.example.papper.theme.dimens
@@ -19,7 +20,7 @@ import java.io.File
 fun ColumnOfFiles(
     modifier: Modifier = Modifier,
     viewModel: StorageViewModel,
-    list: List<File>,
+    list: List<FilePresentationModel>,
 ) {
     LazyColumn(
         modifier = modifier

@@ -42,4 +42,7 @@
     <string name="loading_storage_error">Ошибка загрузки хранилища</string>
     <string name="send_message_error">Ошибка отправки сообщения</string>
     <string name="create_storage_error">Ошибка создания хранилища</string>
+    <string name="nothing_there">Здесь пока пусто</string>
+    <string name="file_already_exitst">уже добавлен в хранилище</string>
+    <string name="file_add_error">Произошла ошибка загрузки:</string>
 </resources>

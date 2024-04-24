@@ -2,11 +2,14 @@ package com.example.data.datasource.remote
 
 import android.util.Log
 import com.example.data.api.StorageApiService
+import com.example.data.model.storage.AddFileInStorageResponse
 import com.example.data.model.storage.CreateStorageResponse
+import com.example.data.model.storage.FileDataModel
 import com.example.data.model.storage.StoragePreviewModel
 import com.example.data.model.storage.StoragePreviewResponse
 import com.example.data.model.storage.StorageResponse
 import com.example.data.utils.BaseResponseImitation
+import com.example.domain.model.storage.FileDomainModel
 
 import kotlinx.coroutines.delay
 import java.io.File
@@ -32,10 +35,13 @@ class StorageRemoteDataSource @Inject constructor(
 
     suspend fun getStorageById(id: String): StorageResponse {
         delay(1500)
-        val list = mutableListOf<File>()
+        val list = mutableListOf<FileDataModel>()
         for (i in 1..15) {
             list.add(
-                File("$i example example example example.pdf")
+                FileDataModel(
+                    id = "$i",
+                    title = "$i example example example example.pdf",
+                )
             )
             Log.d("Test", "getData: $i")
         }
@@ -53,6 +59,11 @@ class StorageRemoteDataSource @Inject constructor(
             baseResponse = BaseResponseImitation.execute(),
             id = "123"
         )
+    }
+
+    suspend fun addFileInStorage(id: String, file: File): AddFileInStorageResponse {
+        delay(1000)
+        return AddFileInStorageResponse(baseResponse = BaseResponseImitation.execute(), id = "123")
     }
 
 }

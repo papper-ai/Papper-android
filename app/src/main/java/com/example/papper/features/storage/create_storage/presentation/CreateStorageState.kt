@@ -4,7 +4,7 @@ import java.io.File
 
 data class CreateStorageState(
     val title: String = "",
-    val listOfFiles: List<File> = emptyList(),
+    val listOfFiles: Set<File> = emptySet(),
 )
 
 sealed class CreateStorageScreenState {

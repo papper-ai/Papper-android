@@ -9,7 +9,12 @@ data class PresentationStorageModel(
     val msg: String,
     val id: String,
     val title: String,
-    val listOfFiles: List<File>,
+    val listOfFiles: List<FilePresentationModel>,
+)
+
+data class FilePresentationModel(
+    val id: String,
+    val title: String,
 )
 
 internal fun StorageModel.mapToPresentationModel() =
@@ -19,5 +24,10 @@ internal fun StorageModel.mapToPresentationModel() =
         msg = msg,
         id = id,
         title = title,
-        listOfFiles = listOfFiles
+        listOfFiles = listOfFiles.map { fileDomainModel ->
+            FilePresentationModel(
+                id = fileDomainModel.id,
+                title = fileDomainModel.title,
+            )
+        }
     )

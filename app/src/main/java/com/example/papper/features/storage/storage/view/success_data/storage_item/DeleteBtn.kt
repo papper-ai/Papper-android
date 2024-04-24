@@ -13,19 +13,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.papper.R
+import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.features.storage.storage.presentation.StorageViewModel
 
 @Composable
 fun DeleteBtn(
     modifier: Modifier = Modifier,
     viewModel: StorageViewModel,
+    file: FilePresentationModel
 ) {
     Box(
         modifier = modifier
             .size(48.dp)
             .clip(CircleShape)
             .clickable {
-
+                viewModel.deleteFile(file)
             },
         contentAlignment = Alignment.Center,
     ) {

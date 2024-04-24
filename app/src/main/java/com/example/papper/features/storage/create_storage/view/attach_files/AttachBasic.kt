@@ -14,7 +14,7 @@ import androidx.navigation.NavHostController
 import com.example.papper.features.common.components.PageProgressComponent
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
 import com.example.papper.theme.dimens
-import java.io.File
+import org.orbitmvi.orbit.compose.collectAsState
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -32,29 +32,20 @@ fun AttachBasic(
         Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.bottomGap3))
         AddFilesText()
         Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.bottomGap2))
-        ColumnOfFiles(
-            modifier = Modifier
-                .weight(1f),
-            viewModel = viewModel,
-            list = listOf(
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
-                File("example example example example.pdf"),
+        if (viewModel.collectAsState().value.listOfFiles.isEmpty()) {
+            EmptyColumnText(
+                modifier = Modifier
+                    .weight(1f),
             )
-        )
-
+        }
+        else {
+            ColumnOfFiles(
+                modifier = Modifier
+                    .weight(1f),
+                viewModel = viewModel,
+                list = viewModel.collectAsState().value.listOfFiles.toList()
+            )
+        }
         Column(
             modifier = Modifier
                 .padding(bottom = MaterialTheme.dimens.bottomGap3),
@@ -62,7 +53,7 @@ fun AttachBasic(
             verticalArrangement = Arrangement.Bottom,
 
         ) {
-            AddFilesBtn()
+            AddFilesBtn(viewModel = viewModel)
             Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.bottomGap2))
             PageProgressComponent(
                 pageCount = 2,

@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.storage.CreateStorageUseCase
 import com.example.papper.features.storage.create_storage.view.attach_files.CreateStorageBtnStatus
+import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.navigation.Screens
 import com.example.papper.utils.AppDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +14,7 @@ import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,7 +42,7 @@ class CreateStorageViewModel @Inject constructor(
     fun createStorage(lastDestination: String) = intent {
         createStorageBtnStatus.value = CreateStorageBtnStatus(isLoading = true, isEnable = false)
         val result = withContext(AppDispatchers.io) {
-            createStorageUseCase.execute(title = state.title, list = state.listOfFiles)
+            createStorageUseCase.execute(title = state.title, list = state.listOfFiles.toList())
         }
         if (result.isSuccess) {
             if (lastDestination == Screens.CreateChatScreen.route) {
@@ -55,6 +57,20 @@ class CreateStorageViewModel @Inject constructor(
             postSideEffect(CreateStorageSideEffects.ShowErrorToast)
         }
     }
+
+    fun addFile(file: File) = intent {
+        reduce {
+            state.copy(listOfFiles = state.listOfFiles.plus(file))
+        }
+    }
+
+    fun deleteFile(file: File) = intent {
+        reduce {
+            state.copy(listOfFiles = state.listOfFiles.minus(file))
+        }
+    }
+
+
 
 //    fun updateFiles() = intent {
 //        reduce {
