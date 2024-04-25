@@ -25,7 +25,7 @@ fun ForgotPasswordBtn(modifier: Modifier = Modifier,) {
                 ),
             text = stringResource(id = R.string.forgot_password),
             style = MaterialTheme.typography.Heading2,
-            color = MaterialTheme.colorScheme.onSecondary,
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     }
 }
