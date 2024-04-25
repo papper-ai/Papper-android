@@ -4,6 +4,7 @@ import com.example.data.datasource.remote.StorageRemoteDataSource
 import com.example.data.model.storage.mapToDomainModel
 import com.example.domain.model.storage.AddFileInStorageResult
 import com.example.domain.model.storage.CreateStorageResult
+import com.example.domain.model.storage.DeleteFileResult
 import com.example.domain.model.storage.StorageModel
 import com.example.domain.model.storage.StoragePreviewModelResult
 import com.example.domain.repository.StorageRepository
@@ -34,6 +35,10 @@ class StorageRepositoryImpl @Inject constructor(
         file: File
     ): AddFileInStorageResult {
         return storageDataSource.addFileInStorage(id = id, file = file).mapToDomainModel()
+    }
+
+    override suspend fun deleteFileById(id: String): DeleteFileResult {
+        return storageDataSource.deleteFileInStorage(id = id).mapToDomainModel()
     }
 
     override suspend fun renameStorage(id: String, name: String) {

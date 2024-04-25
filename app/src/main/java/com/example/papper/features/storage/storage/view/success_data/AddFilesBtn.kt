@@ -47,5 +47,6 @@ fun AddFilesBtn(
             }
         },
         text = stringResource(id = R.string.attach_file),
+        isLoading = viewModel.btnLoading.value
     )
 }

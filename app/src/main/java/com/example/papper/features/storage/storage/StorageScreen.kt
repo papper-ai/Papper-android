@@ -60,5 +60,8 @@ private fun handleSideEffect(
         is StorageSideEffects.ShowToastFileAlreadyExist -> {
             Toast.makeText(context, "${sideEffect.title} ${context.getText(R.string.file_already_exitst)}", Toast.LENGTH_LONG).show()
         }
+        is StorageSideEffects.ShowToastDeleteFileError -> {
+            Toast.makeText(context, "${context.getText(R.string.file_delete_error)} ${sideEffect.title}", Toast.LENGTH_LONG).show()
+        }
     }
 }

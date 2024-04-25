@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.data.api.StorageApiService
 import com.example.data.model.storage.AddFileInStorageResponse
 import com.example.data.model.storage.CreateStorageResponse
+import com.example.data.model.storage.DeleteFileResponse
 import com.example.data.model.storage.FileDataModel
 import com.example.data.model.storage.StoragePreviewModel
 import com.example.data.model.storage.StoragePreviewResponse
@@ -64,6 +65,11 @@ class StorageRemoteDataSource @Inject constructor(
     suspend fun addFileInStorage(id: String, file: File): AddFileInStorageResponse {
         delay(1000)
         return AddFileInStorageResponse(baseResponse = BaseResponseImitation.execute(), id = "123")
+    }
+
+    suspend fun deleteFileInStorage(id: String): DeleteFileResponse {
+        delay(1000)
+        return DeleteFileResponse(baseResponse = BaseResponseImitation.execute())
     }
 
 }

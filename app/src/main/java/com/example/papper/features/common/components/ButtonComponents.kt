@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import com.example.papper.theme.Heading2
 import com.example.papper.theme.dimens
 
@@ -126,6 +127,7 @@ fun StrokeButtonComponent(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     text: String,
+    isLoading: Boolean = false,
 ) {
     val stroke = Stroke(
         width = 4f,
@@ -158,13 +160,24 @@ fun StrokeButtonComponent(
                 .heightIn(min = MaterialTheme.dimens.buttonsHeight, max = MaterialTheme.dimens.buttonsHeight),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                modifier = modifier,
-                text = text,
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.Heading2,
-                textAlign = TextAlign.Center
-            )
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = modifier
+                        .size(14.dp),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    strokeWidth = 2.dp
+                )
+            }
+            else {
+                Text(
+                    modifier = modifier,
+                    text = text,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    style = MaterialTheme.typography.Heading2,
+                    textAlign = TextAlign.Center
+                )
+            }
+
         }
     }
 }

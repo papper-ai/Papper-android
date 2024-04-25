@@ -3,6 +3,7 @@ package com.example.papper.features.storage.storage.presentation
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.storage.AddFileInStorageById
+import com.example.domain.usecases.storage.DeleteFileUseCase
 import com.example.domain.usecases.storage.GetStorageByIdUseCase
 import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.features.storage.storage.model.mapToPresentationModel
@@ -21,12 +22,16 @@ import javax.inject.Inject
 class StorageViewModel @Inject constructor(
     private val getStorageByIdUseCase: GetStorageByIdUseCase,
     private val addFileInStorageById: AddFileInStorageById,
+    private val deleteFileUseCase: DeleteFileUseCase,
 ) : ViewModel(), ContainerHost<StorageState, StorageSideEffects> {
 
     override val container = container<StorageState, StorageSideEffects>(StorageState())
 
     var id: String? = null
     val storageScreenState = mutableStateOf<StorageScreenState>(StorageScreenState.Loading)
+    val fileDeleteLoading = mutableStateOf<List<Pair<Boolean, String>>>(emptyList())
+    val btnLoading = mutableStateOf<Boolean>(false)
+
 
     init {
         getData()
@@ -54,12 +59,25 @@ class StorageViewModel @Inject constructor(
     }
 
     fun deleteFile(file: FilePresentationModel) = intent {
-        reduce {
-            state.copy(setOfStorages = state.setOfStorages.minus(file))
+        fileDeleteLoading.value = fileDeleteLoading.value.plus(Pair(true, file.id))
+        val result = withContext(AppDispatchers.io) {
+            deleteFileUseCase.execute(id = file.id).mapToPresentationModel()
         }
+        if (result.isSuccess) {
+            reduce {
+                state.copy(setOfStorages = state.setOfStorages.minus(file))
+            }
+            fileDeleteLoading.value = fileDeleteLoading.value.minus(Pair(true, file.id))
+        }
+        else {
+            fileDeleteLoading.value = fileDeleteLoading.value.minus(Pair(true, file.id))
+            postSideEffect(StorageSideEffects.ShowToastDeleteFileError(file.title))
+        }
+
     }
 
     fun addFile(file: File) = intent {
+        btnLoading.value = true
         var flag: Boolean = true
         for (item in state.setOfStorages) {
             if (item.title == file.name) {
@@ -95,23 +113,7 @@ class StorageViewModel @Inject constructor(
         else {
             postSideEffect(StorageSideEffects.ShowToastFileAlreadyExist(title = file.name))
         }
-        /*Добавить логику
-        два set`a
-        один который хранит все добавленные файлы
-        второй хранит файлы, уже посланные на сервер
-
-        Алгоритм добавления файла
-        -Сравнить имена файлов из state и первого set`a
-            -Если имя не совпдает ни с одним элементом добавляем в set
-            -Если совпадает, игнорируем item
-
-
-        * Запрос сохранения файла на сервер
-        * Проверка, все ли успешно
-            * Если все успешно - reduce файл
-            * Иначе toast с ошибкой
-        * */
-
+        btnLoading.value = false
     }
 
 }

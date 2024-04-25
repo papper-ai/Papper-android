@@ -45,4 +45,10 @@
     <string name="nothing_there">Здесь пока пусто</string>
     <string name="file_already_exitst">уже добавлен в хранилище</string>
     <string name="file_add_error">Произошла ошибка загрузки:</string>
+    <string name="file_delete_error">Произошла ошибка удаления:</string>
+    <string name="deleting_file_title">Удаление файла</string>
+    <string name="deleting_file_description_part1">Удалить файл </string>
+    <string name="from_storage_part2">из хранилища</string>
+    <string name="delete">Удалить</string>
+    <string name="cancel">Отмена</string>
 </resources>
