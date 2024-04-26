@@ -1,5 +1,10 @@
 package com.example.papper.navigation
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -25,7 +30,11 @@ fun AppNavigation(
 ) {
     NavHost (
         navController = navHostController,
-        startDestination = Screens.StartScreen.route
+        startDestination = Screens.StartScreen.route,
+        enterTransition = { fadeIn(tween(300)) },
+        exitTransition = { fadeOut(tween(300)) },
+        popEnterTransition = { fadeIn(tween(300)) },
+        popExitTransition = { fadeOut(tween(300)) },
         //startDestination = Screens.ChatsScreen.route
     ) {
         composable(route = Screens.StartScreen.route) {

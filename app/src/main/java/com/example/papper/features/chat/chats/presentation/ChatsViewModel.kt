@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecases.chat.GetAllChatsPreviewUseCase
 import com.example.papper.features.chat.chats.model.mapToPresentationModel
+import com.example.papper.utils.AppDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
@@ -29,17 +31,17 @@ class ChatsViewModel @Inject constructor(
 
     fun loadData() = intent {
         postSideEffect(ChatsSideEffects.ShowLoading)
-        viewModelScope.launch {
-            val result = getAllChatsUseCase.execute().mapToPresentationModel()
-            if (result.isSuccess) {
-                reduce {
-                    state.copy(listOfChats = result.list)
-                }
-                postSideEffect(ChatsSideEffects.ShowSuccess)
+        val result = withContext(AppDispatchers.io) {
+            getAllChatsUseCase.execute().mapToPresentationModel()
+        }
+        if (result.isSuccess) {
+            reduce {
+                state.copy(listOfChats = result.list)
             }
-            else {
-                postSideEffect(ChatsSideEffects.ShowError)
-            }
+            postSideEffect(ChatsSideEffects.ShowSuccess)
+        }
+        else {
+            postSideEffect(ChatsSideEffects.ShowError)
         }
     }
 }
