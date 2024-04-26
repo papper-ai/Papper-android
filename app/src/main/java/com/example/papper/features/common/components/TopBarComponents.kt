@@ -74,7 +74,7 @@ fun TopBarWithTitleSettingsComponent(
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .weight(0.2f)
+                .weight(0.3f)
                 .padding(start = MaterialTheme.dimens.gapBetweenComponentScreen),
         ) {
             BackBtn(
@@ -97,7 +97,7 @@ fun TopBarWithTitleSettingsComponent(
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .weight(0.2f)
+                .weight(0.3f)
                 .padding(end = MaterialTheme.dimens.gapBetweenComponentScreen),
             contentAlignment = Alignment.BottomEnd
         ) {
