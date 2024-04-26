@@ -22,6 +22,7 @@ import com.example.papper.features.chat.create_chat.CreateChatScreen
 import com.example.papper.features.profile.ProfileScreen
 import com.example.papper.features.storage.create_storage.CreateStoragesScreen
 import com.example.papper.features.storage.storage.StorageScreen
+import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.features.storage.storages.StoragesScreen
 
 @Composable
@@ -31,11 +32,11 @@ fun AppNavigation(
     NavHost (
         navController = navHostController,
         startDestination = Screens.StartScreen.route,
+        //startDestination = Screens.ChatsScreen.route
         enterTransition = { fadeIn(tween(300)) },
         exitTransition = { fadeOut(tween(300)) },
         popEnterTransition = { fadeIn(tween(300)) },
         popExitTransition = { fadeOut(tween(300)) },
-        //startDestination = Screens.ChatsScreen.route
     ) {
         composable(route = Screens.StartScreen.route) {
             StartScreen(
@@ -74,11 +75,12 @@ fun AppNavigation(
             arguments = listOf(
                 navArgument("chatId") { type = NavType.StringType }
             )
-        ) {
+        ) { entry ->
             ChatScreen(
                 viewModel = hiltViewModel(),
                 navHostController = navHostController,
-                id = it.arguments?.getString("chatId") ?: throw Exception("Id not found")
+                id = entry.arguments?.getString("chatId") ?: throw Exception("Id not found"),
+                file = entry.savedStateHandle.get<FilePresentationModel>("file"),
             )
         }
         composable(route = Screens.StoragesScreen.route) {

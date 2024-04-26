@@ -5,4 +5,5 @@ sealed class ChatSideEffects {
     object ShowSuccess : ChatSideEffects()
     object ShowError : ChatSideEffects()
     object ShowErrorToast : ChatSideEffects()
+    data class NavigateToStorageScreen(val storageId: String): ChatSideEffects()
 }

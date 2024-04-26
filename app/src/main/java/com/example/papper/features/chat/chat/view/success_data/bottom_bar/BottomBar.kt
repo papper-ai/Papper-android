@@ -1,8 +1,7 @@
 package com.example.papper.features.chat.chat.view.success_data.bottom_bar
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -21,16 +20,24 @@ fun BottomBar(
     viewModel: ChatViewModel,
 ) {
     CardComponent {
-        Column(
+        Row(
             modifier = modifier
                 .fillMaxWidth()
+                .padding(
+                    top = MaterialTheme.dimens.cardCornerRadius,
+                    bottom = MaterialTheme.dimens.cardCornerRadius,
+                )
                 .wrapContentHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
         ) {
-            Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.cardCornerRadius))
-            MessageTextField(viewModel = viewModel, message = viewModel.collectAsState().value.message)
-            Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.cardCornerRadius))
+            MessageTextField(
+                modifier = Modifier.weight(1f),
+                viewModel = viewModel,
+                message = viewModel.collectAsState().value.message
+            )
+            //TODO раскоментить, когда на бэке появится этот функционал
+            //AttachFileBtn(viewModel = viewModel)
         }
     }
 }

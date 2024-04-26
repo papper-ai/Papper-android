@@ -46,16 +46,14 @@ fun SuccessBasic(
                         viewModel = viewModel,
                         list = viewModel.collectAsState().value.setOfStorages.toList(),
                     )
-                    AddFilesBtn(
-                        modifier = modifier
-                            .weight(0.1f),
-                        viewModel = viewModel,
-                    )
-                    Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
+                    //TODO раскоментить, когда на бэке появится этот функционал
+//                    AddFilesBtn(
+//                        modifier = modifier
+//                            .weight(0.1f),
+//                        viewModel = viewModel,
+//                    )
+//                    Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
                 }
-            }
-            Box {
-
             }
         },
     )

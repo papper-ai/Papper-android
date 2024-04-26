@@ -47,7 +47,8 @@ class ChatViewModel @Inject constructor(
                 reduce {
                     state.copy(
                         title = result.title,
-                        listOfMessages = result.listOfMessages
+                        listOfMessages = result.listOfMessages,
+                        storageId = result.storageId
                     )
                 }
                 if (state.listOfMessages.isNotEmpty()) {
@@ -97,6 +98,10 @@ class ChatViewModel @Inject constructor(
         for (item in state.listOfMessages) {
             Log.d("test", "sendMessage: ${item.text}")
         }
+    }
+
+    fun navigateToStorageScreenForResult() = intent {
+        postSideEffect(ChatSideEffects.NavigateToStorageScreen(storageId = state.storageId))
     }
 
 }

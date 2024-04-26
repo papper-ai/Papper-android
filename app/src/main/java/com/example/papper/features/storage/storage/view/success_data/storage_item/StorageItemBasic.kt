@@ -54,11 +54,12 @@ fun StorageItemBasic(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
         )
-        DeleteBtn(
-            modifier = modifier
-                .weight(0.2f),
-            viewModel = viewModel,
-            file = file,
-        )
+        //TODO раскоментить, когда на бэке появится этот функционал
+//        DeleteBtn(
+//            modifier = modifier
+//                .weight(0.2f),
+//            viewModel = viewModel,
+//            file = file,
+//        )
     }
 }

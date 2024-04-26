@@ -3,13 +3,12 @@ package com.example.data.model.storage
 import com.example.data.base.BaseResponse
 import com.example.domain.model.storage.FileDomainModel
 import com.example.domain.model.storage.StorageModel
-import java.io.File
 
 data class StorageResponse(
     val baseResponse: BaseResponse,
     val id: String,
     val title: String,
-    val listOfStorages: List<FileDataModel>,
+    val listOfFiles: List<FileDataModel>,
 )
 
 data class FileDataModel(
@@ -24,7 +23,7 @@ internal fun StorageResponse.mapToDomainModel() : StorageModel =
         msg = baseResponse.msg,
         id = id,
         title = title,
-        listOfFiles = listOfStorages.map { fileDataModel ->
+        listOfFiles = listOfFiles.map { fileDataModel ->
             FileDomainModel(
                 id = fileDataModel.id,
                 title = fileDataModel.title,

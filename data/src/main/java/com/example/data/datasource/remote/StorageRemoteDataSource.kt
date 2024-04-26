@@ -10,7 +10,6 @@ import com.example.data.model.storage.StoragePreviewModel
 import com.example.data.model.storage.StoragePreviewResponse
 import com.example.data.model.storage.StorageResponse
 import com.example.data.utils.BaseResponseImitation
-import com.example.domain.model.storage.FileDomainModel
 
 import kotlinx.coroutines.delay
 import java.io.File
@@ -50,7 +49,7 @@ class StorageRemoteDataSource @Inject constructor(
             baseResponse = BaseResponseImitation.execute(),
             id = id,
             title = "$id title from remote",
-            listOfStorages = list
+            listOfFiles = list
         )
     }
 

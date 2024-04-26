@@ -10,6 +10,8 @@ import com.example.papper.R
 import com.example.papper.features.chat.chat.presentation.ChatScreenState
 import com.example.papper.features.chat.chat.presentation.ChatSideEffects
 import com.example.papper.features.chat.chat.presentation.ChatViewModel
+import com.example.papper.features.storage.storage.model.FilePresentationModel
+import com.example.papper.navigation.Screens
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -18,14 +20,19 @@ fun ChatScreen(
     viewModel: ChatViewModel,
     navHostController: NavHostController,
     id: String,
+    file: FilePresentationModel?,
 ) {
     val context = LocalContext.current
     viewModel.id = id
+    if (file != null) {
+
+    }
 
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffects(
             viewModel = viewModel,
             sideEffect = sideEffect,
+            navHostController = navHostController,
             context = context,
         )
     }
@@ -40,6 +47,7 @@ fun ChatScreen(
 private fun handleSideEffects(
     viewModel: ChatViewModel,
     sideEffect: ChatSideEffects,
+    navHostController: NavHostController,
     context: Context,
 ) {
     when (sideEffect) {
@@ -55,6 +63,10 @@ private fun handleSideEffects(
 
         ChatSideEffects.ShowErrorToast -> {
             Toast.makeText(context, context.getText(R.string.send_message_error), Toast.LENGTH_SHORT).show()
+        }
+
+        is ChatSideEffects.NavigateToStorageScreen -> {
+            navHostController.navigate("${Screens.StorageScreen.route}/${sideEffect.storageId}")
         }
     }
 }
