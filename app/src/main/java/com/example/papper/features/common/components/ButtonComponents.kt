@@ -208,6 +208,7 @@ fun SmallButtonComponent(
         Text(
             text = text,
             style = MaterialTheme.typography.Heading2,
+            textAlign = TextAlign.Center
         )
     }
 }
