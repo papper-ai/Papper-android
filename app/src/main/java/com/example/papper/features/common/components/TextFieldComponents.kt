@@ -21,6 +21,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -32,6 +36,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.papper.R
@@ -47,6 +53,7 @@ fun OutlinedTextFieldComponent(
     placeholder: String,
     singleLine: Boolean,
     keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Words,
     isEnable: Boolean = true,
     isError: Boolean = false,
 ) {
@@ -63,7 +70,7 @@ fun OutlinedTextFieldComponent(
             onValueChange(newValue)
         },
         keyboardOptions = KeyboardOptions(
-            capitalization = KeyboardCapitalization.None,
+            capitalization = keyboardCapitalization,
             autoCorrect = true,
             keyboardType = keyboardType,
             imeAction = ImeAction.Next
@@ -96,6 +103,78 @@ fun OutlinedTextFieldComponent(
 }
 
 @Composable
+fun OutlinedPasswordTextFieldComponent(
+    modifier: Modifier = Modifier,
+    value: String = "",
+    onValueChange: (String) -> Unit = {},
+    placeholder: String,
+    singleLine: Boolean,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Words,
+    isEnable: Boolean = true,
+    isError: Boolean = false,
+) {
+    var passwordVisible by remember { mutableStateOf(false) }
+
+    OutlinedTextField(
+        modifier = modifier
+            .height(MaterialTheme.dimens.buttonsHeight)
+            .fillMaxWidth()
+            .padding(
+                start = MaterialTheme.dimens.gapBetweenComponentScreen,
+                end = MaterialTheme.dimens.gapBetweenComponentScreen
+            ),
+        value = value,
+        onValueChange = { newValue ->
+            onValueChange(newValue)
+        },
+        keyboardOptions = KeyboardOptions(
+            capitalization = keyboardCapitalization,
+            autoCorrect = true,
+            keyboardType = keyboardType,
+            imeAction = ImeAction.Next
+        ),
+        textStyle = MaterialTheme.typography.TypingText,
+        singleLine = singleLine,
+        placeholder = {
+            Text(
+                text = placeholder,
+                style = MaterialTheme.typography.TypingText,
+            )
+        },
+        enabled = isEnable,
+        isError = isError,
+        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        trailingIcon = {
+            IconButton(
+                onClick = { passwordVisible = !passwordVisible },
+                modifier = Modifier.padding(10.dp)
+            ) {
+                Icon(
+                    painter = if (passwordVisible) painterResource(id = R.drawable.baseline_visibility_off_24_icon) else painterResource(id = R.drawable.round_visibility_24_icon),
+                    contentDescription = if (passwordVisible) "Hide password" else "Show password",
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                )
+            }
+        },
+        shape = RoundedCornerShape(MaterialTheme.dimens.textFieldCornerRadius),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+            focusedContainerColor = Color.Transparent,
+            unfocusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.onPrimary,
+            errorBorderColor = MaterialTheme.colorScheme.error,
+            errorTextColor = MaterialTheme.colorScheme.onPrimary,
+            disabledBorderColor = MaterialTheme.colorScheme.secondaryContainer,
+            disabledTextColor = MaterialTheme.colorScheme.onPrimary,
+        ),
+    )
+}
+
+@Composable
 fun WithoutlinedTextFieldComponent(
     modifier: Modifier = Modifier,
     value: String = "",
@@ -103,6 +182,7 @@ fun WithoutlinedTextFieldComponent(
     placeholder: String,
     singleLine: Boolean,
     keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Words,
 ) {
     Box(modifier = Modifier
         .fillMaxWidth()
@@ -118,7 +198,7 @@ fun WithoutlinedTextFieldComponent(
                 onValueChange(newValue)
             },
             keyboardOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.None,
+                capitalization = keyboardCapitalization,
                 autoCorrect = true,
                 keyboardType = keyboardType,
                 imeAction = ImeAction.Next
@@ -155,6 +235,7 @@ fun ChatOutlinedTextFieldComponent(
     onValueChange: (String) -> Unit = {},
     placeholder: String,
     singleLine: Boolean,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Words,
     keyboardType: KeyboardType = KeyboardType.Text,
     isEnable: Boolean = true,
     onClick: () -> Unit,
@@ -181,7 +262,7 @@ fun ChatOutlinedTextFieldComponent(
             onValueChange(newValue)
         },
         keyboardOptions = KeyboardOptions(
-            capitalization = KeyboardCapitalization.None,
+            capitalization = keyboardCapitalization,
             autoCorrect = true,
             keyboardType = keyboardType,
             imeAction = ImeAction.Next

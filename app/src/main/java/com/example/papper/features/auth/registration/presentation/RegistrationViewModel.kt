@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.account.SignUpUseCase
 import com.example.papper.utils.AppDispatchers
+import com.example.papper.utils.CheckRegistration
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
@@ -20,33 +21,36 @@ class RegistrationViewModel @Inject constructor(
 
     override val container = container<RegistrationState, RegistrationSideEffects>(RegistrationState())
 
-    val registrationScreenState = mutableStateOf<RegistrationScreenState>(RegistrationScreenState.TypingName)
+    val registrationScreenState = mutableStateOf<RegistrationScreenState>(RegistrationScreenState.TypingLogin)
     val allFieldScreenState = mutableStateOf<AllFieldsScreenState>(AllFieldsScreenState.Default)
+    val validateLogin = mutableStateOf(false)
+    val validatePassword = mutableStateOf(false)
 
-    fun updateName(name: String) = intent {
-        reduce {
-            state.copy(name = name)
-        }
-    }
-
-    fun toSurname() = intent {
-        postSideEffect(sideEffect = RegistrationSideEffects.toSurname)
-    }
-
-    fun updateSurname(surname: String) = intent {
-        reduce {
-            state.copy(surname = surname)
-        }
-    }
-
-    fun toLogin() = intent {
-        postSideEffect(sideEffect = RegistrationSideEffects.toLogin)
-    }
+//    fun updateName(name: String) = intent {
+//        reduce {
+//            state.copy(name = name)
+//        }
+//    }
+//
+//    fun toSurname() = intent {
+//        postSideEffect(sideEffect = RegistrationSideEffects.toSurname)
+//    }
+//
+//    fun updateSurname(surname: String) = intent {
+//        reduce {
+//            state.copy(surname = surname)
+//        }
+//    }
+//
+//    fun toLogin() = intent {
+//        postSideEffect(sideEffect = RegistrationSideEffects.toLogin)
+//    }
 
     fun updateLogin(login: String) = intent {
         reduce {
             state.copy(login = login)
         }
+        validateLogin.value = CheckRegistration.checkLogin(login)
     }
 
     fun toPassword() = intent {
@@ -57,6 +61,7 @@ class RegistrationViewModel @Inject constructor(
         reduce {
             state.copy(password = password)
         }
+        validatePassword.value = CheckRegistration.checkPassword(password)
     }
 
     fun toCode() = intent {
@@ -76,7 +81,7 @@ class RegistrationViewModel @Inject constructor(
     fun createAccount() = intent {
         allFieldScreenState.value = AllFieldsScreenState.Loading
         val result = withContext(AppDispatchers.io) {
-            signUpUseCase.execute(name = state.name, surname = state.surname, login = state.login, password = state.password, code = state.code)
+            signUpUseCase.execute(login = state.login, password = state.password, code = state.code)
         }
 
         if (result.isSuccess) {

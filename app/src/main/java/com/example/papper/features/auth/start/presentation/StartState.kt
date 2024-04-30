@@ -7,5 +7,4 @@ data class StartState(
 sealed class StartScreenState {
     object Loading : StartScreenState()
     object Default : StartScreenState()
-    object Error : StartScreenState()
 }

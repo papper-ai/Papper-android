@@ -11,6 +11,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.example.papper.R
 import com.example.papper.features.auth.sign_in.presentation.SignInScreenState
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
+import com.example.papper.features.common.components.OutlinedPasswordTextFieldComponent
 import com.example.papper.features.common.components.OutlinedTextFieldComponent
 import org.orbitmvi.orbit.compose.collectAsState
 
@@ -23,7 +24,7 @@ fun PasswordTextField(
     var textFieldState by remember {
         mutableStateOf(password)
     }
-    OutlinedTextFieldComponent(
+    OutlinedPasswordTextFieldComponent(
         value = textFieldState,
         onValueChange = {
             viewModel.typingPassword(it)

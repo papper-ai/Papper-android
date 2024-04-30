@@ -1,7 +1,6 @@
 package com.example.papper.features.auth.registration.view.login
 
 import android.annotation.SuppressLint
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,12 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.papper.features.auth.registration.presentation.RegistrationScreenState
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
 import com.example.papper.features.auth.registration.view.ContinueBtn
 import com.example.papper.features.common.components.PageProgressComponent
 import com.example.papper.theme.dimens
-import org.orbitmvi.orbit.compose.collectAsState
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -26,9 +23,9 @@ fun LoginBasic(
     modifier: Modifier = Modifier,
     viewModel: RegistrationViewModel,
 ) {
-    BackHandler {
-        viewModel.registrationScreenState.value = RegistrationScreenState.TypingSurname
-    }
+//    BackHandler {
+//        viewModel.registrationScreenState.value = RegistrationScreenState.TypingSurname
+//    }
 
     Box(
         modifier = modifier
@@ -56,12 +53,12 @@ fun LoginBasic(
         Column(
             modifier = modifier
         ) {
-            PageProgressComponent(pageCount = 5, currentPage = 3)
+            PageProgressComponent(pageCount = 3, currentPage = 1)
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
             ContinueBtn(
                 onClick = {viewModel.toPassword()},
                 viewModel = viewModel,
-                isEnable = viewModel.collectAsState().value.login.isNotEmpty(),
+                isEnable = viewModel.validateLogin.value,
             )
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
         }

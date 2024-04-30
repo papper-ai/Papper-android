@@ -19,7 +19,7 @@ class AuthLocalDataSource @Inject constructor(
             .apply()
     }
 
-    fun getJwtToken(): String? = context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).getString(Constants.JWT_SUCCESS_TOKEN, "")
+    fun getAccessToken(): String? = context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).getString(Constants.JWT_SUCCESS_TOKEN, "")
 
     fun getRefreshToken(): String? = context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).getString(Constants.JWT_REFRESH_TOKEN, "")
 

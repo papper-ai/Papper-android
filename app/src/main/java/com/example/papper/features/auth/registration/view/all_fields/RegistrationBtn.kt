@@ -22,8 +22,8 @@ fun RegistrationBtn(
         },
         text = stringResource(id = R.string.registration),
         isEnable = (
-                state.value.name.isNotEmpty() && state.value.surname.isNotEmpty() &&
-                state.value.login.isNotEmpty() && state.value.password.isNotEmpty() &&
+                //state.value.name.isNotEmpty() && state.value.surname.isNotEmpty() &&
+                viewModel.validateLogin.value && viewModel.validatePassword.value &&
                 state.value.code.isNotEmpty() && (viewModel.allFieldScreenState.value !is AllFieldsScreenState.Loading)
         ),
         isLoading = viewModel.allFieldScreenState.value is AllFieldsScreenState.Loading,

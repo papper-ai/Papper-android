@@ -2,9 +2,12 @@ package com.example.papper.features.auth.start.presentation
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.domain.usecases.account.CheckAccountDataUseCase
 import com.example.papper.utils.AppDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -19,8 +22,13 @@ class StartViewModel @Inject constructor(
 
     override val container = container<StartState, StartSideEffects>(StartState())
     val startScreenState = mutableStateOf<StartScreenState>(StartScreenState.Loading)
+    val showStartAnimation = mutableStateOf<Boolean>(false)
 
     init {
+        viewModelScope.launch {
+            delay(1)
+            showStartAnimation.value = true
+        }
         signIn()
     }
 
@@ -28,6 +36,8 @@ class StartViewModel @Inject constructor(
         val result = withContext(AppDispatchers.io) {
             checkAccountDataUseCase.execute()
         }
+        showStartAnimation.value = false
+        delay(500)
         if (result.isSuccess) {
             postSideEffect(StartSideEffects.NavigateToChatsScreen)
         }

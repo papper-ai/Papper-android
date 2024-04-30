@@ -32,7 +32,6 @@ fun BigLogoComponent(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            modifier = modifier,
             text = stringResource(id = R.string.app_name),
             style = MaterialTheme.typography.Logo,
             color = MaterialTheme.colorScheme.onPrimary,

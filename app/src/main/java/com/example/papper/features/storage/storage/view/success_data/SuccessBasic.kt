@@ -47,12 +47,12 @@ fun SuccessBasic(
                         list = viewModel.collectAsState().value.setOfStorages.toList(),
                     )
                     //TODO раскоментить, когда на бэке появится этот функционал
-//                    AddFilesBtn(
-//                        modifier = modifier
-//                            .weight(0.1f),
-//                        viewModel = viewModel,
-//                    )
-//                    Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
+                    AddFilesBtn(
+                        modifier = modifier
+                            .weight(0.1f),
+                        viewModel = viewModel,
+                    )
+                    Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
                 }
             }
         },

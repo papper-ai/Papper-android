@@ -17,16 +17,17 @@ fun TopBar(
         modifier = modifier,
         onClick = {
             when (viewModel.registrationScreenState.value) {
-                RegistrationScreenState.TypingName -> {
-                    navHostController.popBackStack()
-                }
-
-                RegistrationScreenState.TypingSurname -> {
-                    viewModel.registrationScreenState.value = RegistrationScreenState.TypingName
-                }
+//                RegistrationScreenState.TypingName -> {
+//                    navHostController.popBackStack()
+//                }
+//
+//                RegistrationScreenState.TypingSurname -> {
+//                    viewModel.registrationScreenState.value = RegistrationScreenState.TypingName
+//                }
 
                 RegistrationScreenState.TypingLogin -> {
-                    viewModel.registrationScreenState.value = RegistrationScreenState.TypingSurname
+                    //viewModel.registrationScreenState.value = RegistrationScreenState.TypingSurname
+                    navHostController.popBackStack()
                 }
 
                 RegistrationScreenState.TypingPassword -> {

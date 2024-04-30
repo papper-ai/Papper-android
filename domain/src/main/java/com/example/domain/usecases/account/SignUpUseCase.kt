@@ -8,15 +8,15 @@ class SignUpUseCase @Inject constructor(
     private val accountRepository: AccountRepository,
 ){
     suspend fun execute(
-        name: String,
-        surname: String,
+//        name: String,
+//        surname: String,
         login: String,
         password: String,
         code: String
     ): AccountResponseResult {
         return accountRepository.signUp(
-            name = name,
-            surname = surname,
+//            name = name,
+//            surname = surname,
             login = login,
             password = password,
             code = code

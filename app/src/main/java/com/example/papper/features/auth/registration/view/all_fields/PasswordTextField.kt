@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import com.example.papper.R
 import com.example.papper.features.auth.registration.presentation.AllFieldsScreenState
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
-import com.example.papper.features.common.components.OutlinedTextFieldComponent
+import com.example.papper.features.common.components.OutlinedPasswordTextFieldComponent
 import org.orbitmvi.orbit.compose.collectAsState
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -25,7 +25,7 @@ fun PasswordTextField(
         mutableStateOf(password)
     }
 
-    OutlinedTextFieldComponent(
+    OutlinedPasswordTextFieldComponent(
         modifier = modifier,
         onValueChange = { newPassword ->
             viewModel.updatePassword(newPassword)

@@ -11,15 +11,15 @@ class AccountRepositoryImpl @Inject constructor(
 ) : AccountRepository {
 
     override suspend fun signUp(
-        name: String,
-        surname: String,
+//        name: String,
+//        surname: String,
         login: String,
         password: String,
         code: String
     ): AccountResponseResult {
         return service.registerUser(
-            name = name,
-            surname = surname,
+//            name = name,
+//            surname = surname,
             login = login,
             password = password,
             code = code

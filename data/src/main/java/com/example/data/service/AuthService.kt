@@ -14,7 +14,7 @@ class AuthService @Inject constructor(
     private val authLocalDataSource: AuthLocalDataSource,
 ) {
 
-    suspend fun registerUser(name: String, surname: String, login: String, password: String, code: String): RegisterUserResponse {
+    suspend fun registerUser(login: String, password: String, code: String): RegisterUserResponse {
         delay(5000)
         val baseResponse = BaseResponseImitation.execute()
         lateinit var resultFromApi: RegisterUserResponse

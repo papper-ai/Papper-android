@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import com.example.papper.R
 import com.example.papper.features.auth.sign_in.presentation.SignInScreenState
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
@@ -30,8 +31,9 @@ fun LoginTextField(
             viewModel.typingLogin(it)
             textFieldState = it
         },
-        placeholder = stringResource(id = R.string.email),
+        placeholder = stringResource(id = R.string.login),
         singleLine = true,
+        keyboardCapitalization = KeyboardCapitalization.None,
         isEnable = viewModel.signInScreenState.value !is SignInScreenState.Loading,
         isError = viewModel.signInScreenState.value is SignInScreenState.Error,
     )

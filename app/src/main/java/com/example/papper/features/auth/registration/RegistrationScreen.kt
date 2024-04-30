@@ -29,12 +29,12 @@ private fun handleSideEffects(
     navHostController: NavHostController,
 ) {
     when (sideEffect) {
-        is RegistrationSideEffects.toSurname -> {
-            viewModel.registrationScreenState.value = RegistrationScreenState.TypingSurname
-        }
-        is RegistrationSideEffects.toLogin -> {
-            viewModel.registrationScreenState.value = RegistrationScreenState.TypingLogin
-        }
+//        is RegistrationSideEffects.toSurname -> {
+//            viewModel.registrationScreenState.value = RegistrationScreenState.TypingSurname
+//        }
+//        is RegistrationSideEffects.toLogin -> {
+//            viewModel.registrationScreenState.value = RegistrationScreenState.TypingLogin
+//        }
         is RegistrationSideEffects.toPassword -> {
             viewModel.registrationScreenState.value = RegistrationScreenState.TypingPassword
         }

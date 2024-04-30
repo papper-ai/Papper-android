@@ -56,7 +56,7 @@ fun CodeBasic(
         Column(
             modifier = modifier
         ) {
-            PageProgressComponent(pageCount = 5, currentPage = 5)
+            PageProgressComponent(pageCount = 3, currentPage = 3)
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
             ContinueBtn(
                 onClick = { viewModel.toAllFields() },

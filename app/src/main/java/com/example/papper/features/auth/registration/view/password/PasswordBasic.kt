@@ -18,7 +18,6 @@ import com.example.papper.features.auth.registration.presentation.RegistrationVi
 import com.example.papper.features.auth.registration.view.ContinueBtn
 import com.example.papper.features.common.components.PageProgressComponent
 import com.example.papper.theme.dimens
-import org.orbitmvi.orbit.compose.collectAsState
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
@@ -56,12 +55,12 @@ fun PasswordBasic(
         Column(
             modifier = modifier
         ) {
-            PageProgressComponent(pageCount = 5, currentPage = 4)
+            PageProgressComponent(pageCount = 3, currentPage = 2)
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
             ContinueBtn(
                 onClick = {viewModel.toCode()},
                 viewModel = viewModel,
-                isEnable = viewModel.collectAsState().value.password.isNotEmpty(),
+                isEnable = viewModel.validatePassword.value,
             )
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
         }
