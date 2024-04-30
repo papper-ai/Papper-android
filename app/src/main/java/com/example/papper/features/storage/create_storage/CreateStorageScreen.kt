@@ -42,7 +42,10 @@ private fun handleSideEffect(
     context: Context,
 ) {
     when (sideEffect) {
-        is CreateStorageSideEffects.ShowAttachFilesScreen -> {
+        CreateStorageSideEffects.ShowChooseStorageType -> {
+            viewModel.createStorageScreenState.value = CreateStorageScreenState.ChooseStorageType
+        }
+        CreateStorageSideEffects.ShowAttachFilesScreen -> {
             viewModel.createStorageScreenState.value = CreateStorageScreenState.AttachFiles
         }
         is CreateStorageSideEffects.NavigateToCreateChatScreen -> {
@@ -66,5 +69,6 @@ private fun handleSideEffect(
         is CreateStorageSideEffects.ShowErrorToast -> {
             Toast.makeText(context, context.getText(R.string.create_storage_error), Toast.LENGTH_SHORT).show()
         }
+
     }
 }

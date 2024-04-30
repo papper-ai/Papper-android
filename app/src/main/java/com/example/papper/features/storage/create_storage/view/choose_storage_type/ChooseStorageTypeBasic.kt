@@ -1,4 +1,4 @@
-package com.example.papper.features.storage.create_storage.view.typing_title
+package com.example.papper.features.storage.create_storage.view.choose_storage_type
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
@@ -12,16 +12,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import com.example.papper.features.common.components.PageProgressComponent
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
 import com.example.papper.features.storage.create_storage.view.ContinueBtn
 import com.example.papper.theme.dimens
-import org.orbitmvi.orbit.compose.collectAsState
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable
-fun TitleBasic(
+fun ChooseStorageTypeBasic(
     modifier: Modifier = Modifier,
     viewModel: CreateStorageViewModel,
 ) {
@@ -37,9 +35,11 @@ fun TitleBasic(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.gapBetweenComponents3))
-            FillTitleText()
+            ChooseTypeText()
             Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.gapBetweenComponents2))
-            TitleTextField(viewModel = viewModel)
+            VectorBtn(viewModel = viewModel)
+            Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.bottomGap))
+            GraphBtn(viewModel = viewModel)
         }
     }
 
@@ -51,11 +51,11 @@ fun TitleBasic(
         Column(
             modifier = modifier
         ) {
-            PageProgressComponent(pageCount = 3, currentPage = 1)
+            PageProgressComponent(pageCount = 3, currentPage = 2)
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap2))
             ContinueBtn(
-                onClick = {viewModel.toChooseTypeStorage()},
-                isEnable = viewModel.collectAsState().value.title.isNotEmpty()
+                onClick = {viewModel.toAttachFiles()},
+                isEnable = viewModel.chooseStorageType.value != null
             )
             Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
         }

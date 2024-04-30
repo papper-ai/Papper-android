@@ -11,6 +11,7 @@ import com.example.papper.features.storage.create_storage.presentation.CreateSto
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
 import com.example.papper.features.storage.create_storage.view.TopBar
 import com.example.papper.features.storage.create_storage.view.attach_files.AttachBasic
+import com.example.papper.features.storage.create_storage.view.choose_storage_type.ChooseStorageTypeBasic
 import com.example.papper.features.storage.create_storage.view.typing_title.TitleBasic
 
 @Composable
@@ -40,6 +41,24 @@ fun CreateStorageBasic(
                     }
                 )
             }
+
+            CreateStorageScreenState.ChooseStorageType -> {
+                Scaffold(
+                    topBar = {
+                        TopBar(
+                            viewModel = viewModel,
+                            navHostController = navHostController,
+                        )
+                    },
+                    content = {
+                        ChooseStorageTypeBasic(
+                            modifier = modifier.padding(it),
+                            viewModel = viewModel,
+                        )
+                    }
+                )
+            }
+
             CreateStorageScreenState.AttachFiles -> {
                 Scaffold(
                     topBar = {

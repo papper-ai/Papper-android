@@ -21,8 +21,12 @@ fun TopBar(
                     navHostController.popBackStack()
                 }
 
-                CreateStorageScreenState.AttachFiles -> {
+                CreateStorageScreenState.ChooseStorageType -> {
                     viewModel.createStorageScreenState.value = CreateStorageScreenState.TypingTitle
+                }
+
+                CreateStorageScreenState.AttachFiles -> {
+                    viewModel.createStorageScreenState.value = CreateStorageScreenState.ChooseStorageType
                 }
             }
         },

@@ -56,8 +56,8 @@ fun AttachBasic(
             AddFilesBtn(viewModel = viewModel)
             Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.bottomGap2))
             PageProgressComponent(
-                pageCount = 2,
-                currentPage = 2,
+                pageCount = 3,
+                currentPage = 3,
             )
             Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.bottomGap2))
             CreateStorageBtn(

@@ -1,4 +1,4 @@
-package com.example.papper.features.storage.create_storage.view.typing_title
+package com.example.papper.features.storage.create_storage.view
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -8,11 +8,11 @@ import com.example.papper.features.storage.create_storage.presentation.CreateSto
 
 @Composable
 fun ContinueBtn(
-    viewModel: CreateStorageViewModel,
+    onClick: () -> Unit,
     isEnable: Boolean = true,
 ) {
     ButtonComponent(
-        onClick = { viewModel.toAttachFiles() },
+        onClick = { onClick() },
         text = stringResource(id = R.string.next),
         isEnable = isEnable
     )

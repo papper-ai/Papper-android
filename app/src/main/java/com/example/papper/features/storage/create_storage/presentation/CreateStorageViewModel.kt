@@ -28,11 +28,30 @@ class CreateStorageViewModel @Inject constructor(
 
     val createStorageScreenState = mutableStateOf<CreateStorageScreenState>(CreateStorageScreenState.TypingTitle)
     val createStorageBtnStatus = mutableStateOf<CreateStorageBtnStatus>(CreateStorageBtnStatus(isLoading = false, isEnable = true))
+    val chooseStorageType = mutableStateOf<StorageType?>(null)
 
     fun updateTitle(title: String) = intent {
         reduce {
             state.copy(title = title)
         }
+    }
+
+    fun vectorBtnClick() = intent {
+        chooseStorageType.value = StorageType.vector
+        reduce {
+            state.copy(storageType = StorageType.vector.type)
+        }
+    }
+
+    fun graphBtnClick() = intent {
+        chooseStorageType.value = StorageType.graph
+        reduce {
+            state.copy(storageType = StorageType.graph.type)
+        }
+    }
+
+    fun toChooseTypeStorage() = intent {
+        postSideEffect(CreateStorageSideEffects.ShowChooseStorageType)
     }
 
     fun toAttachFiles() = intent {
@@ -69,8 +88,6 @@ class CreateStorageViewModel @Inject constructor(
             state.copy(listOfFiles = state.listOfFiles.minus(file))
         }
     }
-
-
 
 //    fun updateFiles() = intent {
 //        reduce {
