@@ -1,5 +1,6 @@
 package com.example.data.repository
 
+import android.util.Log
 import com.example.data.model.auth.mapToDomainModel
 import com.example.data.service.AuthService
 import com.example.domain.model.auth.AccountResponseResult
@@ -9,6 +10,15 @@ import javax.inject.Inject
 class AccountRepositoryImpl @Inject constructor(
     private val service: AuthService,
 ) : AccountRepository {
+    override suspend fun checkApi() {
+        val result = service.checkApi()
+        if (result.baseResponse.isSuccess) {
+            Log.d("Test", "checkApi: Запрос удачный. result: ${result}. Код: ${result.baseResponse.code}")
+        }
+        else {
+            Log.d("Test", "checkApi: Запрос свалился с ошибкой. Код: ${result.baseResponse.code}, сообщение: ${result.baseResponse.msg}")
+        }
+    }
 
     override suspend fun signUp(
 //        name: String,

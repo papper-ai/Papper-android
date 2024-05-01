@@ -1,7 +1,9 @@
 package com.example.data.di
 
 import android.content.Context
+import com.example.data.datasource.local.AuthLocalDataSource
 import com.example.data.utils.Constants
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,6 +12,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -19,19 +22,40 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        @ApplicationContext context: Context,
+        authLocalDataSource: AuthLocalDataSource,
     ): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
+
         return OkHttpClient.Builder()
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader(name = "Authorization", value = "Bearer ${authLocalDataSource.getAccessToken().orEmpty()}")
+                    .build()
+
+                return@addInterceptor chain.proceed(request)
+            }
+            .addInterceptor(loggingInterceptor)
             .build()
     }
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
+    fun provideJsonConverterFactory(): GsonConverterFactory {
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+        return GsonConverterFactory.create(gson)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(gsonConverterFactory: GsonConverterFactory, okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
+            .addConverterFactory(gsonConverterFactory)
+            .client(okHttpClient)
             .build()
 
 }

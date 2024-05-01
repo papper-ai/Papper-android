@@ -3,6 +3,9 @@ package com.example.domain.repository
 import com.example.domain.model.auth.AccountResponseResult
 
 interface AccountRepository {
+
+    suspend fun checkApi()
+
     suspend fun signUp(
 //        name: String,
 //        surname: String,

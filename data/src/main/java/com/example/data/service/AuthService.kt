@@ -3,6 +3,7 @@ package com.example.data.service
 import com.example.data.api.AuthApiService
 import com.example.data.base.BaseResponse
 import com.example.data.datasource.local.AuthLocalDataSource
+import com.example.data.model.auth.CheckApiResult
 import com.example.data.model.auth.RegisterUserResponse
 import com.example.data.model.auth.SignInResponse
 import com.example.data.utils.BaseResponseImitation
@@ -13,6 +14,31 @@ class AuthService @Inject constructor(
     private val apiService: AuthApiService,
     private val authLocalDataSource: AuthLocalDataSource,
 ) {
+
+    suspend fun checkApi(): CheckApiResult {
+        val result = apiService.testApi()
+
+        if (result.isSuccessful) {
+            return CheckApiResult(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = result.code().toString(),
+                    msg = result.message(),
+                ),
+                result = result.body()?.message ?: ""
+            )
+        }
+        else {
+            return CheckApiResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = result.code().toString(),
+                    msg = result.message(),
+                ),
+                result = ""
+            )
+        }
+    }
 
     suspend fun registerUser(login: String, password: String, code: String): RegisterUserResponse {
         delay(5000)
