@@ -1,11 +1,13 @@
 package com.example.data.service
 
+import android.util.Log
 import com.example.data.api.AuthApiService
 import com.example.data.base.BaseResponse
 import com.example.data.datasource.local.AuthLocalDataSource
 import com.example.data.model.auth.CheckApiResult
+import com.example.data.model.auth.GetUserLoginResponseResult
 import com.example.data.model.auth.RegisterUserResponse
-import com.example.data.model.auth.SignInResponse
+import com.example.data.model.auth.SignInResponseResult
 import com.example.data.utils.BaseResponseImitation
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -48,106 +50,142 @@ class AuthService @Inject constructor(
             // TODO убрать комментарии когда будет не заглушка
 //            authLocalDataSource.saveLogin(login = login)
 //            authLocalDataSource.savePassword(password = password)
-            authLocalDataSource.saveSuccessToken(token = "success_tok3n")
+            authLocalDataSource.saveSuccessToken(token = "access_tok3n")
             authLocalDataSource.saveRefreshToken(token = "refresh_tok3n")
             resultFromApi = RegisterUserResponse(
                 baseResponse = baseResponse,
-                successToken = "success_tok3n",
+                accessToken = "access_tok3n",
                 refreshToken = "refresh_tok3n",
             )
-            authLocalDataSource.saveSuccessToken(token = resultFromApi.successToken)
+            authLocalDataSource.saveSuccessToken(token = resultFromApi.accessToken)
             authLocalDataSource.saveRefreshToken(token = resultFromApi.refreshToken)
             return resultFromApi
         }
         else {
             resultFromApi = RegisterUserResponse(
                 baseResponse = baseResponse,
-                successToken = "",
+                accessToken = "",
                 refreshToken = "",
             )
         }
         return resultFromApi
     }
 
-    suspend fun signIn(login: String, password: String): SignInResponse {
+    suspend fun signIn(login: String, password: String): SignInResponseResult {
         delay(5000)
-        val baseResponse = BaseResponseImitation.execute()
-        lateinit var resultFromApi: SignInResponse
-        if (login == "login" && password == "pass") {
-            if (baseResponse.isSuccess) {
-                authLocalDataSource.saveLogin(login = login)
-                authLocalDataSource.savePassword(password = password)
-                authLocalDataSource.saveSuccessToken(token = "success_tok3n")
-                authLocalDataSource.saveRefreshToken(token = "refresh_tok3n")
-                resultFromApi = SignInResponse(
-                    baseResponse = baseResponse,
-                    successToken = "success_tok3n",
-                    refreshToken = "refresh_tok3n",
+        lateinit var result: SignInResponseResult
+
+        val resultFromApi = apiService.signIn(login = login, password = password)
+        if (resultFromApi.isSuccessful) {
+            authLocalDataSource.saveLogin(login = login)
+            authLocalDataSource.savePassword(password = password)
+            Log.e("Test", "signIn: ${resultFromApi.body()?.accessToken?.token.orEmpty()}")
+            Log.e("Test", "signIn: ${resultFromApi.body()?.refreshToken?.token.orEmpty()}")
+            authLocalDataSource.saveSuccessToken(token = resultFromApi.body()?.accessToken?.token.orEmpty())
+            authLocalDataSource.saveRefreshToken(token = resultFromApi.body()?.refreshToken?.token.orEmpty())
+            result = SignInResponseResult(
+                BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
                 )
-            }
-            else {
-                resultFromApi = SignInResponse(
-                    baseResponse = baseResponse,
-                    successToken = "",
-                    refreshToken = "",
+            )
+        } else {
+            result = SignInResponseResult(
+                BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
                 )
-            }
-        }
-        else {
-            resultFromApi = SignInResponse(
-                baseResponse = BaseResponse(isSuccess = false, code = "100", msg = "Incorrect login or password"),
-                successToken = "",
-                refreshToken = "",
             )
         }
-
-        return resultFromApi
+        return result
     }
 
-    suspend fun checkSignInData(): SignInResponse {
-        val baseResponse = BaseResponseImitation.execute()
-        lateinit var resultFromApi: SignInResponse
+    suspend fun checkSignInData(): SignInResponseResult {
         delay(3000)
+        lateinit var result: SignInResponseResult
+
         val login = authLocalDataSource.getLogin()
         val password = authLocalDataSource.getPassword()
 
         if (login != null && password != null) {
-            if (login == "login" && password == "pass") {
-                if (baseResponse.isSuccess) {
-                    resultFromApi = SignInResponse(
-                        baseResponse = baseResponse,
-                        successToken = "success_tok3n",
-                        refreshToken = "refresh_tok3n",
+            val resultFromApi = apiService.signIn(
+                login = login,
+                password = password
+            )
+            if (resultFromApi.isSuccessful) {
+
+                Log.e("Test", "signIn: ${resultFromApi.body()?.accessToken?.token.orEmpty()}")
+                Log.e("Test", "signIn: ${resultFromApi.body()?.refreshToken?.token.orEmpty()}")
+                authLocalDataSource.saveSuccessToken(token = resultFromApi.body()?.accessToken?.token.orEmpty())
+                authLocalDataSource.saveRefreshToken(token = resultFromApi.body()?.refreshToken?.token.orEmpty())
+                result = SignInResponseResult(
+                    BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
                     )
-                }
-                else {
-                    resultFromApi = SignInResponse(
-                        baseResponse = baseResponse,
-                        successToken = "",
-                        refreshToken = "",
+                )
+            } else {
+                result = SignInResponseResult(
+                    BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
                     )
-                }
-            }
-            else {
-                resultFromApi = SignInResponse(
-                    baseResponse = BaseResponse(isSuccess = false, code = "100", msg = "Incorrect login or password"),
-                    successToken = "",
-                    refreshToken = "",
                 )
             }
-        }
-        else {
-            resultFromApi = SignInResponse(
-                baseResponse = BaseResponse(isSuccess = false, code = "100", msg = "Incorrect login or password"),
-                successToken = "",
-                refreshToken = "",
+        } else {
+            result = SignInResponseResult(
+                BaseResponse(
+                    isSuccess = false,
+                    code = "",
+                    msg = "",
+                )
             )
         }
-        return resultFromApi
+
+        return result
     }
 
     suspend fun restoreCode() {
 
+    }
+
+    suspend fun getLogin(): GetUserLoginResponseResult {
+        delay(2000)
+        lateinit var result: GetUserLoginResponseResult
+
+        val resultFromApi = apiService.fetchUserLogin()
+        if (resultFromApi.isSuccessful) {
+            result = GetUserLoginResponseResult(
+                BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                ),
+                login = resultFromApi.body()?.login.orEmpty()
+            )
+        } else {
+            result = GetUserLoginResponseResult(
+                BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                ),
+                login = resultFromApi.body()?.login.orEmpty()
+            )
+        }
+
+        return result
+    }
+
+    suspend fun logOut() {
+        authLocalDataSource.saveLogin(login = "")
+        authLocalDataSource.savePassword(password = "")
+        authLocalDataSource.saveSuccessToken(token = "")
+        authLocalDataSource.saveRefreshToken(token = "")
     }
 
 }

@@ -55,4 +55,6 @@
     <string name="vector_type">Векторный</string>
     <string name="graph_type">Графовый(Beta)</string>
     <string name="network_connection_error">Отсутствует подключение к интернету</string>
+    <string name="loading_profile_error">Ошибка загрузки профиля</string>
+    <string name="logout_from_account">Выйти из аккаунта</string>
 </resources>

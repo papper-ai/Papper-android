@@ -24,6 +24,7 @@ class StartViewModel @Inject constructor(
 
     override val container = container<StartState, StartSideEffects>(StartState())
     val startScreenState = mutableStateOf<StartScreenState>(StartScreenState.Loading)
+    //val startScreenState = mutableStateOf<StartScreenState>(StartScreenState.Default)
     val showStartAnimation = mutableStateOf<Boolean>(false)
 
     init {

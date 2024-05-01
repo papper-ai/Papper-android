@@ -5,7 +5,7 @@ import com.example.domain.model.auth.AccountResponseResult
 
 data class RegisterUserResponse(
     val baseResponse: BaseResponse,
-    val successToken: String,
+    val accessToken: String,
     val refreshToken: String,
 )
 

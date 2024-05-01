@@ -116,7 +116,10 @@ fun AppNavigation(
             )
         }
         composable(route = Screens.ProfileScreen.route) {
-            ProfileScreen()
+            ProfileScreen(
+                viewModel = hiltViewModel(),
+                navHostController = navHostController,
+            )
         }
     }
 }

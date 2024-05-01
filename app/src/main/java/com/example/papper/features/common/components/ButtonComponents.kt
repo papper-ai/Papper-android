@@ -40,6 +40,7 @@ private fun ButtonTemplate(
     borderColor: Color,
     disabledColor: Color,
     disabledTextColor: Color,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
 ) {
     Button(
         modifier = modifier
@@ -56,7 +57,7 @@ private fun ButtonTemplate(
         shape = RoundedCornerShape(MaterialTheme.dimens.buttonCornerRadius),
         colors = ButtonDefaults.buttonColors (
             containerColor = btnColor,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = contentColor,
             disabledContainerColor = disabledColor,
             disabledContentColor = disabledTextColor,
         ),
@@ -119,6 +120,28 @@ fun OutlinedButtonComponent (
         borderColor = MaterialTheme.colorScheme.onPrimary,
         disabledColor = Color.Transparent,
         disabledTextColor = Color.Transparent,
+    )
+}
+
+@Composable
+fun LogOutButtonComponent (
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    isEnable: Boolean = true,
+    isLoading: Boolean = false,
+    text: String,
+) {
+    ButtonTemplate(
+        modifier = modifier,
+        onClick = onClick,
+        status = isEnable,
+        isLoading = isLoading,
+        text = text,
+        btnColor = Color.Transparent,
+        borderColor = MaterialTheme.colorScheme.error,
+        disabledColor = Color.Transparent,
+        disabledTextColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.error,
     )
 }
 

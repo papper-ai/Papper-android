@@ -1,6 +1,7 @@
 package com.example.data.datasource.local
 
 import android.content.Context
+import android.util.Log
 import com.example.data.utils.Constants
 import javax.inject.Inject
 
@@ -8,12 +9,14 @@ class AuthLocalDataSource @Inject constructor(
     private val context: Context,
 ) {
     fun saveSuccessToken(token: String) {
+        Log.d("Test", "saveSuccessToken: $token")
         context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).edit()
             .putString(Constants.JWT_SUCCESS_TOKEN, token)
             .apply()
     }
 
     fun saveRefreshToken(token: String) {
+        Log.d("Test", "saveRefreshToken: $token")
         context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).edit()
             .putString(Constants.JWT_REFRESH_TOKEN, token)
             .apply()

@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.data.model.auth.mapToDomainModel
 import com.example.data.service.AuthService
 import com.example.domain.model.auth.AccountResponseResult
+import com.example.domain.model.auth.LoginResponseResult
 import com.example.domain.repository.AccountRepository
 import javax.inject.Inject
 
@@ -58,6 +59,14 @@ class AccountRepositoryImpl @Inject constructor(
 
     override suspend fun resetPassword(): AccountResponseResult {
         TODO("Not yet implemented")
+    }
+
+    override suspend fun getLogin(): LoginResponseResult {
+        return service.getLogin().mapToDomainModel()
+    }
+
+    override suspend fun logOut() {
+        service.logOut()
     }
 
 }
