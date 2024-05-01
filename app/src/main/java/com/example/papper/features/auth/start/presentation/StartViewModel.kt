@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.usecases.account.CheckAccountDataUseCase
 import com.example.papper.utils.AppDispatchers
+import com.example.papper.utils.CheckNetworkStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StartViewModel @Inject constructor(
+    private val checkNetworkStatus: CheckNetworkStatus,
     private val checkAccountDataUseCase: CheckAccountDataUseCase,
 ) : ViewModel(), ContainerHost<StartState, StartSideEffects> {
 
@@ -33,16 +35,20 @@ class StartViewModel @Inject constructor(
     }
 
     private fun signIn() = intent {
-        val result = withContext(AppDispatchers.io) {
-            checkAccountDataUseCase.execute()
+        if (checkNetworkStatus.isNetworkAvailable()) {
+            val result = withContext(AppDispatchers.io) {
+                checkAccountDataUseCase.execute()
+            }
+            showStartAnimation.value = false
+            delay(500)
+            if (result.isSuccess) {
+                postSideEffect(StartSideEffects.NavigateToChatsScreen)
+            } else {
+                startScreenState.value = StartScreenState.Default
+            }
+        } else {
+            postSideEffect(StartSideEffects.ShowNetworkConnectionError)
         }
-        showStartAnimation.value = false
-        delay(500)
-        if (result.isSuccess) {
-            postSideEffect(StartSideEffects.NavigateToChatsScreen)
-        }
-        else {
-            startScreenState.value = StartScreenState.Default
-        }
+
     }
 }

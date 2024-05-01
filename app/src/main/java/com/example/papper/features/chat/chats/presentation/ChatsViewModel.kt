@@ -48,27 +48,20 @@ class ChatsViewModel @Inject constructor(
                     state.copy(listOfChats = result.list)
                 }
                 postSideEffect(ChatsSideEffects.ShowSuccess)
-            }
-            else {
+            } else {
                 postSideEffect(ChatsSideEffects.ShowError)
             }
-        }
-        else Log.d("Test", "checkApi: интернета нет")
+        } else
+            postSideEffect(ChatsSideEffects.ShowNetworkConnectionError)
     }
 
-    private fun checkApi() {
-        var networkStatus = checkNetworkStatus.isNetworkAvailable()
-        //Log.d("Test", "checkApi: интернета нет")
-        viewModelScope.launch {
-            while (!networkStatus) {
-                delay(3000)
-                networkStatus = checkNetworkStatus.isNetworkAvailable()
-            }
-        }.invokeOnCompletion {
-            viewModelScope.launch(AppDispatchers.io) {
+    private fun checkApi() = intent {
+        if (checkNetworkStatus.isNetworkAvailable()) {
+            withContext(AppDispatchers.io) {
                 checkApiUseCase.execute()
             }
-        }
+        } else
+            Log.d("Test", "checkApi: Отсутствует подключение к интернету")
     }
 
 }

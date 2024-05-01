@@ -4,4 +4,5 @@ sealed class StartSideEffects {
     object NavigateToChatsScreen : StartSideEffects()
     object NavigateToRegistrationScreen : StartSideEffects()
     object NavigateToSignInScreen : StartSideEffects()
+    object ShowNetworkConnectionError : StartSideEffects()
 }

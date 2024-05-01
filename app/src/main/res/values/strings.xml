@@ -54,4 +54,5 @@
     <string name="choose_storage_type">Выберите тип хранилища</string>
     <string name="vector_type">Векторный</string>
     <string name="graph_type">Графовый(Beta)</string>
+    <string name="network_connection_error">Отсутствует подключение к интернету</string>
 </resources>
