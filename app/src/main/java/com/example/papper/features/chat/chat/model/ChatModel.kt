@@ -32,7 +32,7 @@ internal fun ChatModelResult.mapToPresentationModel() : PresentationChatModelRes
         listOfMessages = chatModel.listOfMessages.map { message ->
             Message(
                 text = message.text,
-                from = if (message.from == "Bot") MessageSender.Bot else MessageSender.User
+                from = if (message.from == "ai") MessageSender.Bot else MessageSender.User
             )
         },
         storageId = chatModel.storageId

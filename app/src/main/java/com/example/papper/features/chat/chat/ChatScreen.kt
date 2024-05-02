@@ -61,12 +61,14 @@ private fun handleSideEffects(
             viewModel.chatScreenState.value = ChatScreenState.Error
         }
 
-        ChatSideEffects.ShowErrorToast -> {
-            Toast.makeText(context, context.getText(R.string.send_message_error), Toast.LENGTH_SHORT).show()
-        }
-
         is ChatSideEffects.NavigateToStorageScreen -> {
             navHostController.navigate("${Screens.StorageScreen.route}/${sideEffect.storageId}")
+        }
+        ChatSideEffects.ShowErrorSendMsgToast -> {
+            Toast.makeText(context, context.getText(R.string.send_message_error), Toast.LENGTH_SHORT).show()
+        }
+        ChatSideEffects.ShowErrorRenameToast -> {
+            Toast.makeText(context, context.getText(R.string.rename_title_error), Toast.LENGTH_SHORT).show()
         }
     }
 }

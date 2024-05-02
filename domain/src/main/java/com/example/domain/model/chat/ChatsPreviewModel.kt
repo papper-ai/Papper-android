@@ -10,5 +10,5 @@ data class ChatsPreviewModelResult (
 data class ChatsPreviewModel(
     val id: String,
     val title: String,
-    val lastMessage: String,
+//    val lastMessage: String,
 )

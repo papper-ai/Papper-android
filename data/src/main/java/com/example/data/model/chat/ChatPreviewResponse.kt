@@ -3,25 +3,26 @@ package com.example.data.model.chat
 import com.example.data.base.BaseResponse
 import com.example.domain.model.chat.ChatsPreviewModel
 import com.example.domain.model.chat.ChatsPreviewModelResult
+import com.google.gson.annotations.SerializedName
 
-
-data class ChatsPreviewResponse(
-    val baseResponse: BaseResponse,
-    val listOfChatsPreview: List<ChatPreviewModel>,
-)
-
-data class ChatPreviewModel(
+data class ChatPreviewItem(
     val id: String,
+    @SerializedName("name")
     val title: String,
-    val lastMessage: String,
 )
 
-internal fun ChatsPreviewResponse.mapToDomainModel(): ChatsPreviewModelResult {
+
+data class ChatsPreviewResponseResult(
+    val baseResponse: BaseResponse,
+    val listOfChatsPreview: List<ChatPreviewItem>,
+)
+
+internal fun ChatsPreviewResponseResult.mapToDomainModel(): ChatsPreviewModelResult {
     val newList = listOfChatsPreview.map { chatPreviewModel ->
         ChatsPreviewModel(
             id = chatPreviewModel.id,
             title = chatPreviewModel.title,
-            lastMessage = chatPreviewModel.lastMessage
+//            lastMessage = chatPreviewModel.lastMessage
         )
     }
 

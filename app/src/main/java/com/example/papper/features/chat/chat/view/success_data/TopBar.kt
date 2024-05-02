@@ -11,10 +11,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.papper.R
 import com.example.papper.features.chat.chat.presentation.ChatViewModel
+import com.example.papper.features.common.components.TextInputAlertDialog
 import com.example.papper.features.common.components.TopBarWithTitleSettingsComponent
 import com.example.papper.theme.Buttons
 
@@ -26,6 +29,7 @@ fun TopBar(
     title: String
 ) {
     var isExpanded by remember { mutableStateOf(false) }
+    val openRenameDialog = remember { mutableStateOf(false) }
 
     TopBarWithTitleSettingsComponent(
         onBackBtnClick = { navHostController.popBackStack() },
@@ -38,49 +42,83 @@ fun TopBar(
     DropdownMenu(
         modifier = Modifier
             .background(color = MaterialTheme.colorScheme.onBackground),
-        offset = DpOffset(300.dp,250.dp),
+        offset = DpOffset(300.dp,160.dp),
         expanded = isExpanded,
         onDismissRequest = { isExpanded = false }
     ) {
         DropdownMenuItem(
             text = {
                 Text(
-                    text = "Переменовать чат",
+                    text = stringResource(id = R.string.rename_chat),
                     style = MaterialTheme.typography.Buttons,
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
             },
-            onClick = { /*TODO*/ }
+            onClick = {
+                openRenameDialog.value = true
+                isExpanded = false
+            }
         )
         DropdownMenuItem(
             text = {
                 Text(
-                    text = "Перейти в хранилище",
+                    text = stringResource(id = R.string.go_to_storage),
                     style = MaterialTheme.typography.Buttons,
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
             },
-            onClick = { /*TODO*/ }
+            onClick = {
+                isExpanded = false
+            }
         )
         DropdownMenuItem(
             text = {
                 Text(
-                    text = "Очистить историю чата",
+                    text = stringResource(id = R.string.archive_chat),
                     style = MaterialTheme.typography.Buttons,
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
             },
-            onClick = { /*TODO*/ }
+            onClick = {
+                isExpanded = false
+            }
         )
         DropdownMenuItem(
             text = {
                 Text(
-                    text = "Удалить чат",
+                    text = stringResource(id = R.string.clear_history_of_chat),
                     style = MaterialTheme.typography.Buttons,
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
             },
-            onClick = { /*TODO*/ }
+            onClick = {
+                isExpanded = false
+            }
+        )
+        DropdownMenuItem(
+            text = {
+                Text(
+                    text = stringResource(id = R.string.delete_chat),
+                    style = MaterialTheme.typography.Buttons,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                )
+            },
+            onClick = {
+                isExpanded = false
+            }
         )
     }
+
+    TextInputAlertDialog(
+        showDialog = openRenameDialog.value,
+        onDismiss = {openRenameDialog.value = false},
+        onConfirm = { newTitle ->
+            viewModel.renameChat(newTitle)
+        },
+        title = title,
+        dialogTitle = stringResource(id = R.string.rename_chat),
+        confirmText = stringResource(id = R.string.rename),
+        cancelText = stringResource(id = R.string.cancel),
+    )
+
 }

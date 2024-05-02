@@ -12,7 +12,7 @@ data class ChatDescriptionResult(
 data class ChatDescription(
     val id: String,
     val title: String,
-    val lastMsg: String,
+//    val lastMsg: String,
 )
 
 internal fun ChatsPreviewModelResult.mapToPresentationModel() : ChatDescriptionResult {
@@ -20,7 +20,7 @@ internal fun ChatsPreviewModelResult.mapToPresentationModel() : ChatDescriptionR
         ChatDescription(
             id = chatPreviewModel.id,
             title = chatPreviewModel.title,
-            lastMsg = chatPreviewModel.lastMessage
+//            lastMsg = chatPreviewModel.lastMessage
         )
     }
 

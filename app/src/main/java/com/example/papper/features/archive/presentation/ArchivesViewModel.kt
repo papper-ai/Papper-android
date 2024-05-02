@@ -36,7 +36,7 @@ class ArchivesViewModel @Inject constructor() : ViewModel(), ContainerHost<Archi
                     ChatDescription(
                         id = i.toString(),
                         title = "archive title",
-                        lastMsg = "last msg"
+//                        lastMsg = "last msg"
                     )
                 )
                 Log.d("Test", "getData: ${i}")

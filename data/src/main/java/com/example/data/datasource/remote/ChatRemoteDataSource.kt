@@ -1,10 +1,10 @@
 package com.example.data.datasource.remote
 
 import com.example.data.api.ChatApiService
-import com.example.data.model.chat.ChatPreviewModel
-import com.example.data.model.chat.ChatResponse
-import com.example.data.model.chat.ChatsPreviewResponse
-import com.example.data.model.chat.Message
+import com.example.data.base.BaseResponse
+import com.example.data.model.chat.GetChatResponseResult
+import com.example.data.model.chat.ChatsPreviewResponseResult
+import com.example.data.model.chat.RenameChatBody
 import com.example.data.model.chat.SendMessageResponse
 import com.example.data.utils.BaseResponseImitation
 import kotlinx.coroutines.delay
@@ -14,47 +14,79 @@ class ChatRemoteDataSource @Inject constructor(
     private val apiService: ChatApiService,
 ) {
 
-    suspend fun fetchChatsPreview(): ChatsPreviewResponse {
-        val list = mutableListOf<ChatPreviewModel>()
-        for (i in 1..15) {
-            delay(100)
-            list.add(
-                ChatPreviewModel(
-                    id = i.toString(),
-                    title = "title $i from remote",
-                    lastMessage = "last msg"
-                )
+    suspend fun fetchChatsPreview(): ChatsPreviewResponseResult {
+        lateinit var result: ChatsPreviewResponseResult
+        val resultFromApi = apiService.getChatsPreview()
+        if (resultFromApi.isSuccessful) {
+            result = ChatsPreviewResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                ),
+                listOfChatsPreview = resultFromApi.body() ?: emptyList()
+            )
+        } else {
+            result = ChatsPreviewResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                ),
+                listOfChatsPreview = emptyList()
             )
         }
-        return ChatsPreviewResponse(baseResponse = BaseResponseImitation.execute(), listOfChatsPreview = list)
+
+        return result
     }
 
-    suspend fun fetchChatById(id: String): ChatResponse {
-        delay(1500)
-        val result = ChatResponse(
-            baseResponse = BaseResponseImitation.execute(),
-            id = id,
-            title = "title $id from remote",
-            listOfMessages = listOf(
-                Message(text = "some text from bot", from = "Bot"),
-                Message(text = "some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot", from = "Bot"),
-                Message(text = "some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from usersome text from usersome text from user", from = "User"),
-                Message(text = "text", from = "Bot"),
-                Message(text = "text from user", from = "User"),
-                Message(text = "some text from bot", from = "Bot"),
-                Message(text = "some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot", from = "Bot"),
-                Message(text = "some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from usersome text from usersome text from user", from = "User"),
-                Message(text = "text", from = "Bot"),
-                Message(text = "text from user", from = "User"),
-                Message(text = "some text from bot", from = "Bot"),
-                Message(text = "some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot some text from bot", from = "Bot"),
-                Message(text = "some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from user some text from usersome text from usersome text from user", from = "User"),
-                Message(text = "text", from = "Bot"),
-                Message(text = "text from user", from = "User"),
-            ),
-            //emptyList(),
-            storageId = id,
-        )
+    suspend fun fetchChatById(id: String): GetChatResponseResult {
+        lateinit var result: GetChatResponseResult
+        val resultFromApi = apiService.getChatById(id)
+        if (resultFromApi.isSuccessful) {
+            result = GetChatResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                ),
+                id = resultFromApi.body()?.id ?: "",
+                title = resultFromApi.body()?.title ?: "",
+                listOfMessages = resultFromApi.body()?.chatHistory?.history ?: emptyList(),
+                storageId = resultFromApi.body()?.vaultId ?: ""
+            )
+        } else {
+            result = GetChatResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                ),
+                id = "",
+                title = "",
+                listOfMessages = emptyList(),
+                storageId = ""
+            )
+        }
+        return result
+    }
+
+    suspend fun renameChat(id: String, name: String): BaseResponse {
+        lateinit var result: BaseResponse
+        val resultFromApi = apiService.renameChat(RenameChatBody(chatId = id, name = name))
+        if (resultFromApi.isSuccessful) {
+            result = BaseResponse(
+                isSuccess = true,
+                code = resultFromApi.code().toString(),
+                msg = resultFromApi.message()
+            )
+        } else {
+            result = BaseResponse(
+                isSuccess = false,
+                code = resultFromApi.code().toString(),
+                msg = resultFromApi.message()
+            )
+        }
         return result
     }
 

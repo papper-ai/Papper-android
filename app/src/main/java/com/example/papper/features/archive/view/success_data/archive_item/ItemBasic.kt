@@ -43,7 +43,7 @@ fun ItemBasic(
             horizontalAlignment = Alignment.Start,
         ) {
             TitleText(title = chat.title)
-            DescriptionText(description = chat.lastMsg)
+//            DescriptionText(description = chat.lastMsg)
         }
     }
 }

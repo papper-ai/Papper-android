@@ -17,4 +17,10 @@ data class ChatModel(
 data class Message(
     val text: String,
     val from: String,
+    val traceBack: List<TraceBack>?
+)
+
+data class TraceBack(
+    val documentId: String,
+    val information: String?,
 )

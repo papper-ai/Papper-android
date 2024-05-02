@@ -1,7 +1,9 @@
 package com.example.data.repository
 
+import com.example.data.base.mapToDomainModel
 import com.example.data.datasource.remote.ChatRemoteDataSource
 import com.example.data.model.chat.mapToDomainModel
+import com.example.domain.model.BaseResponse
 import com.example.domain.model.chat.ChatModelResult
 import com.example.domain.model.chat.ChatsPreviewModelResult
 import com.example.domain.model.chat.SendMessageResult
@@ -36,8 +38,8 @@ class ChatRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun renameChat(id: String, name: String) {
-        TODO("Not yet implemented")
+    override suspend fun renameChat(id: String, name: String): BaseResponse {
+        return chatRemoteDataSource.renameChat(id = id, name = name).mapToDomainModel()
     }
 
     override suspend fun createChat() {

@@ -1,9 +1,9 @@
 package com.example.papper.features.chat.chat.presentation
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.chat.GetChatByIdUseCase
+import com.example.domain.usecases.chat.RenameChatUseCase
 import com.example.domain.usecases.chat.SendMessageUseCase
 import com.example.papper.features.chat.chat.model.Message
 import com.example.papper.features.chat.chat.model.MessageSender
@@ -24,6 +24,7 @@ import javax.inject.Inject
 class ChatViewModel @Inject constructor(
     private val getChatByIdUseCase: GetChatByIdUseCase,
     private val sendMessageUseCase: SendMessageUseCase,
+    private val renameChatUseCase: RenameChatUseCase,
 ) : ViewModel(), ContainerHost<ChatState, ChatSideEffects> {
 
     override val container: Container<ChatState, ChatSideEffects> = container<ChatState, ChatSideEffects>(ChatState())
@@ -74,6 +75,21 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    fun renameChat(title: String) = intent {
+        val result = withContext(AppDispatchers.io) {
+            renameChatUseCase.execute(id = id!!, title = title)
+        }
+        if (result.isSuccess) {
+            reduce {
+                state.copy(title = title)
+            }
+        }
+        else {
+            postSideEffect(ChatSideEffects.ShowErrorRenameToast)
+        }
+
+    }
+
     fun sendMessage(text: String) = intent {
         isSendingMessage.value = MessageStatus(isSendingMsg = true, isSuccess = false)
 
@@ -92,11 +108,7 @@ class ChatViewModel @Inject constructor(
         }
         else {
             isSendingMessage.value = MessageStatus(isSendingMsg = false, isSuccess = false)
-            postSideEffect(ChatSideEffects.ShowErrorToast)
-        }
-
-        for (item in state.listOfMessages) {
-            Log.d("test", "sendMessage: ${item.text}")
+            postSideEffect(ChatSideEffects.ShowErrorSendMsgToast)
         }
     }
 

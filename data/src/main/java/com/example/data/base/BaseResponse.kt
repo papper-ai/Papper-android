@@ -5,3 +5,8 @@ data class BaseResponse (
     val code: String,
     val msg: String,
 )
+
+internal fun BaseResponse.mapToDomainModel() = com.example.domain.model.BaseResponse(
+    isSuccess = isSuccess,
+    msg = msg,
+)
