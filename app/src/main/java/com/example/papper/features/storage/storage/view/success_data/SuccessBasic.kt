@@ -1,6 +1,5 @@
 package com.example.papper.features.storage.storage.view.success_data
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.papper.features.storage.storage.presentation.StorageViewModel
-import com.example.papper.features.storage.storage.view.success_data.storage_item.TopBar
 import com.example.papper.theme.dimens
 import org.orbitmvi.orbit.compose.collectAsState
 
@@ -46,7 +44,6 @@ fun SuccessBasic(
                         viewModel = viewModel,
                         list = viewModel.collectAsState().value.setOfStorages.toList(),
                     )
-                    //TODO раскоментить, когда на бэке появится этот функционал
                     AddFilesBtn(
                         modifier = modifier
                             .weight(0.1f),

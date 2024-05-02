@@ -24,6 +24,7 @@ fun SuccessBasic(
     Scaffold(
         topBar = {
             TopBar(
+                viewModel = viewModel,
                 navHostController = navHostController,
                 title = viewModel.collectAsState().value.title
             )
