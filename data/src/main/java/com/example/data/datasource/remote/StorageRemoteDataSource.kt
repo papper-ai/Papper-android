@@ -8,7 +8,7 @@ import com.example.data.model.storage.CreateStorageResponseResult
 import com.example.data.model.storage.DeleteFileResponse
 import com.example.data.model.storage.FileDataModel
 import com.example.data.model.storage.StoragePreviewModel
-import com.example.data.model.storage.StoragePreviewResponse
+import com.example.data.model.storage.StoragePreviewResponseResult
 import com.example.data.model.storage.StorageResponse
 import com.example.data.utils.BaseResponseImitation
 import kotlinx.coroutines.delay
@@ -89,18 +89,37 @@ class StorageRemoteDataSource @Inject constructor(
         return result
     }
 
-    suspend fun getAllStoragesPreview(): StoragePreviewResponse {
-        delay(1500)
-        val list = mutableListOf<StoragePreviewModel>()
-        for (i in 1..15) {
-            list.add(
-                StoragePreviewModel(
-                    id = "$i",
-                    title = "Storage from remote $i"
-                )
+    suspend fun getAllStoragesPreview(): StoragePreviewResponseResult {
+        lateinit var result: StoragePreviewResponseResult
+
+        val resultFromApi = apiService.getStoragePreviews()
+
+        if (resultFromApi.isSuccessful) {
+            result = StoragePreviewResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                ),
+                listOfStoragePreviews = resultFromApi.body()?.map { storagePreviewResponse ->
+                    StoragePreviewModel(
+                        id = storagePreviewResponse.id,
+                        title = storagePreviewResponse.title
+                    )
+                } ?: emptyList()
+            )
+        } else {
+            result = StoragePreviewResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                ),
+                listOfStoragePreviews = emptyList()
             )
         }
-        return StoragePreviewResponse(baseResponse = BaseResponseImitation.execute(), listOfStoragePreviews = list)
+
+        return result
     }
 
     suspend fun getStorageById(id: String): StorageResponse {
