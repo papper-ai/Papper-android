@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.papper.R
 import com.example.papper.features.chat.chat.presentation.ChatViewModel
+import com.example.papper.features.common.components.AlertDialogComponent
 import com.example.papper.features.common.components.TextInputAlertDialog
 import com.example.papper.features.common.components.TopBarWithTitleSettingsComponent
 import com.example.papper.theme.Buttons
@@ -26,10 +27,12 @@ fun TopBar(
     modifier: Modifier = Modifier,
     viewModel: ChatViewModel,
     navHostController: NavHostController,
-    title: String
+    title: String,
+    archiveStatus: Boolean,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     val openRenameDialog = remember { mutableStateOf(false) }
+    val openDeleteDialog = remember { mutableStateOf(false) }
 
     TopBarWithTitleSettingsComponent(
         onBackBtnClick = { navHostController.popBackStack() },
@@ -74,12 +77,13 @@ fun TopBar(
         DropdownMenuItem(
             text = {
                 Text(
-                    text = stringResource(id = R.string.archive_chat),
+                    text = if (archiveStatus) stringResource(id = R.string.unarchive_chat) else stringResource(id = R.string.archive_chat),
                     style = MaterialTheme.typography.Buttons,
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
             },
             onClick = {
+                viewModel.changeArchiveStatus()
                 isExpanded = false
             }
         )
@@ -92,6 +96,7 @@ fun TopBar(
                 )
             },
             onClick = {
+                viewModel.clearChatHistory()
                 isExpanded = false
             }
         )
@@ -104,20 +109,35 @@ fun TopBar(
                 )
             },
             onClick = {
+                openDeleteDialog.value = true
                 isExpanded = false
             }
         )
     }
 
     TextInputAlertDialog(
-        showDialog = openRenameDialog.value,
-        onDismiss = {openRenameDialog.value = false},
         onConfirm = { newTitle ->
             viewModel.renameChat(newTitle)
         },
+        onDismiss = {openRenameDialog.value = false},
+        showDialog = openRenameDialog.value,
         title = title,
         dialogTitle = stringResource(id = R.string.rename_chat),
         confirmText = stringResource(id = R.string.rename),
+        cancelText = stringResource(id = R.string.cancel),
+    )
+
+    AlertDialogComponent(
+        onConfirm = {
+            viewModel.deleteChat()
+        },
+        onDismiss = {
+            openDeleteDialog.value = false
+        },
+        showDialog = openDeleteDialog.value,
+        title = stringResource(id = R.string.delete_chat),
+        text = "${stringResource(id = R.string.delete_chat)} $title?",
+        confirmText = stringResource(id = R.string.delete),
         cancelText = stringResource(id = R.string.cancel),
     )
 

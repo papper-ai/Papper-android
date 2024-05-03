@@ -1,18 +1,14 @@
 package com.example.papper.features.chat.chats.presentation
 
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.domain.usecases.CheckApiUseCase
 import com.example.domain.usecases.chat.GetAllChatsPreviewUseCase
 import com.example.papper.features.chat.chats.model.mapToPresentationModel
 import com.example.papper.utils.AppDispatchers
 import com.example.papper.utils.CheckNetworkStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -34,34 +30,59 @@ class ChatsViewModel @Inject constructor(
 
     init {
         loadData()
-        checkApi()
+        //checkApi()
     }
 
     fun loadData() = intent {
         postSideEffect(ChatsSideEffects.ShowLoading)
-        if (checkNetworkStatus.isNetworkAvailable()) {
-            val result = withContext(AppDispatchers.io) {
-                getAllChatsUseCase.execute().mapToPresentationModel()
-            }
-            if (result.isSuccess) {
-                reduce {
-                    state.copy(listOfChats = result.list)
+        checkNetworkStatus.isNetworkConnected(
+            onSuccess = {
+                val result = withContext(AppDispatchers.io) {
+                    getAllChatsUseCase.execute().mapToPresentationModel()
                 }
-                postSideEffect(ChatsSideEffects.ShowSuccess)
-            } else {
-                postSideEffect(ChatsSideEffects.ShowError)
+                if (result.isSuccess) {
+                    reduce {
+                        state.copy(listOfChats = result.list)
+                    }
+                    postSideEffect(ChatsSideEffects.ShowSuccess)
+                } else {
+                    postSideEffect(ChatsSideEffects.ShowError)
+                }
+            },
+            onFail = {
+                postSideEffect(ChatsSideEffects.ShowNetworkConnectionError)
             }
-        } else
-            postSideEffect(ChatsSideEffects.ShowNetworkConnectionError)
+        )
+
+    }
+
+    fun renameChat(id: String, title: String) = intent {
+        val list = state.listOfChats.toMutableList()
+        list.find { it.id == id }?.title = title
+        reduce {
+            state.copy(listOfChats = list)
+        }
+    }
+
+    fun deleteChat(id: String) = intent {
+        val list = state.listOfChats.toMutableList()
+        list.removeIf { it.id == id }
+        reduce {
+            state.copy(listOfChats = list)
+        }
     }
 
     private fun checkApi() = intent {
-        if (checkNetworkStatus.isNetworkAvailable()) {
-            withContext(AppDispatchers.io) {
-                checkApiUseCase.execute()
+        checkNetworkStatus.isNetworkConnected(
+            onSuccess = {
+                withContext(AppDispatchers.io) {
+                    checkApiUseCase.execute()
+                }
+            },
+            onFail = {
+                Log.d("Test", "checkApi: Отсутствует подключение к интернету")
             }
-        } else
-            Log.d("Test", "checkApi: Отсутствует подключение к интернету")
+        )
     }
 
 }

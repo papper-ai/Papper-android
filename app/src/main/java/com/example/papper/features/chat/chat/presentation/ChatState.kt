@@ -9,6 +9,7 @@ data class ChatState(
     val file: FilePresentationModel? = null,
     val listOfMessages: List<Message> = emptyList(),
     val storageId: String = "",
+    val isArchived: Boolean = false
 )
 
 sealed class ChatScreenState {

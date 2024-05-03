@@ -8,10 +8,18 @@ import javax.inject.Inject
 class CheckNetworkStatus @Inject constructor(
     private val context: Context,
 ) {
-    fun isNetworkAvailable(): Boolean {
+    suspend fun isNetworkConnected(
+        onSuccess: suspend() -> Unit,
+        onFail: suspend() -> Unit
+    ) {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = cm.activeNetwork
         val capabilities = cm.getNetworkCapabilities(network)
-        return capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
+        if (capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true) {
+            onSuccess()
+        } else {
+            onFail()
+        }
+
     }
 }

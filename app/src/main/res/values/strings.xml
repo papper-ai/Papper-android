@@ -61,7 +61,10 @@
     <string name="rename_chat">Переименовать чат</string>
     <string name="go_to_storage">Перейти в хранилище</string>
     <string name="archive_chat">Архивировать чат</string>
+    <string name="unarchive_chat">Разархивировать чат</string>
     <string name="clear_history_of_chat">Очистить историю чата</string>
     <string name="delete_chat">Удалить чат</string>
     <string name="rename">Переменовать</string>
+    <string name="delete_chat_error">Ошибка удаления чата</string>
+    <string name="are_u_sure_to_delete_chat">Вы уверены, что хотите окончательно удалить</string>
 </resources>

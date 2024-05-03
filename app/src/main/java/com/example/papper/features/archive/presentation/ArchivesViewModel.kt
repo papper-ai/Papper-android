@@ -1,13 +1,13 @@
 package com.example.papper.features.archive.presentation
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.papper.features.chat.chats.model.ChatDescription
+import com.example.domain.usecases.chat.GetAllArchiveChatsPreviewUseCase
+import com.example.papper.features.chat.chats.model.mapToPresentationModel
+import com.example.papper.utils.AppDispatchers
+import com.example.papper.utils.CheckNetworkStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
@@ -16,7 +16,10 @@ import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class ArchivesViewModel @Inject constructor() : ViewModel(), ContainerHost<ArchivesState, ArchivesSideEffects> {
+class ArchivesViewModel @Inject constructor(
+    private val checkNetworkStatus: CheckNetworkStatus,
+    private val getAllArchiveChatsPreviewUseCase: GetAllArchiveChatsPreviewUseCase
+) : ViewModel(), ContainerHost<ArchivesState, ArchivesSideEffects> {
 
     override val container = container<ArchivesState, ArchivesSideEffects>(ArchivesState())
 
@@ -26,27 +29,27 @@ class ArchivesViewModel @Inject constructor() : ViewModel(), ContainerHost<Archi
         getData()
     }
 
-    private fun getData() = intent {
-        val list = mutableListOf<ChatDescription>()
+    fun getData() = intent {
         postSideEffect(ArchivesSideEffects.ShowLoading)
-        viewModelScope.launch {
-            for (i in 1..15) {
-                delay(100)
-                list.add(
-                    ChatDescription(
-                        id = i.toString(),
-                        title = "archive title",
-//                        lastMsg = "last msg"
-                    )
-                )
-                Log.d("Test", "getData: ${i}")
+        checkNetworkStatus.isNetworkConnected(
+            onSuccess = {
+                val result = withContext(AppDispatchers.io) {
+                    getAllArchiveChatsPreviewUseCase.execute().mapToPresentationModel()
+                }
+                if (result.isSuccess) {
+                    reduce {
+                        state.copy(listOfChats = result.list)
+                    }
+                    postSideEffect(ArchivesSideEffects.ShowSuccess)
+                } else {
+                    postSideEffect(ArchivesSideEffects.ShowError)
+                }
+            },
+            onFail = {
+                postSideEffect(ArchivesSideEffects.ShowNetworkConnectionError)
             }
-            reduce {
-                state.copy(listOfChats = list)
-            }
-            //postSideEffect(ArchivesSideEffects.ShowError)
-            postSideEffect(ArchivesSideEffects.ShowSuccess)
-        }
+        )
+
     }
 
 }

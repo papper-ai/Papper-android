@@ -18,24 +18,28 @@ class ChatRepositoryImpl @Inject constructor(
         return chatRemoteDataSource.fetchChatsPreview().mapToDomainModel()
     }
 
+    override suspend fun getArchiveChatsPreview(): ChatsPreviewModelResult {
+        return chatRemoteDataSource.fetchArchiveChatsPreview().mapToDomainModel()
+    }
+
     override suspend fun getChatById(id: String): ChatModelResult {
         return chatRemoteDataSource.fetchChatById(id).mapToDomainModel()
     }
 
-    override suspend fun deleteChat(id: String) {
-        TODO("Not yet implemented")
+    override suspend fun deleteChat(id: String): BaseResponse {
+        return chatRemoteDataSource.deleteChat(id = id).mapToDomainModel()
     }
 
-    override suspend fun clearChat(id: String) {
-        TODO("Not yet implemented")
+    override suspend fun clearChat(id: String): BaseResponse {
+        return chatRemoteDataSource.clearChat(id = id).mapToDomainModel()
     }
 
-    override suspend fun archiveChat(id: String) {
-        TODO("Not yet implemented")
+    override suspend fun archiveChat(id: String): BaseResponse {
+        return chatRemoteDataSource.changeArchiveStatus(id = id, archiveStatus = false).mapToDomainModel()
     }
 
-    override suspend fun unarchiveChat(id: String) {
-        TODO("Not yet implemented")
+    override suspend fun unarchiveChat(id: String): BaseResponse {
+        return chatRemoteDataSource.changeArchiveStatus(id = id, archiveStatus = true).mapToDomainModel()
     }
 
     override suspend fun renameChat(id: String, name: String): BaseResponse {

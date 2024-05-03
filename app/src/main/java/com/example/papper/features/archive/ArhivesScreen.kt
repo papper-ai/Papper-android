@@ -1,8 +1,12 @@
 package com.example.papper.features.archive
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import com.example.papper.R
 import com.example.papper.features.archive.presentation.ArchivesScreenState
 import com.example.papper.features.archive.presentation.ArchivesSideEffects
 import com.example.papper.features.archive.presentation.ArchivesViewModel
@@ -14,10 +18,13 @@ fun ArchivesScreen(
     viewModel: ArchivesViewModel,
     navHostController: NavHostController,
 ) {
+    val context = LocalContext.current
+
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffect(
             viewModel = viewModel,
-            sideEffect = sideEffect
+            sideEffect = sideEffect,
+            context = context,
         )
     }
     ArchivesBasic(
@@ -29,7 +36,8 @@ fun ArchivesScreen(
 
 private fun handleSideEffect(
     viewModel: ArchivesViewModel,
-    sideEffect: ArchivesSideEffects
+    sideEffect: ArchivesSideEffects,
+    context: Context,
 ) {
     when (sideEffect) {
         ArchivesSideEffects.ShowError -> {
@@ -42,6 +50,10 @@ private fun handleSideEffect(
             viewModel.archivesScreenState.value = ArchivesScreenState.Success
         }
 
+        ArchivesSideEffects.ShowNetworkConnectionError -> {
+            viewModel.archivesScreenState.value = ArchivesScreenState.Error
+            Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()
+        }
     }
 }
 

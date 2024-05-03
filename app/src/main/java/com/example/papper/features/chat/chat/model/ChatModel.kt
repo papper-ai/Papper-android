@@ -10,6 +10,7 @@ data class PresentationChatModelResult(
     val title: String,
     val listOfMessages: List<Message>,
     val storageId: String,
+    val isArchived: Boolean,
 )
 
 data class Message(
@@ -35,5 +36,6 @@ internal fun ChatModelResult.mapToPresentationModel() : PresentationChatModelRes
                 from = if (message.from == "ai") MessageSender.Bot else MessageSender.User
             )
         },
-        storageId = chatModel.storageId
+        storageId = chatModel.storageId,
+        isArchived = chatModel.isArchived
     )

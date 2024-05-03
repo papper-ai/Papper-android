@@ -41,6 +41,7 @@ data class GetChatResponseResult(
     val title: String,
     val listOfMessages: List<HistoryItem>,
     val storageId: String,
+    val isArchived: Boolean,
 )
 
 internal fun GetChatResponseResult.mapToDomainModel() = ChatModelResult(
@@ -59,9 +60,10 @@ internal fun GetChatResponseResult.mapToDomainModel() = ChatModelResult(
                             documentId = tracebackItem.documentId,
                             information = tracebackItem.information,
                         )
-                    }
+                    },
                 )
             },
-            storageId = storageId
+            storageId = storageId,
+            isArchived = isArchived,
         )
     )

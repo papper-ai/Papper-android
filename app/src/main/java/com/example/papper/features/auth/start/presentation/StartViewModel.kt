@@ -36,20 +36,24 @@ class StartViewModel @Inject constructor(
     }
 
     private fun signIn() = intent {
-        if (checkNetworkStatus.isNetworkAvailable()) {
-            val result = withContext(AppDispatchers.io) {
-                checkAccountDataUseCase.execute()
+        checkNetworkStatus.isNetworkConnected(
+            onSuccess = {
+                val result = withContext(AppDispatchers.io) {
+                    checkAccountDataUseCase.execute()
+                }
+                showStartAnimation.value = false
+                delay(500)
+                if (result.isSuccess) {
+                    postSideEffect(StartSideEffects.NavigateToChatsScreen)
+                } else {
+                    startScreenState.value = StartScreenState.Default
+                }
+            },
+            onFail = {
+                postSideEffect(StartSideEffects.ShowNetworkConnectionError)
             }
-            showStartAnimation.value = false
-            delay(500)
-            if (result.isSuccess) {
-                postSideEffect(StartSideEffects.NavigateToChatsScreen)
-            } else {
-                startScreenState.value = StartScreenState.Default
-            }
-        } else {
-            postSideEffect(StartSideEffects.ShowNetworkConnectionError)
-        }
+
+        )
 
     }
 }

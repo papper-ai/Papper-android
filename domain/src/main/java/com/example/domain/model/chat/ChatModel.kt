@@ -12,6 +12,7 @@ data class ChatModel(
     val title: String,
     val listOfMessages: List<Message>,
     val storageId: String,
+    val isArchived: Boolean,
 )
 
 data class Message(

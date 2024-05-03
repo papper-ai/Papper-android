@@ -31,24 +31,26 @@ class ProfileViewModel @Inject constructor(
 
     fun getLogin() = intent {
         postSideEffect(ProfileSideEffects.ShowLoading)
-        if (networkStatus.isNetworkAvailable()) {
-            val result = withContext(AppDispatchers.io) {
-                getUserLoginUseCase.execute()
-            }
-            if (result.isSuccess) {
-                reduce {
-                    state.copy(login = result.login)
+        networkStatus.isNetworkConnected(
+            onSuccess = {
+                val result = withContext(AppDispatchers.io) {
+                    getUserLoginUseCase.execute()
                 }
-                postSideEffect(ProfileSideEffects.ShowSuccess)
-                profileScreenState.value = ProfileScreenState.Success
-            } else {
-                postSideEffect(ProfileSideEffects.ShowError)
-                profileScreenState.value = ProfileScreenState.Error
+                if (result.isSuccess) {
+                    reduce {
+                        state.copy(login = result.login)
+                    }
+                    postSideEffect(ProfileSideEffects.ShowSuccess)
+                    profileScreenState.value = ProfileScreenState.Success
+                } else {
+                    postSideEffect(ProfileSideEffects.ShowError)
+                    profileScreenState.value = ProfileScreenState.Error
+                }
+            },
+            onFail = {
+                postSideEffect(ProfileSideEffects.ShowNetworkConnectionError)
             }
-        } else {
-            postSideEffect(ProfileSideEffects.ShowNetworkConnectionError)
-        }
-
+        )
     }
 
     fun logOut() = intent {

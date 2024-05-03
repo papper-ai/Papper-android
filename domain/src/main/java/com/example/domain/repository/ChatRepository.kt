@@ -7,11 +7,12 @@ import com.example.domain.model.chat.SendMessageResult
 
 interface ChatRepository {
     suspend fun getChatsPreview(): ChatsPreviewModelResult
+    suspend fun getArchiveChatsPreview(): ChatsPreviewModelResult
     suspend fun getChatById(id: String): ChatModelResult
-    suspend fun deleteChat(id: String)
-    suspend fun clearChat(id: String)
-    suspend fun archiveChat(id: String)
-    suspend fun unarchiveChat(id: String)
+    suspend fun deleteChat(id: String): BaseResponse
+    suspend fun clearChat(id: String): BaseResponse
+    suspend fun archiveChat(id: String): BaseResponse
+    suspend fun unarchiveChat(id: String): BaseResponse
     suspend fun renameChat(id: String, name: String): BaseResponse
     suspend fun createChat()
     suspend fun sendMessage(message: String) : SendMessageResult

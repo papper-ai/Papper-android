@@ -26,7 +26,8 @@ fun SuccessBasic(
             TopBar(
                 viewModel = viewModel,
                 navHostController = navHostController,
-                title = viewModel.collectAsState().value.title
+                title = viewModel.collectAsState().value.title,
+                archiveStatus = viewModel.collectAsState().value.isArchived
             )
         },
 

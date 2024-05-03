@@ -2,6 +2,7 @@ package com.example.data.datasource.remote
 
 import com.example.data.api.ChatApiService
 import com.example.data.base.BaseResponse
+import com.example.data.model.chat.ChangeArchiveStatusChatBody
 import com.example.data.model.chat.GetChatResponseResult
 import com.example.data.model.chat.ChatsPreviewResponseResult
 import com.example.data.model.chat.RenameChatBody
@@ -40,6 +41,32 @@ class ChatRemoteDataSource @Inject constructor(
         return result
     }
 
+    suspend fun fetchArchiveChatsPreview(): ChatsPreviewResponseResult {
+        lateinit var result: ChatsPreviewResponseResult
+        val resultFromApi = apiService.getArchiveChatsPreview()
+        if (resultFromApi.isSuccessful) {
+            result = ChatsPreviewResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                ),
+                listOfChatsPreview = resultFromApi.body() ?: emptyList()
+            )
+        } else {
+            result = ChatsPreviewResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                ),
+                listOfChatsPreview = emptyList()
+            )
+        }
+
+        return result
+    }
+
     suspend fun fetchChatById(id: String): GetChatResponseResult {
         lateinit var result: GetChatResponseResult
         val resultFromApi = apiService.getChatById(id)
@@ -53,7 +80,8 @@ class ChatRemoteDataSource @Inject constructor(
                 id = resultFromApi.body()?.id ?: "",
                 title = resultFromApi.body()?.title ?: "",
                 listOfMessages = resultFromApi.body()?.chatHistory?.history ?: emptyList(),
-                storageId = resultFromApi.body()?.vaultId ?: ""
+                storageId = resultFromApi.body()?.vaultId ?: "",
+                isArchived = resultFromApi.body()?.isArchived ?: false
             )
         } else {
             result = GetChatResponseResult(
@@ -65,7 +93,8 @@ class ChatRemoteDataSource @Inject constructor(
                 id = "",
                 title = "",
                 listOfMessages = emptyList(),
-                storageId = ""
+                storageId = "",
+                isArchived = false
             )
         }
         return result
@@ -87,6 +116,66 @@ class ChatRemoteDataSource @Inject constructor(
                 msg = resultFromApi.message()
             )
         }
+        return result
+    }
+
+    suspend fun changeArchiveStatus(id: String, archiveStatus: Boolean): BaseResponse {
+        lateinit var result: BaseResponse
+        val resultFromApi = apiService.archiveChat(ChangeArchiveStatusChatBody(chatId = id, archiveAction = if (archiveStatus) "unarchive" else "archive"))
+        if (resultFromApi.isSuccessful) {
+            result = BaseResponse(
+                isSuccess = true,
+                code = resultFromApi.code().toString(),
+                msg = resultFromApi.message()
+            )
+        } else {
+            result = BaseResponse(
+                isSuccess = false,
+                code = resultFromApi.code().toString(),
+                msg = resultFromApi.message()
+            )
+        }
+
+        return result
+    }
+
+    suspend fun clearChat(id: String): BaseResponse {
+        lateinit var result: BaseResponse
+        val resultFromApi = apiService.clearChat(id = id)
+        if (resultFromApi.isSuccessful) {
+            result = BaseResponse(
+                isSuccess = true,
+                code = resultFromApi.code().toString(),
+                msg = resultFromApi.message()
+            )
+        } else {
+            result = BaseResponse(
+                isSuccess = false,
+                code = resultFromApi.code().toString(),
+                msg = resultFromApi.message()
+            )
+        }
+
+        return result
+    }
+
+    suspend fun deleteChat(id: String): BaseResponse {
+        lateinit var result: BaseResponse
+        val resultFromApi = apiService.deleteChat(id = id)
+        if (resultFromApi.isSuccessful) {
+            result = BaseResponse(
+                isSuccess = true,
+                code = resultFromApi.code().toString(),
+                msg = resultFromApi.message()
+            )
+        } else {
+            result = BaseResponse(
+                isSuccess = false,
+                code = resultFromApi.code().toString(),
+                msg = resultFromApi.message()
+            )
+        }
+
         return result
     }
 
