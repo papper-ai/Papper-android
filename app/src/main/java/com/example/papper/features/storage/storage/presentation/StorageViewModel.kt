@@ -34,7 +34,6 @@ class StorageViewModel @Inject constructor(
     val fileDeleteLoading = mutableStateOf<List<Pair<Boolean, String>>>(emptyList())
     val btnLoading = mutableStateOf<Boolean>(false)
 
-
     init {
         getData()
     }
@@ -63,7 +62,7 @@ class StorageViewModel @Inject constructor(
     fun deleteFile(file: FilePresentationModel) = intent {
         fileDeleteLoading.value = fileDeleteLoading.value.plus(Pair(true, file.id))
         val result = withContext(AppDispatchers.io) {
-            deleteFileUseCase.execute(id = file.id).mapToPresentationModel()
+            deleteFileUseCase.execute(vaultId = id!!, documentId = file.id).mapToPresentationModel()
         }
         if (result.isSuccess) {
             reduce {

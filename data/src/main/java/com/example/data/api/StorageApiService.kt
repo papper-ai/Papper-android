@@ -40,4 +40,10 @@ interface StorageApiService {
         @Path("id") id: String
     ): Response<Unit>
 
+    @DELETE("${Constants.DELETE_FILE_FROM_VAULT}/{vaultId}/{documentId}")
+    suspend fun deleteFileFromVaultByID(
+        @Path("vaultId") vaultId: String,
+        @Path("documentId") documentId: String,
+    ): Response<Unit>
+
 }

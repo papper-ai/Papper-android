@@ -1,15 +1,14 @@
 package com.example.data.model.storage
 
 import com.example.data.base.BaseResponse
-import com.example.domain.model.storage.DeleteFileResult
 
-data class DeleteFileResponse(
+
+data class DeleteFileResponseResult(
     val baseResponse: BaseResponse,
 )
 
-internal fun DeleteFileResponse.mapToDomainModel(): DeleteFileResult =
-    DeleteFileResult(
+internal fun DeleteFileResponseResult.mapToDomainModel(): com.example.domain.model.BaseResponse =
+    com.example.domain.model.BaseResponse(
         isSuccess = baseResponse.isSuccess,
-        code = baseResponse.code,
         msg = baseResponse.msg,
     )

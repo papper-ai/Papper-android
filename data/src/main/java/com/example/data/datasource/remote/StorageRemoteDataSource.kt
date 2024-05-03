@@ -1,11 +1,10 @@
 package com.example.data.datasource.remote
 
-import android.util.Log
 import com.example.data.api.StorageApiService
 import com.example.data.base.BaseResponse
 import com.example.data.model.storage.AddFileInStorageResponse
 import com.example.data.model.storage.CreateStorageResponseResult
-import com.example.data.model.storage.DeleteFileResponse
+import com.example.data.model.storage.DeleteFileResponseResult
 import com.example.data.model.storage.DeleteStorageResponseResult
 import com.example.data.model.storage.FileDataModel
 import com.example.data.model.storage.StoragePreviewModel
@@ -191,9 +190,30 @@ class StorageRemoteDataSource @Inject constructor(
         return AddFileInStorageResponse(baseResponse = BaseResponseImitation.execute(), id = "123")
     }
 
-    suspend fun deleteFileInStorage(id: String): DeleteFileResponse {
-        delay(1000)
-        return DeleteFileResponse(baseResponse = BaseResponseImitation.execute())
+    suspend fun deleteFileInStorage(vaultId: String, documentId: String): DeleteFileResponseResult {
+        lateinit var result: DeleteFileResponseResult
+
+        val resultFromApi = apiService.deleteFileFromVaultByID(vaultId = vaultId, documentId = documentId)
+
+        if (resultFromApi.isSuccessful) {
+            result = DeleteFileResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                )
+            )
+        } else {
+            result = DeleteFileResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                )
+            )
+        }
+
+        return result
     }
 
 }
