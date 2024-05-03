@@ -65,6 +65,9 @@ private fun handleSideEffect(
         is StorageSideEffects.ShowToastDeleteFileError -> {
             Toast.makeText(context, "${context.getText(R.string.file_delete_error)} ${sideEffect.title}", Toast.LENGTH_LONG).show()
         }
+        StorageSideEffects.ShowRenameErrorToast -> {
+            Toast.makeText(context, context.getText(R.string.rename_title_error), Toast.LENGTH_LONG).show()
+        }
         StorageSideEffects.NavigateToStoragesScreen -> {
             navHostController.popBackStack()
         }

@@ -41,7 +41,7 @@ class StorageRepositoryImpl @Inject constructor(
         return storageDataSource.deleteFileInStorage(vaultId = vaultId, documentId = documentId).mapToDomainModel()
     }
 
-    override suspend fun renameStorage(id: String, name: String) {
-        TODO("Not yet implemented")
+    override suspend fun renameStorage(id: String, title: String): BaseResponse {
+        return storageDataSource.renameStorage(id = id, title = title).mapToDomainModel()
     }
 }

@@ -6,6 +6,7 @@ import com.example.domain.usecases.storage.AddFileInStorageById
 import com.example.domain.usecases.storage.DeleteFileUseCase
 import com.example.domain.usecases.storage.DeleteStorageUseCase
 import com.example.domain.usecases.storage.GetStorageByIdUseCase
+import com.example.domain.usecases.storage.RenameStorageUseCase
 import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.features.storage.storage.model.mapToPresentationModel
 import com.example.papper.utils.AppDispatchers
@@ -24,7 +25,8 @@ class StorageViewModel @Inject constructor(
     private val getStorageByIdUseCase: GetStorageByIdUseCase,
     private val addFileInStorageById: AddFileInStorageById,
     private val deleteFileUseCase: DeleteFileUseCase,
-    private val deleteStorageUseCase: DeleteStorageUseCase
+    private val deleteStorageUseCase: DeleteStorageUseCase,
+    private val renameStorageUseCase: RenameStorageUseCase
 ) : ViewModel(), ContainerHost<StorageState, StorageSideEffects> {
 
     override val container = container<StorageState, StorageSideEffects>(StorageState())
@@ -127,7 +129,19 @@ class StorageViewModel @Inject constructor(
         else {
             postSideEffect(StorageSideEffects.ShowToastDeleteStorageError)
         }
+    }
 
+    fun renameStorage(title: String) = intent {
+        val result = withContext(AppDispatchers.io) {
+            renameStorageUseCase.execute(id = id!!, title = title)
+        }
+        if (result.isSuccess) {
+            reduce {
+                state.copy(title = title)
+            }
+        } else {
+            postSideEffect(StorageSideEffects.ShowRenameErrorToast)
+        }
     }
 
 }

@@ -7,6 +7,8 @@ import com.example.data.model.storage.CreateStorageResponseResult
 import com.example.data.model.storage.DeleteFileResponseResult
 import com.example.data.model.storage.DeleteStorageResponseResult
 import com.example.data.model.storage.FileDataModel
+import com.example.data.model.storage.RenameVaultBody
+import com.example.data.model.storage.RenameVaultResponseResult
 import com.example.data.model.storage.StoragePreviewModel
 import com.example.data.model.storage.StoragePreviewResponseResult
 import com.example.data.model.storage.StorageResponseResult
@@ -160,29 +162,15 @@ class StorageRemoteDataSource @Inject constructor(
     }
 
     suspend fun deleteStorageById(id: String): DeleteStorageResponseResult {
-        lateinit var result: DeleteStorageResponseResult
-
         val resultFromApi = apiService.deleteVaultByID(id)
 
-        if (resultFromApi.isSuccessful) {
-            result = DeleteStorageResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
-                )
+        return DeleteStorageResponseResult(
+            baseResponse = BaseResponse(
+                isSuccess = resultFromApi.isSuccessful,
+                code = resultFromApi.code().toString(),
+                msg = resultFromApi.message(),
             )
-        } else {
-            result = DeleteStorageResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
-                )
-            )
-        }
-
-        return result
+        )
     }
 
     suspend fun addFileInStorage(id: String, file: File): AddFileInStorageResponse {
@@ -191,29 +179,29 @@ class StorageRemoteDataSource @Inject constructor(
     }
 
     suspend fun deleteFileInStorage(vaultId: String, documentId: String): DeleteFileResponseResult {
-        lateinit var result: DeleteFileResponseResult
-
         val resultFromApi = apiService.deleteFileFromVaultByID(vaultId = vaultId, documentId = documentId)
 
-        if (resultFromApi.isSuccessful) {
-            result = DeleteFileResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
-                )
+        return DeleteFileResponseResult(
+            baseResponse = BaseResponse(
+                isSuccess = resultFromApi.isSuccessful,
+                code = resultFromApi.code().toString(),
+                msg = resultFromApi.message(),
             )
-        } else {
-            result = DeleteFileResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
-                )
-            )
-        }
+        )
+    }
 
-        return result
+    suspend fun renameStorage(id: String, title: String): RenameVaultResponseResult {
+        lateinit var result: RenameVaultResponseResult
+
+        val resultFromApi = apiService.renameVault(RenameVaultBody(vaultId = id, title = title))
+
+        return RenameVaultResponseResult(
+            baseResponse = BaseResponse(
+                isSuccess = resultFromApi.isSuccessful,
+                code = resultFromApi.code().toString(),
+                msg = resultFromApi.message(),
+            )
+        )
     }
 
 }

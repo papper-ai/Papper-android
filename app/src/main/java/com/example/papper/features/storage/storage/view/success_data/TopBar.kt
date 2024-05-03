@@ -54,7 +54,7 @@ fun TopBar(
         DropdownMenuItem(
             text = {
                 Text(
-                    text = "Переменовать хранилище",
+                    text = stringResource(id = R.string.rename_storage),
                     style = MaterialTheme.typography.Buttons,
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
@@ -66,7 +66,7 @@ fun TopBar(
         DropdownMenuItem(
             text = {
                 Text(
-                    text = "Удалить хранилище",
+                    text = stringResource(id = R.string.delete_storage),
                     style = MaterialTheme.typography.Buttons,
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
@@ -79,7 +79,7 @@ fun TopBar(
 
     TextInputAlertDialog(
         onConfirm = { newTitle ->
-            //viewModel.renameStorage(newTitle)
+            viewModel.renameStorage(newTitle)
         },
         onDismiss = {openRenameDialog.value = false},
         showDialog = openRenameDialog.value,

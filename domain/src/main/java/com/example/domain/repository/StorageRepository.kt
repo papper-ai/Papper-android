@@ -14,5 +14,5 @@ interface StorageRepository {
     suspend fun createStorage(title: String, type: String, list: List<File>): CreateStorageResult
     suspend fun addFileById(id: String, file: File): AddFileInStorageResult
     suspend fun deleteFileById(vaultId: String, documentId: String): BaseResponse
-    suspend fun renameStorage(id: String, name: String)
+    suspend fun renameStorage(id: String, title: String): BaseResponse
 }
