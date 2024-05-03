@@ -18,6 +18,7 @@ import com.example.papper.features.auth.sign_in.SignInScreen
 import com.example.papper.features.auth.start.StartScreen
 import com.example.papper.features.chat.chat.ChatScreen
 import com.example.papper.features.chat.chats.ChatsScreen
+import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.features.chat.create_chat.CreateChatScreen
 import com.example.papper.features.profile.ProfileScreen
 import com.example.papper.features.storage.create_storage.CreateStoragesScreen
@@ -29,6 +30,8 @@ import com.example.papper.features.storage.storages.StoragesScreen
 fun AppNavigation(
     navHostController: NavHostController
 ) {
+    val chatsViewModel: ChatsViewModel = hiltViewModel()
+
     NavHost (
         navController = navHostController,
         startDestination = Screens.StartScreen.route,
@@ -58,7 +61,7 @@ fun AppNavigation(
         }
         composable(route = Screens.ChatsScreen.route) {
             ChatsScreen(
-                viewModel = hiltViewModel(),
+                viewModel = chatsViewModel,
                 navHostController = navHostController,
             )
         }
@@ -78,6 +81,7 @@ fun AppNavigation(
         ) { entry ->
             ChatScreen(
                 viewModel = hiltViewModel(),
+                chatsViewModel = chatsViewModel,
                 navHostController = navHostController,
                 id = entry.arguments?.getString("chatId") ?: throw Exception("Id not found"),
                 file = entry.savedStateHandle.get<FilePresentationModel>("file"),

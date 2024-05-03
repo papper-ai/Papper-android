@@ -11,7 +11,7 @@ data class ChatDescriptionResult(
 
 data class ChatDescription(
     val id: String,
-    val title: String,
+    var title: String,
 //    val lastMsg: String,
 )
 
