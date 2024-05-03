@@ -11,7 +11,7 @@ interface StorageRepository {
     suspend fun getAllStoragesPreview(): StoragePreviewModelResult
     suspend fun getStorageById(id: String): StorageModel
     suspend fun deleteStorage(id: String)
-    suspend fun createStorage(title: String, list: List<File>): CreateStorageResult
+    suspend fun createStorage(title: String, type: String, list: List<File>): CreateStorageResult
     suspend fun addFileById(id: String, file: File): AddFileInStorageResult
     suspend fun deleteFileById(id: String): DeleteFileResult
     suspend fun renameStorage(id: String, name: String)

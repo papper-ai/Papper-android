@@ -26,8 +26,8 @@ class StorageRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun createStorage(title: String, list: List<File>): CreateStorageResult {
-        return storageDataSource.createStorage(title = title, list = list).mapToDomainModel()
+    override suspend fun createStorage(title: String, type: String, list: List<File>): CreateStorageResult {
+        return storageDataSource.createStorage(title = title, type = type, listOfFiles = list).mapToDomainModel()
     }
 
     override suspend fun addFileById(

@@ -61,7 +61,7 @@ class CreateStorageViewModel @Inject constructor(
     fun createStorage(lastDestination: String) = intent {
         createStorageBtnStatus.value = CreateStorageBtnStatus(isLoading = true, isEnable = false)
         val result = withContext(AppDispatchers.io) {
-            createStorageUseCase.execute(title = state.title, list = state.listOfFiles.toList())
+            createStorageUseCase.execute(title = state.title, type = state.storageType, list = state.listOfFiles.toList())
         }
         if (result.isSuccess) {
             if (lastDestination == Screens.CreateChatScreen.route) {
