@@ -27,6 +27,7 @@ fun StorageScreen(
         handleSideEffect(
             viewModel = viewModel,
             sideEffect = sideEffect,
+            navHostController = navHostController,
             context = context,
         )
     }
@@ -40,6 +41,7 @@ fun StorageScreen(
 private fun handleSideEffect(
     viewModel: StorageViewModel,
     sideEffect: StorageSideEffects,
+    navHostController: NavHostController,
     context: Context,
 ) {
     when (sideEffect) {
@@ -62,6 +64,12 @@ private fun handleSideEffect(
         }
         is StorageSideEffects.ShowToastDeleteFileError -> {
             Toast.makeText(context, "${context.getText(R.string.file_delete_error)} ${sideEffect.title}", Toast.LENGTH_LONG).show()
+        }
+        StorageSideEffects.NavigateToStoragesScreen -> {
+            navHostController.popBackStack()
+        }
+        StorageSideEffects.ShowToastDeleteStorageError -> {
+            Toast.makeText(context, context.getText(R.string.delete_storage_error), Toast.LENGTH_LONG).show()
         }
     }
 }

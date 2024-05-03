@@ -6,10 +6,11 @@ import com.example.data.base.BaseResponse
 import com.example.data.model.storage.AddFileInStorageResponse
 import com.example.data.model.storage.CreateStorageResponseResult
 import com.example.data.model.storage.DeleteFileResponse
+import com.example.data.model.storage.DeleteStorageResponseResult
 import com.example.data.model.storage.FileDataModel
 import com.example.data.model.storage.StoragePreviewModel
 import com.example.data.model.storage.StoragePreviewResponseResult
-import com.example.data.model.storage.StorageResponse
+import com.example.data.model.storage.StorageResponseResult
 import com.example.data.utils.BaseResponseImitation
 import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaType
@@ -92,7 +93,7 @@ class StorageRemoteDataSource @Inject constructor(
     suspend fun getAllStoragesPreview(): StoragePreviewResponseResult {
         lateinit var result: StoragePreviewResponseResult
 
-        val resultFromApi = apiService.getStoragePreviews()
+        val resultFromApi = apiService.getVaultPreviews()
 
         if (resultFromApi.isSuccessful) {
             result = StoragePreviewResponseResult(
@@ -122,24 +123,67 @@ class StorageRemoteDataSource @Inject constructor(
         return result
     }
 
-    suspend fun getStorageById(id: String): StorageResponse {
-        delay(1500)
-        val list = mutableListOf<FileDataModel>()
-        for (i in 1..15) {
-            list.add(
-                FileDataModel(
-                    id = "$i",
-                    title = "$i example example example example.pdf",
+    suspend fun getStorageById(id: String): StorageResponseResult {
+        lateinit var result: StorageResponseResult
+
+        val resultFromApi = apiService.getVaultByID(id)
+
+        if (resultFromApi.isSuccessful) {
+            result = StorageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                ),
+                id = resultFromApi.body()?.id.orEmpty(),
+                title = resultFromApi.body()?.title.orEmpty(),
+                listOfFiles = resultFromApi.body()?.documents?.map { document ->
+                    FileDataModel(
+                        id = document.id,
+                        title = document.title,
+                    )
+                } ?: emptyList()
+            )
+        } else {
+            result = StorageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                ),
+                id = "",
+                title = "",
+                listOfFiles = emptyList(),
+            )
+        }
+
+        return result
+    }
+
+    suspend fun deleteStorageById(id: String): DeleteStorageResponseResult {
+        lateinit var result: DeleteStorageResponseResult
+
+        val resultFromApi = apiService.deleteVaultByID(id)
+
+        if (resultFromApi.isSuccessful) {
+            result = DeleteStorageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
                 )
             )
-            Log.d("Test", "getData: $i")
+        } else {
+            result = DeleteStorageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                )
+            )
         }
-        return StorageResponse(
-            baseResponse = BaseResponseImitation.execute(),
-            id = id,
-            title = "$id title from remote",
-            listOfFiles = list
-        )
+
+        return result
     }
 
     suspend fun addFileInStorage(id: String, file: File): AddFileInStorageResponse {

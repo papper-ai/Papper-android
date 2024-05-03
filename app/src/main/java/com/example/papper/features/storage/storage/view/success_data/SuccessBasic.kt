@@ -25,6 +25,7 @@ fun SuccessBasic(
             TopBar(
                 navHostController = navHostController,
                 title = viewModel.collectAsState().value.title,
+                viewModel = viewModel,
             )
         },
         content = {

@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.storage.AddFileInStorageById
 import com.example.domain.usecases.storage.DeleteFileUseCase
+import com.example.domain.usecases.storage.DeleteStorageUseCase
 import com.example.domain.usecases.storage.GetStorageByIdUseCase
 import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.features.storage.storage.model.mapToPresentationModel
@@ -23,6 +24,7 @@ class StorageViewModel @Inject constructor(
     private val getStorageByIdUseCase: GetStorageByIdUseCase,
     private val addFileInStorageById: AddFileInStorageById,
     private val deleteFileUseCase: DeleteFileUseCase,
+    private val deleteStorageUseCase: DeleteStorageUseCase
 ) : ViewModel(), ContainerHost<StorageState, StorageSideEffects> {
 
     override val container = container<StorageState, StorageSideEffects>(StorageState())
@@ -114,6 +116,19 @@ class StorageViewModel @Inject constructor(
             postSideEffect(StorageSideEffects.ShowToastFileAlreadyExist(title = file.name))
         }
         btnLoading.value = false
+    }
+
+    fun deleteStorage() = intent {
+        val result = withContext(AppDispatchers.io) {
+            deleteStorageUseCase.execute(id = id!!)
+        }
+        if (result.isSuccess) {
+            postSideEffect(StorageSideEffects.NavigateToStoragesScreen)
+        }
+        else {
+            postSideEffect(StorageSideEffects.ShowToastDeleteStorageError)
+        }
+
     }
 
 }

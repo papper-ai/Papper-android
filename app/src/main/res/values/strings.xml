@@ -67,4 +67,8 @@
     <string name="rename">Переменовать</string>
     <string name="delete_chat_error">Ошибка удаления чата</string>
     <string name="are_u_sure_to_delete_chat">Вы уверены, что хотите окончательно удалить</string>
+    <string name="delete_storage">Удалить хранилище</string>
+    <string name="rename_storage">Переименовать хранилище</string>
+    <string name="delete_storage_error">Ошибка удаления хранилища</string>
+
 </resources>

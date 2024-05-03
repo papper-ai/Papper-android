@@ -11,19 +11,27 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.papper.R
+import com.example.papper.features.common.components.AlertDialogComponent
+import com.example.papper.features.common.components.TextInputAlertDialog
 import com.example.papper.features.common.components.TopBarWithTitleSettingsComponent
+import com.example.papper.features.storage.storage.presentation.StorageViewModel
 import com.example.papper.theme.Buttons
 
 @Composable
 fun TopBar(
     modifier: Modifier = Modifier,
+    viewModel: StorageViewModel,
     navHostController: NavHostController,
     title: String
 ) {
     var isExpanded by remember { mutableStateOf(false) }
+    val openRenameDialog = remember { mutableStateOf(false) }
+    val openDeleteDialog = remember { mutableStateOf(false) }
 
     TopBarWithTitleSettingsComponent(
         modifier = modifier,
@@ -51,7 +59,9 @@ fun TopBar(
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
             },
-            onClick = { /*TODO*/ }
+            onClick = {
+                openRenameDialog.value = true
+            }
         )
         DropdownMenuItem(
             text = {
@@ -61,7 +71,36 @@ fun TopBar(
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
             },
-            onClick = { /*TODO*/ }
+            onClick = {
+                openDeleteDialog.value = true
+            }
         )
     }
+
+    TextInputAlertDialog(
+        onConfirm = { newTitle ->
+            //viewModel.renameStorage(newTitle)
+        },
+        onDismiss = {openRenameDialog.value = false},
+        showDialog = openRenameDialog.value,
+        title = title,
+        dialogTitle = stringResource(id = R.string.rename_chat),
+        confirmText = stringResource(id = R.string.rename),
+        cancelText = stringResource(id = R.string.cancel),
+    )
+
+    AlertDialogComponent(
+        onConfirm = {
+            viewModel.deleteStorage()
+        },
+        onDismiss = {
+            openDeleteDialog.value = false
+        },
+        showDialog = openDeleteDialog.value,
+        title = stringResource(id = R.string.delete_storage),
+        text = "${stringResource(id = R.string.delete_storage)} $title?",
+        confirmText = stringResource(id = R.string.delete),
+        cancelText = stringResource(id = R.string.cancel),
+    )
+
 }
