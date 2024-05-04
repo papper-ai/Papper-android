@@ -2,7 +2,7 @@ package com.example.data.datasource.remote
 
 import com.example.data.api.StorageApiService
 import com.example.data.base.BaseResponse
-import com.example.data.model.storage.AddFileInStorageResponse
+import com.example.data.model.storage.AddFileInStorageResponseResult
 import com.example.data.model.storage.CreateStorageResponseResult
 import com.example.data.model.storage.DeleteFileResponseResult
 import com.example.data.model.storage.DeleteStorageResponseResult
@@ -12,11 +12,11 @@ import com.example.data.model.storage.RenameVaultResponseResult
 import com.example.data.model.storage.StoragePreviewModel
 import com.example.data.model.storage.StoragePreviewResponseResult
 import com.example.data.model.storage.StorageResponseResult
-import com.example.data.utils.BaseResponseImitation
-import kotlinx.coroutines.delay
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
@@ -173,9 +173,69 @@ class StorageRemoteDataSource @Inject constructor(
         )
     }
 
-    suspend fun addFileInStorage(id: String, file: File): AddFileInStorageResponse {
-        delay(1000)
-        return AddFileInStorageResponse(baseResponse = BaseResponseImitation.execute(), id = "123")
+    suspend fun addFileInStorage(id: String, file: File): AddFileInStorageResponseResult {
+        lateinit var result: AddFileInStorageResponseResult
+
+        val vaultIdBody = id.toRequestBody("multipart/form-data".toMediaTypeOrNull())
+
+        var newFile: MultipartBody.Part = when (file.extension) {
+            "pdf" -> {
+                MultipartBody.Part.createFormData(
+                    "file",
+                    file.name,
+                    file.asRequestBody("application/pdf".toMediaTypeOrNull())
+                )
+            }
+            "docx" -> {
+                MultipartBody.Part.createFormData(
+                    "file",
+                    file.name,
+                    file.asRequestBody("application/vnd.openxmlformats-officedocument.wordprocessingml.document".toMediaTypeOrNull())
+                )
+            }
+            "txt" -> {
+                MultipartBody.Part.createFormData(
+                    "file",
+                    file.name,
+                    file.asRequestBody("text/plain".toMediaTypeOrNull())
+                )
+            }
+
+            else -> {
+                MultipartBody.Part.createFormData(
+                    "file",
+                    file.name,
+                    file.asRequestBody("text/plain".toMediaTypeOrNull())
+                )
+            }
+        }
+
+        val resultFromApi = apiService.addFileToVault(
+            vaultId = vaultIdBody,
+            file = newFile
+        )
+
+        if (resultFromApi.isSuccessful) {
+            result = AddFileInStorageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                ),
+                id = resultFromApi.body()?.id.orEmpty()
+            )
+        } else {
+            result = AddFileInStorageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                ),
+                id = ""
+            )
+        }
+
+        return result
     }
 
     suspend fun deleteFileInStorage(vaultId: String, documentId: String): DeleteFileResponseResult {

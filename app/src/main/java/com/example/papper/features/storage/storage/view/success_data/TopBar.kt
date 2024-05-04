@@ -60,6 +60,7 @@ fun TopBar(
                 )
             },
             onClick = {
+                isExpanded = false
                 openRenameDialog.value = true
             }
         )
@@ -72,6 +73,7 @@ fun TopBar(
                 )
             },
             onClick = {
+                isExpanded = false
                 openDeleteDialog.value = true
             }
         )

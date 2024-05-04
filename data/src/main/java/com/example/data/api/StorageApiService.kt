@@ -1,6 +1,6 @@
 package com.example.data.api
 
-import com.example.data.model.chat.RenameChatBody
+import com.example.data.model.storage.AddFileIntoStorageResponse
 import com.example.data.model.storage.CreateStorageResponse
 import com.example.data.model.storage.RenameVaultBody
 import com.example.data.model.storage.StoragePreviewResponse
@@ -28,6 +28,13 @@ interface StorageApiService {
         @Part("create_vault_credentials") createVaultCredentials: RequestBody,
         @Part files: List<MultipartBody.Part>
     ): Response<CreateStorageResponse>
+
+    @Multipart
+    @POST(Constants.ADD_FILE_TO_VAULT)
+    suspend fun addFileToVault(
+        @Part("vault_id") vaultId: RequestBody,
+        @Part file: MultipartBody.Part,
+    ): Response<AddFileIntoStorageResponse>
 
     @GET(Constants.GET_VAULT_PREVIEWS)
     @Headers("accept: application/json")
