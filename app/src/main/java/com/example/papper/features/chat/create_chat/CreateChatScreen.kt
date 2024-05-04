@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.papper.R
+import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.features.chat.create_chat.presentation.ChooseStorageScreenState
 import com.example.papper.features.chat.create_chat.presentation.CreateChatScreenState
 import com.example.papper.features.chat.create_chat.presentation.CreateChatSideEffects
@@ -18,6 +19,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 fun CreateChatScreen(
     modifier: Modifier = Modifier,
     viewModel: CreateChatViewModel,
+    chatsViewModel: ChatsViewModel,
     navHostController: NavHostController,
     id: String? = null
 ) {
@@ -29,6 +31,7 @@ fun CreateChatScreen(
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffect(
             viewModel = viewModel,
+            chatsViewModel = chatsViewModel,
             sideEffect = sideEffect,
             navHostController = navHostController,
             context = context,
@@ -43,6 +46,7 @@ fun CreateChatScreen(
 
 private fun handleSideEffect(
     viewModel: CreateChatViewModel,
+    chatsViewModel: ChatsViewModel,
     sideEffect: CreateChatSideEffects,
     navHostController: NavHostController,
     context: Context,
@@ -61,6 +65,7 @@ private fun handleSideEffect(
             navHostController.navigate(Screens.StoragesScreen.route)
         }
         is CreateChatSideEffects.NavigateToChatScreen -> {
+            chatsViewModel.loadData()
             navHostController.navigate("${Screens.ChatScreen.route}/${sideEffect.id}") {
                 popUpTo(Screens.CreateChatScreen.route) {
                     inclusive = true

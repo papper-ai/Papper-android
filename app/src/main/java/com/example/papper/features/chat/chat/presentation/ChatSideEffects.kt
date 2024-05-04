@@ -7,8 +7,9 @@ sealed class ChatSideEffects {
     object ShowErrorSendMsgToast : ChatSideEffects()
     object ShowErrorRenameToast: ChatSideEffects()
     object ShowErrorDeleteChatToast: ChatSideEffects()
-    data class RenameChat(val id: String, val title: String) : ChatSideEffects()
+    object RenameChat: ChatSideEffects()
     data class DeleteChatAndNavigateToChatsScreen(val id: String) : ChatSideEffects()
     data class NavigateToStorageScreen(val storageId: String): ChatSideEffects()
+    data class ChangeArchiveStatus(val status: Boolean): ChatSideEffects()
 
 }

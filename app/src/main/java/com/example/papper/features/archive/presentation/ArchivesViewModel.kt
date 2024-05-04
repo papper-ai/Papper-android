@@ -26,10 +26,10 @@ class ArchivesViewModel @Inject constructor(
     val archivesScreenState = mutableStateOf<ArchivesScreenState>(ArchivesScreenState.Loading)
 
     init {
-        getData()
+        loadData()
     }
 
-    fun getData() = intent {
+    fun loadData() = intent {
         postSideEffect(ArchivesSideEffects.ShowLoading)
         checkNetworkStatus.isNetworkConnected(
             onSuccess = {

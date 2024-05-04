@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.papper.R
+import com.example.papper.features.archive.presentation.ArchivesViewModel
 import com.example.papper.features.chat.chat.presentation.ChatScreenState
 import com.example.papper.features.chat.chat.presentation.ChatSideEffects
 import com.example.papper.features.chat.chat.presentation.ChatViewModel
@@ -20,6 +21,7 @@ fun ChatScreen(
     modifier: Modifier = Modifier,
     viewModel: ChatViewModel,
     chatsViewModel: ChatsViewModel,
+    archivesViewModel: ArchivesViewModel,
     navHostController: NavHostController,
     id: String,
     file: FilePresentationModel?,
@@ -34,6 +36,7 @@ fun ChatScreen(
         handleSideEffects(
             viewModel = viewModel,
             chatsViewModel = chatsViewModel,
+            archivesViewModel = archivesViewModel,
             sideEffect = sideEffect,
             navHostController = navHostController,
             context = context,
@@ -50,6 +53,7 @@ fun ChatScreen(
 private fun handleSideEffects(
     viewModel: ChatViewModel,
     chatsViewModel: ChatsViewModel,
+    archivesViewModel: ArchivesViewModel,
     sideEffect: ChatSideEffects,
     navHostController: NavHostController,
     context: Context,
@@ -74,14 +78,24 @@ private fun handleSideEffects(
             Toast.makeText(context, context.getText(R.string.delete_chat_error), Toast.LENGTH_SHORT).show()
         }
         is ChatSideEffects.RenameChat -> {
-            chatsViewModel.renameChat(id = sideEffect.id, title = sideEffect.title)
+            when (navHostController.previousBackStackEntry?.destination?.route) {
+                Screens.ChatsScreen.route -> chatsViewModel.loadData()
+                Screens.ArchivesScreen.route -> archivesViewModel.loadData()
+            }
         }
         is ChatSideEffects.NavigateToStorageScreen -> {
             navHostController.navigate("${Screens.StorageScreen.route}/${sideEffect.storageId}")
         }
         is ChatSideEffects.DeleteChatAndNavigateToChatsScreen -> {
-            chatsViewModel.deleteChat(id = sideEffect.id)
+            when (navHostController.previousBackStackEntry?.destination?.route) {
+                Screens.ChatsScreen.route -> chatsViewModel.loadData()
+                Screens.ArchivesScreen.route -> archivesViewModel.loadData()
+            }
             navHostController.popBackStack()
+        }
+        is ChatSideEffects.ChangeArchiveStatus -> {
+            chatsViewModel.loadData()
+            archivesViewModel.loadData()
         }
     }
 }

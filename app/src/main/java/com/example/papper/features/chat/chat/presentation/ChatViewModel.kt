@@ -94,7 +94,7 @@ class ChatViewModel @Inject constructor(
             reduce {
                 state.copy(title = title)
             }
-            postSideEffect(ChatSideEffects.RenameChat(id = id!!, title = title))
+            postSideEffect(ChatSideEffects.RenameChat)
         } else {
             postSideEffect(ChatSideEffects.ShowErrorRenameToast)
         }
@@ -144,6 +144,7 @@ class ChatViewModel @Inject constructor(
             reduce {
                 state.copy(isArchived = !state.isArchived)
             }
+            postSideEffect(ChatSideEffects.ChangeArchiveStatus(status = state.isArchived))
         } else {
             //todo сделать toast
         }

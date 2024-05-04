@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.papper.features.archive.ArchivesScreen
+import com.example.papper.features.archive.presentation.ArchivesViewModel
 import com.example.papper.features.auth.registration.RegistrationScreen
 import com.example.papper.features.auth.sign_in.SignInScreen
 import com.example.papper.features.auth.start.StartScreen
@@ -31,6 +32,7 @@ fun AppNavigation(
     navHostController: NavHostController
 ) {
     val chatsViewModel: ChatsViewModel = hiltViewModel()
+    val archivesViewModel: ArchivesViewModel = hiltViewModel()
 
     NavHost (
         navController = navHostController,
@@ -69,6 +71,7 @@ fun AppNavigation(
             val id = entry.savedStateHandle.get<String>("storageId")
             CreateChatScreen(
                 viewModel = hiltViewModel(),
+                chatsViewModel = chatsViewModel,
                 navHostController = navHostController,
                 id = id,
             )
@@ -82,6 +85,7 @@ fun AppNavigation(
             ChatScreen(
                 viewModel = hiltViewModel(),
                 chatsViewModel = chatsViewModel,
+                archivesViewModel = archivesViewModel,
                 navHostController = navHostController,
                 id = entry.arguments?.getString("chatId") ?: throw Exception("Id not found"),
                 file = entry.savedStateHandle.get<FilePresentationModel>("file"),
@@ -115,7 +119,7 @@ fun AppNavigation(
         }
         composable(route = Screens.ArchivesScreen.route) {
             ArchivesScreen(
-                viewModel = hiltViewModel(),
+                viewModel = archivesViewModel,
                 navHostController = navHostController,
             )
         }
