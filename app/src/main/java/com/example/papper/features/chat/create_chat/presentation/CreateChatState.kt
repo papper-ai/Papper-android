@@ -4,7 +4,8 @@ import com.example.papper.features.storage.storage.model.FilePresentationModel
 
 data class CreateChatState(
     val title: String = "",
-    val listOfFiles: List<FilePresentationModel>? = null
+    val listOfFiles: List<FilePresentationModel>? = null,
+    val vaultId: String? = null,
 )
 
 sealed class CreateChatScreenState {

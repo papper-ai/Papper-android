@@ -2,6 +2,7 @@ package com.example.papper.features.chat.create_chat.presentation
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.domain.usecases.chat.CreateChatUseCase
 import com.example.domain.usecases.storage.GetStorageByIdUseCase
 import com.example.papper.features.storage.storage.model.mapToPresentationModel
 import com.example.papper.utils.AppDispatchers
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateChatViewModel @Inject constructor(
-    private val getStorageByIdUseCase: GetStorageByIdUseCase
+    private val getStorageByIdUseCase: GetStorageByIdUseCase,
+    private val createChatUseCase: CreateChatUseCase,
 ) : ViewModel(), ContainerHost<CreateChatState, CreateChatSideEffects> {
 
     override val container = container<CreateChatState, CreateChatSideEffects>(CreateChatState())
@@ -24,6 +26,23 @@ class CreateChatViewModel @Inject constructor(
     val createChatScreenState = mutableStateOf<CreateChatScreenState>(CreateChatScreenState.TypingTitle)
     val chooseStorageScreenState = mutableStateOf<ChooseStorageScreenState>(ChooseStorageScreenState.ChooseVariable)
     val createBtn = mutableStateOf<Boolean>(false)
+    val createBtnLoading = mutableStateOf<Boolean>(false)
+
+    fun createChat() = intent {
+        createBtnLoading.value = true
+        createBtn.value = false
+        val result = withContext(AppDispatchers.io) {
+            createChatUseCase.execute(id = state.vaultId.orEmpty(), title = state.title)
+        }
+
+        if (result.isSuccess) {
+            postSideEffect(CreateChatSideEffects.NavigateToChatScreen(id = result.id))
+        } else {
+            postSideEffect(CreateChatSideEffects.ShowCreateChatErrorToast)
+        }
+        createBtnLoading.value = false
+        createBtn.value = state.listOfFiles?.isNotEmpty() == true
+    }
 
     fun updateTitle(title: String) = intent {
         reduce {
@@ -42,7 +61,7 @@ class CreateChatViewModel @Inject constructor(
         }
         if (result.isSuccess) {
             reduce {
-                state.copy(listOfFiles = result.listOfFiles)
+                state.copy(listOfFiles = result.listOfFiles, vaultId = id)
             }
             createBtn.value = state.listOfFiles?.isNotEmpty() == true
             postSideEffect(CreateChatSideEffects.ShowListOfFilesScreen)

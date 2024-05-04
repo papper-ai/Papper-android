@@ -5,6 +5,8 @@ import com.example.data.base.BaseResponse
 import com.example.data.model.chat.ChangeArchiveStatusChatBody
 import com.example.data.model.chat.GetChatResponseResult
 import com.example.data.model.chat.ChatsPreviewResponseResult
+import com.example.data.model.chat.CreateChatBody
+import com.example.data.model.chat.CreateChatResponseResult
 import com.example.data.model.chat.RenameChatBody
 import com.example.data.model.chat.SendMessageResponse
 import com.example.data.utils.BaseResponseImitation
@@ -14,6 +16,40 @@ import javax.inject.Inject
 class ChatRemoteDataSource @Inject constructor(
     private val apiService: ChatApiService,
 ) {
+
+    suspend fun createChat(vaultId: String, title: String): CreateChatResponseResult {
+        lateinit var result: CreateChatResponseResult
+
+        val resultFromApi = apiService.createChat(
+            body = CreateChatBody(
+                id = vaultId,
+                title = title
+            )
+        )
+
+        if (resultFromApi.isSuccessful) {
+            result = CreateChatResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                ),
+                id = resultFromApi.body()?.id ?: ""
+            )
+        } else {
+            result = CreateChatResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                ),
+                id = ""
+            )
+        }
+
+        delay(1000)
+        return result
+    }
 
     suspend fun fetchChatsPreview(): ChatsPreviewResponseResult {
         lateinit var result: ChatsPreviewResponseResult

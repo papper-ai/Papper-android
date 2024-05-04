@@ -70,6 +70,7 @@
     <string name="delete_storage">Удалить хранилище</string>
     <string name="rename_storage">Переименовать хранилище</string>
     <string name="delete_storage_error">Ошибка удаления хранилища</string>
+    <string name="create_chat_error">Ошибка создания чата</string>
 
 
 </resources>

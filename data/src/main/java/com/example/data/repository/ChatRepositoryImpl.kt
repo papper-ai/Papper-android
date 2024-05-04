@@ -6,6 +6,7 @@ import com.example.data.model.chat.mapToDomainModel
 import com.example.domain.model.BaseResponse
 import com.example.domain.model.chat.ChatModelResult
 import com.example.domain.model.chat.ChatsPreviewModelResult
+import com.example.domain.model.chat.CreateChatResult
 import com.example.domain.model.chat.SendMessageResult
 import com.example.domain.repository.ChatRepository
 import javax.inject.Inject
@@ -46,8 +47,8 @@ class ChatRepositoryImpl @Inject constructor(
         return chatRemoteDataSource.renameChat(id = id, name = name).mapToDomainModel()
     }
 
-    override suspend fun createChat() {
-        TODO("Not yet implemented")
+    override suspend fun createChat(id: String, title: String): CreateChatResult {
+        return chatRemoteDataSource.createChat(vaultId = id, title = title).mapToDomainModel()
     }
 
     override suspend fun sendMessage(message: String): SendMessageResult {

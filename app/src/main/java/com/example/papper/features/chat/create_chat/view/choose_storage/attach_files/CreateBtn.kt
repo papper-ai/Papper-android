@@ -15,9 +15,10 @@ fun CreateBtn(
 ) {
     ButtonComponent(
         onClick = {
-
+            viewModel.createChat()
         },
         text = stringResource(id = R.string.create),
         isEnable = isEnable,
+        isLoading = viewModel.createBtnLoading.value
     )
 }

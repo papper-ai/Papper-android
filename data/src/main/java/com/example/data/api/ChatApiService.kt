@@ -2,6 +2,8 @@ package com.example.data.api
 
 import com.example.data.model.chat.ChangeArchiveStatusChatBody
 import com.example.data.model.chat.ChatPreviewItem
+import com.example.data.model.chat.CreateChatBody
+import com.example.data.model.chat.CreateChatResponse
 import com.example.data.model.chat.GetChatResponse
 import com.example.data.model.chat.RenameChatBody
 import com.example.data.utils.Constants
@@ -16,6 +18,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ChatApiService {
+
+    @POST(Constants.CREATE_CHAT)
+    @Headers("accept: application/json", "Content-Type: application/json")
+    suspend fun createChat(
+        @Body body: CreateChatBody,
+    ): Response<CreateChatResponse>
 
     @GET(Constants.GET_CHATS_PREVIEW)
     @Headers("Accept: application/json")
