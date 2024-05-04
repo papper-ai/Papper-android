@@ -122,7 +122,13 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun navigateToStorageScreenForResult() = intent {
+
+    //todo расскоментить, когда появиться возможность прикреплять файл в чате
+//    fun navigateToStorageScreenForResult() = intent {
+//        postSideEffect(ChatSideEffects.NavigateToStorageScreen(storageId = state.storageId))
+//    }
+
+    fun navigateToStorageScreen() = intent {
         postSideEffect(ChatSideEffects.NavigateToStorageScreen(storageId = state.storageId))
     }
 

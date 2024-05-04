@@ -58,8 +58,8 @@ fun TopBar(
                 )
             },
             onClick = {
-                openRenameDialog.value = true
                 isExpanded = false
+                openRenameDialog.value = true
             }
         )
         DropdownMenuItem(
@@ -72,6 +72,7 @@ fun TopBar(
             },
             onClick = {
                 isExpanded = false
+                viewModel.navigateToStorageScreen()
             }
         )
         DropdownMenuItem(
@@ -83,8 +84,8 @@ fun TopBar(
                 )
             },
             onClick = {
-                viewModel.changeArchiveStatus()
                 isExpanded = false
+                viewModel.changeArchiveStatus()
             }
         )
         DropdownMenuItem(
@@ -96,8 +97,8 @@ fun TopBar(
                 )
             },
             onClick = {
-                viewModel.clearChatHistory()
                 isExpanded = false
+                viewModel.clearChatHistory()
             }
         )
         DropdownMenuItem(
@@ -109,8 +110,8 @@ fun TopBar(
                 )
             },
             onClick = {
-                openDeleteDialog.value = true
                 isExpanded = false
+                openDeleteDialog.value = true
             }
         )
     }
