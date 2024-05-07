@@ -51,8 +51,8 @@ class ChatRepositoryImpl @Inject constructor(
         return chatRemoteDataSource.createChat(vaultId = id, title = title).mapToDomainModel()
     }
 
-    override suspend fun sendMessage(message: String): SendMessageResult {
-        return chatRemoteDataSource.sendMessage(message = message).mapToDomainModel()
+    override suspend fun sendMessage(message: String, chatId: String,vaultId: String): SendMessageResult {
+        return chatRemoteDataSource.sendMessage(message = message, chatId = chatId, vaultId = vaultId).mapToDomainModel()
     }
 
 }

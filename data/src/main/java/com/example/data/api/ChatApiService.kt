@@ -6,7 +6,10 @@ import com.example.data.model.chat.CreateChatBody
 import com.example.data.model.chat.CreateChatResponse
 import com.example.data.model.chat.GetChatResponse
 import com.example.data.model.chat.RenameChatBody
+import com.example.data.model.chat.SendMessageBody
+import com.example.data.model.chat.SendMessageResponse
 import com.example.data.utils.Constants
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -59,5 +62,10 @@ interface ChatApiService {
     suspend fun deleteChat(
         @Path("id") id: String
     ): Response<Any>
+
+    @POST(Constants.SEND_MESSAGE)
+    suspend fun sendMessage(
+        @Body body: SendMessageBody,
+    ): Response<SendMessageResponse>
 
 }

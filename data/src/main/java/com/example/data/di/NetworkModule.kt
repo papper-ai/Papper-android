@@ -1,19 +1,18 @@
 package com.example.data.di
 
-import android.content.Context
 import com.example.data.datasource.local.AuthLocalDataSource
 import com.example.data.utils.Constants
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -36,6 +35,7 @@ object NetworkModule {
                 return@addInterceptor chain.proceed(request)
             }
             .addInterceptor(loggingInterceptor)
+            .callTimeout(200000, java.util.concurrent.TimeUnit.SECONDS)
             .build()
     }
 

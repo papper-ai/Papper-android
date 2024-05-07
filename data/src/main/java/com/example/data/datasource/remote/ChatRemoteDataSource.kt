@@ -8,7 +8,8 @@ import com.example.data.model.chat.ChatsPreviewResponseResult
 import com.example.data.model.chat.CreateChatBody
 import com.example.data.model.chat.CreateChatResponseResult
 import com.example.data.model.chat.RenameChatBody
-import com.example.data.model.chat.SendMessageResponse
+import com.example.data.model.chat.SendMessageBody
+import com.example.data.model.chat.SendMessageResponseResult
 import com.example.data.utils.BaseResponseImitation
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -215,9 +216,34 @@ class ChatRemoteDataSource @Inject constructor(
         return result
     }
 
-    suspend fun sendMessage(message: String): SendMessageResponse {
+    suspend fun sendMessage(message: String, chatId: String, vaultId: String): SendMessageResponseResult {
+        lateinit var result: SendMessageResponseResult
+        val resultFromApi = apiService.sendMessage(SendMessageBody(vaultId = vaultId, chatId = chatId, query = message))
+
+        if (resultFromApi.isSuccessful) {
+            result = SendMessageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                ),
+                content = resultFromApi.body()?.content ?: "",
+                traceback = resultFromApi.body()?.traceback ?: emptyList()
+            )
+        } else {
+            result = SendMessageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                ),
+                content = "",
+                traceback = emptyList()
+            )
+        }
+
         delay(1000)
-        return SendMessageResponse(baseResponse = BaseResponseImitation.execute())
+        return result
     }
 
 }

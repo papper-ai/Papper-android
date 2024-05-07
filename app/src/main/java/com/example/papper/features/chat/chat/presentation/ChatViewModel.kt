@@ -105,15 +105,17 @@ class ChatViewModel @Inject constructor(
         isSendingMessage.value = MessageStatus(isSendingMsg = true, isSuccess = false)
 
         val result = withContext(AppDispatchers.io) {
-            sendMessageUseCase.execute(message = text)
+            sendMessageUseCase.execute(message = text, chatId = id!!, vaultId = state.storageId)
         }
-
         if (result.isSuccess) {
             if (state.listOfMessages.isEmpty()) {
                 successState.value = SuccessState.NotEmptyChat
             }
             reduce {
                 state.copy(listOfMessages = state.listOfMessages.plus(Message(text = text, from = MessageSender.User)), message = "")
+            }
+            reduce {
+                state.copy(listOfMessages = state.listOfMessages.plus(Message(text = result.content, from = MessageSender.Bot)))
             }
             isSendingMessage.value = MessageStatus(isSendingMsg = false, isSuccess = true)
         } else {

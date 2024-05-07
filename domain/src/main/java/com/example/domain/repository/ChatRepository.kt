@@ -16,5 +16,5 @@ interface ChatRepository {
     suspend fun unarchiveChat(id: String): BaseResponse
     suspend fun renameChat(id: String, name: String): BaseResponse
     suspend fun createChat(id: String, title: String): CreateChatResult
-    suspend fun sendMessage(message: String) : SendMessageResult
+    suspend fun sendMessage(message: String, chatId: String,vaultId: String) : SendMessageResult
 }
