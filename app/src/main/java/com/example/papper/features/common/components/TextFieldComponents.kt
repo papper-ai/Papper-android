@@ -53,7 +53,7 @@ fun OutlinedTextFieldComponent(
     placeholder: String,
     singleLine: Boolean,
     keyboardType: KeyboardType = KeyboardType.Text,
-    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Words,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
     isEnable: Boolean = true,
     isError: Boolean = false,
 ) {
@@ -110,7 +110,7 @@ fun OutlinedPasswordTextFieldComponent(
     placeholder: String,
     singleLine: Boolean,
     keyboardType: KeyboardType = KeyboardType.Text,
-    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Words,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
     isEnable: Boolean = true,
     isError: Boolean = false,
 ) {
@@ -182,7 +182,7 @@ fun WithoutlinedTextFieldComponent(
     placeholder: String,
     singleLine: Boolean,
     keyboardType: KeyboardType = KeyboardType.Text,
-    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Words,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
 ) {
     Box(modifier = Modifier
         .fillMaxWidth()
@@ -235,7 +235,7 @@ fun ChatOutlinedTextFieldComponent(
     onValueChange: (String) -> Unit = {},
     placeholder: String,
     singleLine: Boolean,
-    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Words,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
     keyboardType: KeyboardType = KeyboardType.Text,
     isEnable: Boolean = true,
     onClick: () -> Unit,
