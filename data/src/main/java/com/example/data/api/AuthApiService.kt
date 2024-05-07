@@ -21,7 +21,7 @@ interface AuthApiService {
     suspend fun registerUser(name: String, surname: String, login: String, password: String, code: String)
 
     @FormUrlEncoded
-    @POST("/auth/login")
+    @POST(Constants.AUTHORIZE)
     suspend fun signIn(
         @Field("login") login: String,
         @Field("password") password: String

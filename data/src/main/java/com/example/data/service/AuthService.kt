@@ -72,7 +72,7 @@ class AuthService @Inject constructor(
     }
 
     suspend fun signIn(login: String, password: String): SignInResponseResult {
-        delay(5000)
+        delay(2000)
         lateinit var result: SignInResponseResult
 
         val resultFromApi = apiService.signIn(login = login, password = password)
