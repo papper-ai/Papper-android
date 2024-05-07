@@ -76,29 +76,41 @@ class AuthService @Inject constructor(
         lateinit var result: SignInResponseResult
 
         val resultFromApi = apiService.signIn(login = login, password = password)
-        if (resultFromApi.isSuccessful) {
-            authLocalDataSource.saveLogin(login = login)
-            authLocalDataSource.savePassword(password = password)
-            Log.e("Test", "signIn: ${resultFromApi.body()?.accessToken?.token.orEmpty()}")
-            Log.e("Test", "signIn: ${resultFromApi.body()?.refreshToken?.token.orEmpty()}")
-            authLocalDataSource.saveSuccessToken(token = resultFromApi.body()?.accessToken?.token.orEmpty())
-            authLocalDataSource.saveRefreshToken(token = resultFromApi.body()?.refreshToken?.token.orEmpty())
-            result = SignInResponseResult(
-                BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
+        try {
+            if (resultFromApi.isSuccessful) {
+                authLocalDataSource.saveLogin(login = login)
+                authLocalDataSource.savePassword(password = password)
+                Log.e("Test", "signIn: ${resultFromApi.body()?.accessToken?.token.orEmpty()}")
+                Log.e("Test", "signIn: ${resultFromApi.body()?.refreshToken?.token.orEmpty()}")
+                authLocalDataSource.saveSuccessToken(token = resultFromApi.body()?.accessToken?.token.orEmpty())
+                authLocalDataSource.saveRefreshToken(token = resultFromApi.body()?.refreshToken?.token.orEmpty())
+                result = SignInResponseResult(
+                    BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    )
                 )
-            )
-        } else {
+            } else {
+                result = SignInResponseResult(
+                    BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
             result = SignInResponseResult(
                 BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
+                    code = "",
+                    msg = "Error: ${e.message}",
                 )
             )
         }
+
         return result
     }
 

@@ -10,12 +10,14 @@ import com.example.papper.R
 import com.example.papper.features.storage.storage.presentation.StorageScreenState
 import com.example.papper.features.storage.storage.presentation.StorageSideEffects
 import com.example.papper.features.storage.storage.presentation.StorageViewModel
+import com.example.papper.features.storage.storages.presentation.StoragesViewModel
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun StorageScreen(
     modifier: Modifier = Modifier,
     viewModel: StorageViewModel,
+    storagesViewModel: StoragesViewModel,
     navHostController: NavHostController,
     id: String,
 ) {
@@ -26,6 +28,7 @@ fun StorageScreen(
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffect(
             viewModel = viewModel,
+            storagesViewModel = storagesViewModel,
             sideEffect = sideEffect,
             navHostController = navHostController,
             context = context,
@@ -40,6 +43,7 @@ fun StorageScreen(
 
 private fun handleSideEffect(
     viewModel: StorageViewModel,
+    storagesViewModel: StoragesViewModel,
     sideEffect: StorageSideEffects,
     navHostController: NavHostController,
     context: Context,
@@ -55,7 +59,6 @@ private fun handleSideEffect(
         StorageSideEffects.ShowError -> {
             viewModel.storageScreenState.value = StorageScreenState.Error
         }
-
         is StorageSideEffects.ShowToastAddFileError -> {
             Toast.makeText(context, "${context.getText(R.string.file_add_error)} ${sideEffect.title}", Toast.LENGTH_LONG).show()
         }
@@ -71,8 +74,17 @@ private fun handleSideEffect(
         StorageSideEffects.NavigateToStoragesScreen -> {
             navHostController.popBackStack()
         }
+        is StorageSideEffects.DeleteStorageAndNavigateToStoragesScreen -> {
+            storagesViewModel.deleteStorage(id = sideEffect.id)
+            //storagesViewModel.loadData()
+            navHostController.popBackStack()
+        }
         StorageSideEffects.ShowToastDeleteStorageError -> {
             Toast.makeText(context, context.getText(R.string.delete_storage_error), Toast.LENGTH_LONG).show()
+        }
+        is StorageSideEffects.RenameStorage -> {
+            //storagesViewModel.loadData()
+            storagesViewModel.reneameStorage(id = sideEffect.id, title = sideEffect.title)
         }
     }
 }

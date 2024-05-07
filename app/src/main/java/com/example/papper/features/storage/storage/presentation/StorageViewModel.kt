@@ -124,7 +124,7 @@ class StorageViewModel @Inject constructor(
             deleteStorageUseCase.execute(id = id!!)
         }
         if (result.isSuccess) {
-            postSideEffect(StorageSideEffects.NavigateToStoragesScreen)
+            postSideEffect(StorageSideEffects.DeleteStorageAndNavigateToStoragesScreen(id!!))
         }
         else {
             postSideEffect(StorageSideEffects.ShowToastDeleteStorageError)
@@ -139,6 +139,7 @@ class StorageViewModel @Inject constructor(
             reduce {
                 state.copy(title = title)
             }
+            postSideEffect(StorageSideEffects.RenameStorage(id!!, title))
         } else {
             postSideEffect(StorageSideEffects.ShowRenameErrorToast)
         }

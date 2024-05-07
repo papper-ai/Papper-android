@@ -26,6 +26,7 @@ import com.example.papper.features.storage.create_storage.CreateStoragesScreen
 import com.example.papper.features.storage.storage.StorageScreen
 import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.features.storage.storages.StoragesScreen
+import com.example.papper.features.storage.storages.presentation.StoragesViewModel
 
 @Composable
 fun AppNavigation(
@@ -33,6 +34,7 @@ fun AppNavigation(
 ) {
     val chatsViewModel: ChatsViewModel = hiltViewModel()
     val archivesViewModel: ArchivesViewModel = hiltViewModel()
+    val storagesViewModel: StoragesViewModel = hiltViewModel()
 
     NavHost (
         navController = navHostController,
@@ -93,7 +95,7 @@ fun AppNavigation(
         }
         composable(route = Screens.StoragesScreen.route) {
             StoragesScreen(
-                viewModel = hiltViewModel(),
+                viewModel = storagesViewModel,
                 navHostController = navHostController,
             )
         }
@@ -113,6 +115,7 @@ fun AppNavigation(
         ) {
             StorageScreen(
                 viewModel = hiltViewModel(),
+                storagesViewModel = storagesViewModel,
                 navHostController = navHostController,
                 id = it.arguments?.getString("storageId") ?: throw Exception("Id not found")
             )

@@ -51,4 +51,19 @@ class StoragesViewModel @Inject constructor(
             Screens.CreateChatScreen.route -> postSideEffect(StoragesSideEffects.NavigateToCreateChatScreen(id = id))
         }
     }
+
+    fun deleteStorage(id: String) = intent {
+        val newList = state.listOfStorages.filter { it.id != id }
+        reduce {
+            state.copy(listOfStorages = newList)
+        }
+    }
+
+    fun reneameStorage(id: String, title: String) = intent {
+        val newList = state.listOfStorages.map { if (it.id == id) it.copy(title = title) else it }
+        reduce {
+            state.copy(listOfStorages = newList)
+        }
+    }
+
 }

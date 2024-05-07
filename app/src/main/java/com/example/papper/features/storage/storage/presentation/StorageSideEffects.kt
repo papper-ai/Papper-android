@@ -8,6 +8,8 @@ sealed class StorageSideEffects {
     data class ShowToastFileAlreadyExist(val title: String): StorageSideEffects()
     data class ShowToastDeleteFileError(val title: String): StorageSideEffects()
     object ShowRenameErrorToast: StorageSideEffects()
+    data class RenameStorage(val id: String, val title: String): StorageSideEffects()
     object NavigateToStoragesScreen: StorageSideEffects()
+    data class DeleteStorageAndNavigateToStoragesScreen(val id: String): StorageSideEffects()
     object ShowToastDeleteStorageError: StorageSideEffects()
 }
