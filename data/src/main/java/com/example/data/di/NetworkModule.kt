@@ -35,7 +35,10 @@ object NetworkModule {
                 return@addInterceptor chain.proceed(request)
             }
             .addInterceptor(loggingInterceptor)
-            .callTimeout(200000, java.util.concurrent.TimeUnit.SECONDS)
+            .callTimeout(2000000, java.util.concurrent.TimeUnit.SECONDS)
+            .connectTimeout(2000000, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(2000000, java.util.concurrent.TimeUnit.SECONDS)
+            .writeTimeout(2000000, java.util.concurrent.TimeUnit.SECONDS)
             .build()
     }
 

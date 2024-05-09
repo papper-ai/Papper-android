@@ -2,6 +2,7 @@ package com.example.papper.features.auth.registration.presentation
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.domain.usecases.account.SignInUseCase
 import com.example.domain.usecases.account.SignUpUseCase
 import com.example.papper.utils.AppDispatchers
 import com.example.papper.utils.CheckRegistration
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
     private val signUpUseCase: SignUpUseCase,
+    private val signInUseCase: SignInUseCase,
 ) : ViewModel(), ContainerHost<RegistrationState, RegistrationSideEffects> {
 
     override val container = container<RegistrationState, RegistrationSideEffects>(RegistrationState())
@@ -85,7 +87,10 @@ class RegistrationViewModel @Inject constructor(
         }
 
         if (result.isSuccess) {
-            postSideEffect(RegistrationSideEffects.NavigateToChatsScreen)
+            val signInResult = signInUseCase.execute(login = state.login, password = state.password)
+            if (signInResult.isSuccess) {
+                postSideEffect(RegistrationSideEffects.NavigateToChatsScreen)
+            }
         }
         else {
             allFieldScreenState.value = AllFieldsScreenState.Error

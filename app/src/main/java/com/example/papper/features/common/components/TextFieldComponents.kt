@@ -110,7 +110,7 @@ fun OutlinedPasswordTextFieldComponent(
     placeholder: String,
     singleLine: Boolean,
     keyboardType: KeyboardType = KeyboardType.Text,
-    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.None,
     isEnable: Boolean = true,
     isError: Boolean = false,
 ) {
@@ -132,7 +132,7 @@ fun OutlinedPasswordTextFieldComponent(
             capitalization = keyboardCapitalization,
             autoCorrect = true,
             keyboardType = keyboardType,
-            imeAction = ImeAction.Next
+            imeAction = ImeAction.Done
         ),
         textStyle = MaterialTheme.typography.TypingText,
         singleLine = singleLine,

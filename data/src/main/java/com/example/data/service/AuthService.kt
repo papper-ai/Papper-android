@@ -7,9 +7,12 @@ import com.example.data.datasource.local.AuthLocalDataSource
 import com.example.data.model.auth.CheckApiResult
 import com.example.data.model.auth.GetUserLoginResponseResult
 import com.example.data.model.auth.RegisterUserResponse
+import com.example.data.model.auth.RegistrationBody
 import com.example.data.model.auth.SignInResponseResult
 import com.example.data.utils.BaseResponseImitation
 import kotlinx.coroutines.delay
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 class AuthService @Inject constructor(
@@ -43,32 +46,28 @@ class AuthService @Inject constructor(
     }
 
     suspend fun registerUser(login: String, password: String, code: String): RegisterUserResponse {
-        delay(5000)
-        val baseResponse = BaseResponseImitation.execute()
-        lateinit var resultFromApi: RegisterUserResponse
-        if (baseResponse.isSuccess) {
-            // TODO убрать комментарии когда будет не заглушка
-//            authLocalDataSource.saveLogin(login = login)
-//            authLocalDataSource.savePassword(password = password)
-            authLocalDataSource.saveSuccessToken(token = "access_tok3n")
-            authLocalDataSource.saveRefreshToken(token = "refresh_tok3n")
-            resultFromApi = RegisterUserResponse(
-                baseResponse = baseResponse,
-                accessToken = "access_tok3n",
-                refreshToken = "refresh_tok3n",
+        val resultFromApi = apiService.registerUser(secret = code, login = login, password = password)
+        return if (resultFromApi.isSuccessful) {
+            authLocalDataSource.saveLogin(login = login)
+            authLocalDataSource.savePassword(password = password)
+
+            RegisterUserResponse(
+                baseResponse = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                ),
             )
-            authLocalDataSource.saveSuccessToken(token = resultFromApi.accessToken)
-            authLocalDataSource.saveRefreshToken(token = resultFromApi.refreshToken)
-            return resultFromApi
-        }
-        else {
-            resultFromApi = RegisterUserResponse(
-                baseResponse = baseResponse,
-                accessToken = "",
-                refreshToken = "",
+        } else {
+            RegisterUserResponse(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message(),
+                )
             )
         }
-        return resultFromApi
+
     }
 
     suspend fun signIn(login: String, password: String): SignInResponseResult {

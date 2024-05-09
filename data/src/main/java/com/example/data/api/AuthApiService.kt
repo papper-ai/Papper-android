@@ -2,10 +2,13 @@ package com.example.data.api
 
 import com.example.data.model.auth.CheckApiResponse
 import com.example.data.model.auth.GetUserLoginResponse
+import com.example.data.model.auth.RegistrationBody
 import com.example.data.model.auth.SignInResponse
 import com.example.data.utils.Constants
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -18,7 +21,15 @@ interface AuthApiService {
     @GET(Constants.HELLO)
     suspend fun testApi(): Response<CheckApiResponse>
 
-    suspend fun registerUser(name: String, surname: String, login: String, password: String, code: String)
+
+    //@Headers("Content-Type: application/x-www-form-urlencoded")
+    @FormUrlEncoded
+    @POST(Constants.REGISTER_USER)
+    suspend fun registerUser(
+        @Field("secret") secret: String,
+        @Field("login") login: String,
+        @Field("password") password: String
+    ): Response<Any>
 
     @FormUrlEncoded
     @POST(Constants.AUTHORIZE)

@@ -8,6 +8,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
 import com.example.papper.R
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
 import com.example.papper.features.common.components.WithoutlinedTextFieldComponent
@@ -32,6 +34,8 @@ fun PasswordTextField(
         },
         modifier = modifier,
         placeholder = stringResource(id = R.string.fill_password),
-        singleLine = true
+        singleLine = true,
+        keyboardType = KeyboardType.Password,
+        keyboardCapitalization = KeyboardCapitalization.None,
     )
 }
