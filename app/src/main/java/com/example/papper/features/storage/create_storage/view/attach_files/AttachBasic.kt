@@ -1,6 +1,7 @@
 package com.example.papper.features.storage.create_storage.view.attach_files
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.papper.features.common.components.PageProgressComponent
+import com.example.papper.features.storage.create_storage.presentation.CreateStorageScreenState
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
 import com.example.papper.theme.dimens
 import org.orbitmvi.orbit.compose.collectAsState
@@ -23,6 +25,10 @@ fun AttachBasic(
     viewModel: CreateStorageViewModel,
     navHostController: NavHostController,
 ) {
+    BackHandler {
+        viewModel.createStorageScreenState.value = CreateStorageScreenState.ChooseStorageType
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize(),

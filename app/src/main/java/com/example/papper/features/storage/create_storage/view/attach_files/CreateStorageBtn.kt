@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import com.example.papper.R
 import com.example.papper.features.common.components.ButtonComponent
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
+import org.orbitmvi.orbit.compose.collectAsState
 
 @Composable
 fun CreateStorageBtn(
@@ -25,7 +26,7 @@ fun CreateStorageBtn(
         },
         text = stringResource(id = R.string.create),
         isLoading = viewModel.createStorageBtnStatus.value.isLoading,
-        isEnable = viewModel.createStorageBtnStatus.value.isEnable,
+        isEnable = ((viewModel.createStorageBtnStatus.value.isEnable) && viewModel.collectAsState().value.listOfFiles.isNotEmpty()),
     )
 }
 

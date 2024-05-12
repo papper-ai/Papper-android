@@ -1,6 +1,7 @@
 package com.example.papper.features.storage.create_storage.view.choose_storage_type
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.papper.features.common.components.PageProgressComponent
+import com.example.papper.features.storage.create_storage.presentation.CreateStorageScreenState
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
 import com.example.papper.features.storage.create_storage.view.ContinueBtn
 import com.example.papper.theme.dimens
@@ -23,6 +25,10 @@ fun ChooseStorageTypeBasic(
     modifier: Modifier = Modifier,
     viewModel: CreateStorageViewModel,
 ) {
+    BackHandler {
+        viewModel.createStorageScreenState.value = CreateStorageScreenState.TypingTitle
+    }
+
     Box(
         modifier = modifier
             .fillMaxSize(1f),
