@@ -13,19 +13,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.papper.features.chat.chats.model.ChatDescription
+import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.navigation.Screens
 import com.example.papper.theme.dimens
 
 @Composable
 fun ItemBasic(
     modifier: Modifier = Modifier,
-    navHostController: NavHostController,
+    viewModel: ChatsViewModel,
     chat: ChatDescription,
 ) {
     Row(
         modifier = modifier
             .clickable {
-                navHostController.navigate("${Screens.ChatScreen.route}/${chat.id}")
+                viewModel.navigateToChatScreen(id = chat.id)
             }
             .fillMaxWidth()
             .wrapContentHeight()

@@ -23,6 +23,7 @@ fun ChatBasic(
         )
         is ChatsScreenState.Success -> SuccessBasic(
             modifier = modifier,
+            viewModel = viewModel,
             navHostController = navHostController,
             list = viewModel.collectAsState().value.listOfChats
         )

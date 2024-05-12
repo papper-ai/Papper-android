@@ -14,12 +14,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.example.papper.R
 import com.example.papper.features.chat.chats.model.ChatDescription
+import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.features.chat.chats.view.success_data.top_bar.TopBarBasic
 import com.example.papper.navigation.Screens
 
 @Composable
 fun SuccessBasic(
     modifier: Modifier = Modifier,
+    viewModel: ChatsViewModel,
     navHostController: NavHostController,
     list: List<ChatDescription>
 ) {
@@ -32,7 +34,7 @@ fun SuccessBasic(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navHostController.navigate(Screens.CreateChatScreen.route)
+                    viewModel.navigateToCreateChatScreen()
                 },
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
@@ -51,7 +53,7 @@ fun SuccessBasic(
             ) {
                 ColumnOfChats(
                     modifier = modifier,
-                    navHostController = navHostController,
+                    viewModel = viewModel,
                     listOfChats = list
                 )
             }

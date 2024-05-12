@@ -85,4 +85,12 @@ class ChatsViewModel @Inject constructor(
         )
     }
 
+    fun navigateToCreateChatScreen() = intent {
+        postSideEffect(ChatsSideEffects.NavigateToCreateChatScreen)
+    }
+
+    fun navigateToChatScreen(id: String) = intent {
+        postSideEffect(ChatsSideEffects.NavigateToChatScreen(id))
+    }
+
 }

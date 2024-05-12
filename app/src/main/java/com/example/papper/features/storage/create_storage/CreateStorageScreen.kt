@@ -10,6 +10,7 @@ import com.example.papper.R
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageScreenState
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageSideEffects
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
+import com.example.papper.features.storage.storages.presentation.StoragesViewModel
 import com.example.papper.navigation.Screens
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -17,12 +18,14 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 fun CreateStoragesScreen(
     modifier: Modifier = Modifier,
     viewModel: CreateStorageViewModel,
+    storagesViewModel: StoragesViewModel,
     navHostController: NavHostController,
 ) {
     val context = LocalContext.current
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffect(
             viewModel = viewModel,
+            storagesViewModel = storagesViewModel,
             sideEffect = sideEffect,
             navHostController = navHostController,
             context = context,
@@ -37,6 +40,7 @@ fun CreateStoragesScreen(
 
 private fun handleSideEffect(
     viewModel: CreateStorageViewModel,
+    storagesViewModel: StoragesViewModel,
     sideEffect: CreateStorageSideEffects,
     navHostController: NavHostController,
     context: Context,
@@ -56,6 +60,7 @@ private fun handleSideEffect(
             navHostController.popBackStack()
         }
         is CreateStorageSideEffects.NavigateToStorageScreen -> {
+            storagesViewModel.loadData()
             navHostController.navigate(
                 route = "${Screens.StorageScreen.route}/${sideEffect.id}",
             ) {

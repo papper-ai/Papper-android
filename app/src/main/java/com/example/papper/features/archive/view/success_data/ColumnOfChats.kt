@@ -10,8 +10,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import com.example.papper.features.archive.view.success_data.archive_item.ItemBasic
 import com.example.papper.features.chat.chats.model.ChatDescription
-import com.example.papper.features.chat.chats.view.success_data.chat_item.ItemBasic
 import com.example.papper.theme.dimens
 
 @Composable

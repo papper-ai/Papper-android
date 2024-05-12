@@ -10,6 +10,7 @@ import com.example.papper.R
 import com.example.papper.features.chat.chats.presentation.ChatsScreenState
 import com.example.papper.features.chat.chats.presentation.ChatsSideEffects
 import com.example.papper.features.chat.chats.presentation.ChatsViewModel
+import com.example.papper.navigation.Screens
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -24,19 +25,21 @@ fun ChatsScreen(
         handleSideEffect(
             viewModel = viewModel,
             sideEffect = sideEffect,
+            navHostController = navHostController,
             context = context,
         )
     }
     ChatBasic(
         modifier = modifier,
         viewModel = viewModel,
-        navHostController = navHostController
+        navHostController = navHostController,
     )
 }
 
 private fun handleSideEffect(
     viewModel: ChatsViewModel,
     sideEffect: ChatsSideEffects,
+    navHostController: NavHostController,
     context: Context,
 ) {
     when (sideEffect) {
@@ -52,6 +55,12 @@ private fun handleSideEffect(
         ChatsSideEffects.ShowNetworkConnectionError -> {
             viewModel.chatsScreenState.value = ChatsScreenState.Error
             Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()
+        }
+        is ChatsSideEffects.NavigateToChatScreen -> {
+            navHostController.navigate("${Screens.ChatScreen.route}/${sideEffect.id}")
+        }
+        ChatsSideEffects.NavigateToCreateChatScreen -> {
+            navHostController.navigate(Screens.CreateChatScreen.route)
         }
     }
 }
