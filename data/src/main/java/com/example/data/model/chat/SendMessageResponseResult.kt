@@ -13,6 +13,11 @@ data class SendMessageBody(
 )
 
 data class SendMessageResponse(
+    @SerializedName("ai_message")
+    val aiMessage: AiMessage,
+)
+
+data class AiMessage(
     val content: String,
     val traceback: List<Traceback>,
 )

@@ -227,8 +227,8 @@ class ChatRemoteDataSource @Inject constructor(
                     code = resultFromApi.code().toString(),
                     msg = resultFromApi.message()
                 ),
-                content = resultFromApi.body()?.content ?: "",
-                traceback = resultFromApi.body()?.traceback ?: emptyList()
+                content = resultFromApi.body()?.aiMessage?.content ?: "",
+                traceback = resultFromApi.body()?.aiMessage?.traceback ?: emptyList()
             )
         } else {
             result = SendMessageResponseResult(

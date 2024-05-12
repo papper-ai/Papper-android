@@ -1,5 +1,6 @@
 package com.example.papper.features.chat.chat.presentation
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.chat.ArchiveChatUseCase
@@ -117,6 +118,7 @@ class ChatViewModel @Inject constructor(
             reduce {
                 state.copy(listOfMessages = state.listOfMessages.plus(Message(text = result.content, from = MessageSender.Bot)))
             }
+            Log.d("Test", "sendMessage: ${result.content}")
             isSendingMessage.value = MessageStatus(isSendingMsg = false, isSuccess = true)
         } else {
             isSendingMessage.value = MessageStatus(isSendingMsg = false, isSuccess = false)
