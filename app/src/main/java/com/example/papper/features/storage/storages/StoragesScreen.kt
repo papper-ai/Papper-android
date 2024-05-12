@@ -52,5 +52,8 @@ private fun handleSideEffects(
         is StoragesSideEffects.NavigateToStorageScreen -> {
             navHostController.navigate(Screens.StorageScreen.route + "/${sideEffect.id}")
         }
+        StoragesSideEffects.NavigateToCreateStorageScreen -> {
+            navHostController.navigate(Screens.CreateStorageScreen.route)
+        }
     }
 }

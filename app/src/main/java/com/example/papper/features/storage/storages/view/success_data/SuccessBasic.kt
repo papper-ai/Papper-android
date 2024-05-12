@@ -25,7 +25,7 @@ fun SuccessBasic(
         ColumnOfStorages(
             navHostController = navHostController,
             viewModel = viewModel,
-            listOfChats = viewModel.collectAsState().value.listOfStorages,
+            list = viewModel.collectAsState().value.listOfStorages,
         )
     }
 }
