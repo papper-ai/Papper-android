@@ -82,13 +82,14 @@ fun AppNavigation(
                 navArgument("chatId") { type = NavType.StringType }
             )
         ) { entry ->
+            val id = entry.arguments?.getString("chatId") ?: throw Exception("Id not found")
             ChatScreen(
                 viewModel = hiltViewModel(),
                 chatsViewModel = chatsViewModel,
                 archivesViewModel = archivesViewModel,
                 navHostController = navHostController,
-                id = entry.arguments?.getString("chatId") ?: throw Exception("Id not found"),
-                file = entry.savedStateHandle.get<FilePresentationModel>("file"),
+                id = id,
+                //file = entry.savedStateHandle.get<FilePresentationModel>("file"),
             )
         }
         composable(route = Screens.StoragesScreen.route) {
@@ -112,11 +113,12 @@ fun AppNavigation(
                 navArgument("storageId") { type = NavType.StringType }
             )
         ) {
+            val id = it.arguments?.getString("storageId") ?: throw Exception("Id not found")
             StorageScreen(
                 viewModel = hiltViewModel(),
                 storagesViewModel = storagesViewModel,
                 navHostController = navHostController,
-                id = it.arguments?.getString("storageId") ?: throw Exception("Id not found")
+                id = id
             )
         }
         composable(route = Screens.ArchivesScreen.route) {

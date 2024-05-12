@@ -51,7 +51,7 @@ class ChatViewModel @Inject constructor(
 
     fun loadData() = intent {
         //delay для того, чтобы успел подтянуться id с прошлого экрана
-        delay(10)
+        delay(20)
         postSideEffect(ChatSideEffects.ShowLoading)
         val result = withContext(AppDispatchers.io) {
             id?.let { getChatByIdUseCase.execute(it).mapToPresentationModel() }

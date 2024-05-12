@@ -1,8 +1,10 @@
 package com.example.papper.features.chat.create_chat
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -13,8 +15,11 @@ import com.example.papper.features.chat.create_chat.presentation.CreateChatScree
 import com.example.papper.features.chat.create_chat.presentation.CreateChatSideEffects
 import com.example.papper.features.chat.create_chat.presentation.CreateChatViewModel
 import com.example.papper.navigation.Screens
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectSideEffect
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun CreateChatScreen(
     modifier: Modifier = Modifier,
@@ -23,11 +28,16 @@ fun CreateChatScreen(
     navHostController: NavHostController,
     id: String? = null
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    if (id != null) {
-        viewModel.toListOfFiles(id = id)
+    coroutineScope.launch {
+        delay(10)
+        if (id != null) {
+            viewModel.toListOfFiles(id = id)
+        }
     }
+
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffect(
             viewModel = viewModel,

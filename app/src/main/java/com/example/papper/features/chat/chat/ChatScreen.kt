@@ -24,13 +24,9 @@ fun ChatScreen(
     archivesViewModel: ArchivesViewModel,
     navHostController: NavHostController,
     id: String,
-    file: FilePresentationModel?,
 ) {
     val context = LocalContext.current
     viewModel.id = id
-    if (file != null) {
-
-    }
 
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffects(

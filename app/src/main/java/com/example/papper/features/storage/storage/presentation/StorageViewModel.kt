@@ -11,6 +11,7 @@ import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.features.storage.storage.model.mapToPresentationModel
 import com.example.papper.utils.AppDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -42,6 +43,7 @@ class StorageViewModel @Inject constructor(
 
     fun getData() = intent {
         postSideEffect(StorageSideEffects.ShowLoading)
+        delay(20)
         val result = withContext(AppDispatchers.io) {
             id?.let { getStorageByIdUseCase.execute(id = it).mapToPresentationModel() }
         }
