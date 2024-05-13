@@ -39,8 +39,8 @@ fun ChooseVariableBasic(
             CreateNewStorageBtn(navHostController = navHostController)
             Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.bottomGap))
             ChooseStorageBtn(viewModel = viewModel)
-            Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.bottomGap))
-            SkipBtn(viewModel = viewModel)
+//            Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.bottomGap))
+//            SkipBtn(viewModel = viewModel)
         }
     }
 

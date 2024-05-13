@@ -44,8 +44,8 @@ fun SignInBasic(
                 PasswordTextField(viewModel = viewModel)
                 Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap))
                 SignInBtn(viewModel = viewModel)
-                Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
-                ForgotPasswordBtn()
+//                Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
+//                ForgotPasswordBtn()
                 Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap3))
             }
         }
