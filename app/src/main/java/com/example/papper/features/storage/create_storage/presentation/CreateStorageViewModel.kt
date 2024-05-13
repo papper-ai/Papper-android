@@ -7,6 +7,7 @@ import com.example.papper.features.storage.create_storage.view.attach_files.Crea
 import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.navigation.Screens
 import com.example.papper.utils.AppDispatchers
+import com.example.papper.utils.CheckNetworkStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateStorageViewModel @Inject constructor(
+    private val checkNetworkStatus: CheckNetworkStatus,
     private val createStorageUseCase: CreateStorageUseCase,
 ) : ViewModel(), ContainerHost<CreateStorageState, CreateStorageSideEffects> {
 
@@ -59,22 +61,30 @@ class CreateStorageViewModel @Inject constructor(
     }
 
     fun createStorage(lastDestination: String) = intent {
-        createStorageBtnStatus.value = CreateStorageBtnStatus(isLoading = true, isEnable = false)
-        val result = withContext(AppDispatchers.io) {
-            createStorageUseCase.execute(title = state.title, type = state.storageType, list = state.listOfFiles.toList())
-        }
-        if (result.isSuccess) {
-            if (lastDestination == Screens.CreateChatScreen.route) {
-                postSideEffect(CreateStorageSideEffects.NavigateToCreateChatScreen(id = result.id))
-            }
-            else if (lastDestination == Screens.StoragesScreen.route) {
-                postSideEffect(CreateStorageSideEffects.NavigateToStorageScreen(id = result.id))
-            }
-        }
-        else {
-            createStorageBtnStatus.value = CreateStorageBtnStatus(isLoading = false, isEnable = true)
-            postSideEffect(CreateStorageSideEffects.ShowErrorToast)
-        }
+        checkNetworkStatus.isNetworkConnected(
+            onSuccess = {
+                createStorageBtnStatus.value = CreateStorageBtnStatus(isLoading = true, isEnable = false)
+                val result = withContext(AppDispatchers.io) {
+                    createStorageUseCase.execute(title = state.title, type = state.storageType, list = state.listOfFiles.toList())
+                }
+                if (result.isSuccess) {
+                    if (lastDestination == Screens.CreateChatScreen.route) {
+                        postSideEffect(CreateStorageSideEffects.NavigateToCreateChatScreen(id = result.id))
+                    }
+                    else if (lastDestination == Screens.StoragesScreen.route) {
+                        postSideEffect(CreateStorageSideEffects.NavigateToStorageScreen(id = result.id))
+                    }
+                }
+                else {
+                    createStorageBtnStatus.value = CreateStorageBtnStatus(isLoading = false, isEnable = true)
+                    postSideEffect(CreateStorageSideEffects.ShowErrorToast)
+                }
+            },
+            onFail = {
+                postSideEffect(CreateStorageSideEffects.ShowNetworkConnectionError)
+            },
+        )
+
     }
 
     fun addFile(file: File) = intent {

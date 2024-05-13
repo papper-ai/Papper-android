@@ -93,5 +93,10 @@ private fun handleSideEffects(
             chatsViewModel.loadData()
             archivesViewModel.loadData()
         }
+
+        ChatSideEffects.ShowNetworkConnectionError -> {
+            viewModel.chatScreenState.value = ChatScreenState.Error
+            Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -7,4 +7,5 @@ sealed class StoragesSideEffects {
     data class NavigateToStorageScreen(val id: String) : StoragesSideEffects()
     data class NavigateToCreateChatScreen(val id: String) : StoragesSideEffects()
     object NavigateToCreateStorageScreen : StoragesSideEffects()
+    object ShowNetworkConnectionError: StoragesSideEffects()
 }

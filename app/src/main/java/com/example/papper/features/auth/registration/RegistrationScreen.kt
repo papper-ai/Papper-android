@@ -1,7 +1,11 @@
 package com.example.papper.features.auth.registration
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import com.example.papper.R
 import com.example.papper.features.auth.registration.presentation.RegistrationScreenState
 import com.example.papper.features.auth.registration.presentation.RegistrationSideEffects
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
@@ -13,11 +17,14 @@ fun RegistrationScreen(
     viewModel: RegistrationViewModel,
     navHostController: NavHostController,
 ) {
+    val context = LocalContext.current
+
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffects (
             viewModel = viewModel,
             sideEffect = sideEffect,
             navHostController = navHostController,
+            context = context,
         )
     }
     RegistrationBasic(viewModel = viewModel, navHostController = navHostController)
@@ -27,6 +34,7 @@ private fun handleSideEffects(
     viewModel: RegistrationViewModel,
     sideEffect: RegistrationSideEffects,
     navHostController: NavHostController,
+    context: Context,
 ) {
     when (sideEffect) {
 //        is RegistrationSideEffects.toSurname -> {
@@ -58,6 +66,9 @@ private fun handleSideEffects(
                 launchSingleTop = true
                 restoreState = true
             }
+        }
+        RegistrationSideEffects.ShowNetworkConnectionError -> {
+            Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()
         }
     }
 }

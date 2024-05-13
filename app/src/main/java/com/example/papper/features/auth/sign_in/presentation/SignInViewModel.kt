@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.account.SignInUseCase
 import com.example.papper.utils.AppDispatchers
+import com.example.papper.utils.CheckNetworkStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
+    private val checkNetworkStatus: CheckNetworkStatus,
     private val signInUseCase: SignInUseCase,
 ) : ViewModel(), ContainerHost<SignInState, SignInSideEffects> {
 
@@ -45,15 +47,22 @@ class SignInViewModel @Inject constructor(
 
     fun signIn() = intent {
         postSideEffect(SignInSideEffects.ShowLoadingState)
-        val result = withContext(AppDispatchers.io) {
-            signInUseCase.execute(login = state.login, password = state.password)
-        }
-        if (result.isSuccess) {
-            postSideEffect(SignInSideEffects.NavigateToChatsScreen)
-        }
-        else {
-            postSideEffect(SignInSideEffects.ShowErrorState(result.msg))
-        }
+        checkNetworkStatus.isNetworkConnected(
+            onSuccess = {
+                val result = withContext(AppDispatchers.io) {
+                    signInUseCase.execute(login = state.login, password = state.password)
+                }
+                if (result.isSuccess) {
+                    postSideEffect(SignInSideEffects.NavigateToChatsScreen)
+                }
+                else {
+                    postSideEffect(SignInSideEffects.ShowErrorState(result.msg))
+                }
+            },
+            onFail = {
+                postSideEffect(SignInSideEffects.ShowNetworkConnectionError)
+            }
+        )
     }
 
     private fun checkField() = intent {

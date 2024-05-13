@@ -10,6 +10,7 @@ import com.example.domain.usecases.storage.RenameStorageUseCase
 import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.features.storage.storage.model.mapToPresentationModel
 import com.example.papper.utils.AppDispatchers
+import com.example.papper.utils.CheckNetworkStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -23,6 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StorageViewModel @Inject constructor(
+    private val checkNetworkStatus: CheckNetworkStatus,
     private val getStorageByIdUseCase: GetStorageByIdUseCase,
     private val addFileInStorageById: AddFileInStorageById,
     private val deleteFileUseCase: DeleteFileUseCase,
@@ -42,25 +44,32 @@ class StorageViewModel @Inject constructor(
     }
 
     fun getData() = intent {
-        postSideEffect(StorageSideEffects.ShowLoading)
-        delay(20)
-        val result = withContext(AppDispatchers.io) {
-            id?.let { getStorageByIdUseCase.execute(id = it).mapToPresentationModel() }
-        }
-        if (result != null) {
-            if (result.isSuccess) {
-                reduce {
-                    state.copy(title = result.title, setOfStorages = result.listOfFiles.toSet())
+        checkNetworkStatus.isNetworkConnected(
+            onSuccess = {
+                postSideEffect(StorageSideEffects.ShowLoading)
+                delay(20)
+                val result = withContext(AppDispatchers.io) {
+                    id?.let { getStorageByIdUseCase.execute(id = it).mapToPresentationModel() }
                 }
-                postSideEffect(StorageSideEffects.ShowSuccess)
-            }
-            else {
-                postSideEffect(StorageSideEffects.ShowError)
-            }
-        }
-        else {
-            postSideEffect(StorageSideEffects.ShowError)
-        }
+                if (result != null) {
+                    if (result.isSuccess) {
+                        reduce {
+                            state.copy(title = result.title, setOfStorages = result.listOfFiles.toSet())
+                        }
+                        postSideEffect(StorageSideEffects.ShowSuccess)
+                    }
+                    else {
+                        postSideEffect(StorageSideEffects.ShowError)
+                    }
+                }
+                else {
+                    postSideEffect(StorageSideEffects.ShowError)
+                }
+            },
+            onFail = {
+                postSideEffect(StorageSideEffects.ShowNetworkConnectionError)
+            },
+        )
     }
 
     fun deleteFile(file: FilePresentationModel) = intent {

@@ -56,21 +56,21 @@ class ChatsViewModel @Inject constructor(
 
     }
 
-    fun renameChat(id: String, title: String) = intent {
-        val list = state.listOfChats.toMutableList()
-        list.find { it.id == id }?.title = title
-        reduce {
-            state.copy(listOfChats = list)
-        }
-    }
-
-    fun deleteChat(id: String) = intent {
-        val list = state.listOfChats.toMutableList()
-        list.removeIf { it.id == id }
-        reduce {
-            state.copy(listOfChats = list)
-        }
-    }
+//    fun renameChat(id: String, title: String) = intent {
+//        val list = state.listOfChats.toMutableList()
+//        list.find { it.id == id }?.title = title
+//        reduce {
+//            state.copy(listOfChats = list)
+//        }
+//    }
+//
+//    fun deleteChat(id: String) = intent {
+//        val list = state.listOfChats.toMutableList()
+//        list.removeIf { it.id == id }
+//        reduce {
+//            state.copy(listOfChats = list)
+//        }
+//    }
 
     private fun checkApi() = intent {
         checkNetworkStatus.isNetworkConnected(

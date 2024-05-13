@@ -85,8 +85,14 @@ private fun handleSideEffect(
 
             }
         }
+        CreateChatSideEffects.ShowFetchStorageError -> {
+            Toast.makeText(context, context.getText(R.string.loading_storage_error), Toast.LENGTH_SHORT).show()
+        }
         CreateChatSideEffects.ShowCreateChatErrorToast -> {
             Toast.makeText(context, context.getText(R.string.create_chat_error), Toast.LENGTH_SHORT).show()
+        }
+        CreateChatSideEffects.ShowNetworkConnectionError -> {
+            Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()
         }
     }
 }

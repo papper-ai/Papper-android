@@ -11,5 +11,6 @@ sealed class ChatSideEffects {
     data class DeleteChatAndNavigateToChatsScreen(val id: String) : ChatSideEffects()
     data class NavigateToStorageScreen(val storageId: String): ChatSideEffects()
     data class ChangeArchiveStatus(val status: Boolean): ChatSideEffects()
+    object ShowNetworkConnectionError: ChatSideEffects()
 
 }

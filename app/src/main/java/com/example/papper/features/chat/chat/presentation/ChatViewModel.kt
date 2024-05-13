@@ -53,32 +53,42 @@ class ChatViewModel @Inject constructor(
     fun loadData() = intent {
         //delay для того, чтобы успел подтянуться id с прошлого экрана
         delay(20)
+
         postSideEffect(ChatSideEffects.ShowLoading)
-        val result = withContext(AppDispatchers.io) {
-            id?.let { getChatByIdUseCase.execute(it).mapToPresentationModel() }
-        }
-        if (result != null) {
-            if (result.isSuccess) {
-                reduce {
-                    state.copy(
-                        title = result.title,
-                        listOfMessages = result.listOfMessages,
-                        storageId = result.storageId,
-                        isArchived = result.isArchived,
-                    )
+        networkStatus.isNetworkConnected(
+            onSuccess = {
+                val result = withContext(AppDispatchers.io) {
+                    id?.let { getChatByIdUseCase.execute(it).mapToPresentationModel() }
                 }
-                if (state.listOfMessages.isNotEmpty()) {
-                    successState.value = SuccessState.NotEmptyChat
+                if (result != null) {
+                    if (result.isSuccess) {
+                        reduce {
+                            state.copy(
+                                title = result.title,
+                                listOfMessages = result.listOfMessages,
+                                storageId = result.storageId,
+                                isArchived = result.isArchived,
+                            )
+                        }
+                        if (state.listOfMessages.isNotEmpty()) {
+                            successState.value = SuccessState.NotEmptyChat
+                        } else {
+                            successState.value = SuccessState.EmptyChat
+                        }
+                        postSideEffect(ChatSideEffects.ShowSuccess)
+                    } else {
+                        postSideEffect(ChatSideEffects.ShowError)
+                    }
                 } else {
-                    successState.value = SuccessState.EmptyChat
+                    postSideEffect(ChatSideEffects.ShowError)
                 }
-                postSideEffect(ChatSideEffects.ShowSuccess)
-            } else {
-                postSideEffect(ChatSideEffects.ShowError)
+            },
+            onFail = {
+                postSideEffect(ChatSideEffects.ShowNetworkConnectionError)
             }
-        } else {
-            postSideEffect(ChatSideEffects.ShowError)
-        }
+        )
+
+
     }
 
     fun updateMessage(message: String) = intent {
@@ -103,29 +113,35 @@ class ChatViewModel @Inject constructor(
     }
 
     fun sendMessage(text: String) = intent {
-        isSendingMessage.value = MessageStatus(isSendingMsg = true, isSuccess = false)
+        networkStatus.isNetworkConnected(
+            onSuccess = {
+                isSendingMessage.value = MessageStatus(isSendingMsg = true, isSuccess = false)
 
-        val result = withContext(AppDispatchers.io) {
-            sendMessageUseCase.execute(message = text, chatId = id!!, vaultId = state.storageId)
-        }
-        if (result.isSuccess) {
-            if (state.listOfMessages.isEmpty()) {
-                successState.value = SuccessState.NotEmptyChat
+                val result = withContext(AppDispatchers.io) {
+                    sendMessageUseCase.execute(message = text, chatId = id!!, vaultId = state.storageId)
+                }
+                if (result.isSuccess) {
+                    if (state.listOfMessages.isEmpty()) {
+                        successState.value = SuccessState.NotEmptyChat
+                    }
+                    reduce {
+                        state.copy(listOfMessages = state.listOfMessages.plus(Message(text = text, from = MessageSender.User)), message = "")
+                    }
+                    reduce {
+                        state.copy(listOfMessages = state.listOfMessages.plus(Message(text = result.content, from = MessageSender.Bot)))
+                    }
+                    Log.d("Test", "sendMessage: ${result.content}")
+                    isSendingMessage.value = MessageStatus(isSendingMsg = false, isSuccess = true)
+                } else {
+                    isSendingMessage.value = MessageStatus(isSendingMsg = false, isSuccess = false)
+                    postSideEffect(ChatSideEffects.ShowErrorSendMsgToast)
+                }
+            },
+            onFail = {
+                postSideEffect(ChatSideEffects.ShowNetworkConnectionError)
             }
-            reduce {
-                state.copy(listOfMessages = state.listOfMessages.plus(Message(text = text, from = MessageSender.User)), message = "")
-            }
-            reduce {
-                state.copy(listOfMessages = state.listOfMessages.plus(Message(text = result.content, from = MessageSender.Bot)))
-            }
-            Log.d("Test", "sendMessage: ${result.content}")
-            isSendingMessage.value = MessageStatus(isSendingMsg = false, isSuccess = true)
-        } else {
-            isSendingMessage.value = MessageStatus(isSendingMsg = false, isSuccess = false)
-            postSideEffect(ChatSideEffects.ShowErrorSendMsgToast)
-        }
+        )
     }
-
 
     //todo расскоментить, когда появиться возможность прикреплять файл в чате
 //    fun navigateToStorageScreenForResult() = intent {
@@ -137,37 +153,49 @@ class ChatViewModel @Inject constructor(
     }
 
     fun changeArchiveStatus() = intent {
-        val result = withContext(AppDispatchers.io) {
-            if (state.isArchived) {
-                unarchiveChatUseCase.execute(id =  id!!)
-            } else {
-                archiveChatUseCase.execute(id =  id!!)
+        networkStatus.isNetworkConnected(
+            onSuccess = {
+                val result = withContext(AppDispatchers.io) {
+                    if (state.isArchived) {
+                        unarchiveChatUseCase.execute(id =  id!!)
+                    } else {
+                        archiveChatUseCase.execute(id =  id!!)
+                    }
+                }
+                if (result.isSuccess) {
+                    reduce {
+                        state.copy(isArchived = !state.isArchived)
+                    }
+                    postSideEffect(ChatSideEffects.ChangeArchiveStatus(status = state.isArchived))
+                } else {
+                    //todo сделать toast
+                }
+            },
+            onFail = {
+                postSideEffect(ChatSideEffects.ShowNetworkConnectionError)
             }
-        }
-        if (result.isSuccess) {
-            reduce {
-                state.copy(isArchived = !state.isArchived)
-            }
-            postSideEffect(ChatSideEffects.ChangeArchiveStatus(status = state.isArchived))
-        } else {
-            //todo сделать toast
-        }
+        )
     }
 
     fun clearChatHistory() = intent {
-        val result = withContext(AppDispatchers.io) {
-            clearChatUseCase.execute(id = id!!)
-        }
-        if (result.isSuccess) {
-            reduce {
-                state.copy(listOfMessages = emptyList())
-            }
-            successState.value = SuccessState.EmptyChat
-        } else {
-            //todo сделать toast
-        }
-
-
+        networkStatus.isNetworkConnected(
+            onSuccess = {
+                val result = withContext(AppDispatchers.io) {
+                    clearChatUseCase.execute(id = id!!)
+                }
+                if (result.isSuccess) {
+                    reduce {
+                        state.copy(listOfMessages = emptyList())
+                    }
+                    successState.value = SuccessState.EmptyChat
+                } else {
+                    //todo сделать toast
+                }
+            },
+            onFail = {
+                postSideEffect(ChatSideEffects.ShowNetworkConnectionError)
+            },
+        )
     }
 
     fun deleteChat() = intent {
@@ -183,7 +211,7 @@ class ChatViewModel @Inject constructor(
                 }
             },
             onFail = {
-                postSideEffect(ChatSideEffects.ShowErrorDeleteChatToast)
+                postSideEffect(ChatSideEffects.ShowNetworkConnectionError)
             }
         )
     }

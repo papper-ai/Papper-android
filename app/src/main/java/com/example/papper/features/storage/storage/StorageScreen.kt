@@ -86,5 +86,9 @@ private fun handleSideEffect(
             //storagesViewModel.loadData()
             storagesViewModel.reneameStorage(id = sideEffect.id, title = sideEffect.title)
         }
+
+        StorageSideEffects.ShowNetworkConnectionError -> {
+            Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_LONG).show()
+        }
     }
 }

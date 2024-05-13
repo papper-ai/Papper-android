@@ -7,6 +7,7 @@ sealed class RegistrationSideEffects {
     object toCode : RegistrationSideEffects()
     object toAllFields : RegistrationSideEffects()
     object NavigateToChatsScreen : RegistrationSideEffects()
+    object ShowNetworkConnectionError : RegistrationSideEffects()
 
 //    object ShowLoadingState : RegistrationSideEffects()
 //    object ShowErrorState : RegistrationSideEffects()

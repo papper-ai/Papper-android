@@ -74,6 +74,8 @@ private fun handleSideEffect(
         is CreateStorageSideEffects.ShowErrorToast -> {
             Toast.makeText(context, context.getText(R.string.create_storage_error), Toast.LENGTH_SHORT).show()
         }
-
+        CreateStorageSideEffects.ShowNetworkConnectionError -> {
+            Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()
+        }
     }
 }

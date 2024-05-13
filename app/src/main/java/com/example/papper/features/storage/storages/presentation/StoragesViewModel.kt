@@ -6,6 +6,7 @@ import com.example.domain.usecases.storage.GetAllStoragesPreviewUseCase
 import com.example.papper.features.storage.storages.model.mapToPresentationModel
 import com.example.papper.navigation.Screens
 import com.example.papper.utils.AppDispatchers
+import com.example.papper.utils.CheckNetworkStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
@@ -17,6 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StoragesViewModel @Inject constructor(
+    private val checkNetworkStatus: CheckNetworkStatus,
     private val getAllStoragesPreviewUseCase: GetAllStoragesPreviewUseCase
 ) : ViewModel(), ContainerHost<StoragesState, StoragesSideEffects> {
 
@@ -29,20 +31,26 @@ class StoragesViewModel @Inject constructor(
     }
 
     fun loadData() = intent {
-        postSideEffect(StoragesSideEffects.ShowLoading)
-        val result = withContext(AppDispatchers.io) {
-            getAllStoragesPreviewUseCase.execute().mapToPresentationModel()
-        }
-        if (result.isSuccess) {
-            reduce {
-                state.copy(listOfStorages = result.list)
-            }
-            postSideEffect(StoragesSideEffects.ShowSuccess)
-        }
-        else {
-            postSideEffect(StoragesSideEffects.ShowError)
-        }
-
+        checkNetworkStatus.isNetworkConnected(
+            onSuccess = {
+                postSideEffect(StoragesSideEffects.ShowLoading)
+                val result = withContext(AppDispatchers.io) {
+                    getAllStoragesPreviewUseCase.execute().mapToPresentationModel()
+                }
+                if (result.isSuccess) {
+                    reduce {
+                        state.copy(listOfStorages = result.list)
+                    }
+                    postSideEffect(StoragesSideEffects.ShowSuccess)
+                }
+                else {
+                    postSideEffect(StoragesSideEffects.ShowError)
+                }
+            },
+            onFail = {
+                postSideEffect(StoragesSideEffects.ShowNetworkConnectionError)
+            },
+        )
     }
 
     fun onStorageItemClick(id: String, lastDestination: String) = intent {

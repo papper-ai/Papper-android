@@ -6,5 +6,7 @@ sealed class CreateChatSideEffects {
     object ShowListOfFilesScreen: CreateChatSideEffects()
     data class NavigateToChatScreen(val id: String): CreateChatSideEffects()
     object NavigateToStoragesScreen: CreateChatSideEffects()
+    object ShowFetchStorageError: CreateChatSideEffects()
     object ShowCreateChatErrorToast: CreateChatSideEffects()
+    object ShowNetworkConnectionError: CreateChatSideEffects()
 }

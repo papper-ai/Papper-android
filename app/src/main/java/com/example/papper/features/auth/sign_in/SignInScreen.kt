@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import com.example.papper.R
 import com.example.papper.features.auth.sign_in.presentation.SignInScreenState
 import com.example.papper.features.auth.sign_in.presentation.SignInSideEffects
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
@@ -51,7 +52,6 @@ private fun handleSideEffects(
         is SignInSideEffects.FieldsFilled -> {
             viewModel.fieldsStatus.value = sideEffects.status
         }
-
         SignInSideEffects.NavigateToChatsScreen -> {
             navHostController.navigate(
                 Screens.ChatsScreen.route,
@@ -62,6 +62,10 @@ private fun handleSideEffects(
                 launchSingleTop = true
                 restoreState = true
             }
+        }
+        SignInSideEffects.ShowNetworkConnectionError -> {
+            viewModel.signInScreenState.value = SignInScreenState.Default
+            Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()
         }
     }
 }

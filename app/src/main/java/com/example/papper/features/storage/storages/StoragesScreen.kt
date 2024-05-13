@@ -1,8 +1,12 @@
 package com.example.papper.features.storage.storages
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import com.example.papper.R
 import com.example.papper.features.storage.storages.presentation.StoragesScreenState
 import com.example.papper.features.storage.storages.presentation.StoragesSideEffects
 import com.example.papper.features.storage.storages.presentation.StoragesViewModel
@@ -15,11 +19,14 @@ fun StoragesScreen(
     viewModel: StoragesViewModel,
     navHostController: NavHostController,
 ) {
+    val context = LocalContext.current
+
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffects(
             viewModel = viewModel,
             sideEffect = sideEffect,
             navHostController = navHostController,
+            context = context,
         )
     }
 
@@ -34,6 +41,7 @@ private fun handleSideEffects(
     viewModel: StoragesViewModel,
     sideEffect: StoragesSideEffects,
     navHostController: NavHostController,
+    context: Context,
 ) {
     when(sideEffect) {
         StoragesSideEffects.ShowLoading -> {
@@ -54,6 +62,9 @@ private fun handleSideEffects(
         }
         StoragesSideEffects.NavigateToCreateStorageScreen -> {
             navHostController.navigate(Screens.CreateStorageScreen.route)
+        }
+        StoragesSideEffects.ShowNetworkConnectionError -> {
+            Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()
         }
     }
 }

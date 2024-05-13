@@ -6,4 +6,5 @@ sealed class SignInSideEffects {
     object ShowLoadingState: SignInSideEffects()
     data class ShowErrorState(val msg: String): SignInSideEffects()
     object NavigateToChatsScreen: SignInSideEffects()
+    object ShowNetworkConnectionError: SignInSideEffects()
 }

@@ -12,4 +12,5 @@ sealed class StorageSideEffects {
     object NavigateToStoragesScreen: StorageSideEffects()
     data class DeleteStorageAndNavigateToStoragesScreen(val id: String): StorageSideEffects()
     object ShowToastDeleteStorageError: StorageSideEffects()
+    object ShowNetworkConnectionError: StorageSideEffects()
 }
