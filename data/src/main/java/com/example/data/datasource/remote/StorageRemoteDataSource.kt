@@ -19,6 +19,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okio.IOException
 import java.io.File
 import javax.inject.Inject
 
@@ -63,26 +64,46 @@ class StorageRemoteDataSource @Inject constructor(
             }
         }
 
-        val resultFromApi = apiService.createVault(
-            createVaultBody,
-            list
-        )
-
-        if (resultFromApi.isSuccessful) {
-            result = CreateStorageResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
-                ),
-                id = resultFromApi.body()?.id.orEmpty()
+        try {
+            val resultFromApi = apiService.createVault(
+                createVaultBody,
+                list
             )
-        } else {
+
+            if (resultFromApi.isSuccessful) {
+                result = CreateStorageResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    ),
+                    id = resultFromApi.body()?.id.orEmpty()
+                )
+            } else {
+                result = CreateStorageResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    ),
+                    id = ""
+                )
+            }
+        } catch (e: IOException) {
             result = CreateStorageResponseResult(
                 baseResponse = BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                ),
+                id = ""
+            )
+        } catch (e: Exception) {
+            result = CreateStorageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
                 ),
                 id = ""
             )
@@ -94,28 +115,48 @@ class StorageRemoteDataSource @Inject constructor(
     suspend fun getAllStoragesPreview(): StoragePreviewResponseResult {
         lateinit var result: StoragePreviewResponseResult
 
-        val resultFromApi = apiService.getVaultPreviews()
+        try {
+            val resultFromApi = apiService.getVaultPreviews()
 
-        if (resultFromApi.isSuccessful) {
-            result = StoragePreviewResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
-                ),
-                listOfStoragePreviews = resultFromApi.body()?.map { storagePreviewResponse ->
-                    StoragePreviewModel(
-                        id = storagePreviewResponse.id,
-                        title = storagePreviewResponse.title
-                    )
-                } ?: emptyList()
-            )
-        } else {
+            if (resultFromApi.isSuccessful) {
+                result = StoragePreviewResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    ),
+                    listOfStoragePreviews = resultFromApi.body()?.map { storagePreviewResponse ->
+                        StoragePreviewModel(
+                            id = storagePreviewResponse.id,
+                            title = storagePreviewResponse.title
+                        )
+                    } ?: emptyList()
+                )
+            } else {
+                result = StoragePreviewResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    ),
+                    listOfStoragePreviews = emptyList()
+                )
+            }
+        } catch (e: IOException) {
             result = StoragePreviewResponseResult(
                 baseResponse = BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                ),
+                listOfStoragePreviews = emptyList()
+            )
+        } catch (e: Exception) {
+            result = StoragePreviewResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
                 ),
                 listOfStoragePreviews = emptyList()
             )
@@ -127,30 +168,54 @@ class StorageRemoteDataSource @Inject constructor(
     suspend fun getStorageById(id: String): StorageResponseResult {
         lateinit var result: StorageResponseResult
 
-        val resultFromApi = apiService.getVaultByID(id)
+        try {
+            val resultFromApi = apiService.getVaultByID(id)
 
-        if (resultFromApi.isSuccessful) {
-            result = StorageResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
-                ),
-                id = resultFromApi.body()?.id.orEmpty(),
-                title = resultFromApi.body()?.title.orEmpty(),
-                listOfFiles = resultFromApi.body()?.documents?.map { document ->
-                    FileDataModel(
-                        id = document.id,
-                        title = document.title,
-                    )
-                } ?: emptyList()
-            )
-        } else {
+            if (resultFromApi.isSuccessful) {
+                result = StorageResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    ),
+                    id = resultFromApi.body()?.id.orEmpty(),
+                    title = resultFromApi.body()?.title.orEmpty(),
+                    listOfFiles = resultFromApi.body()?.documents?.map { document ->
+                        FileDataModel(
+                            id = document.id,
+                            title = document.title,
+                        )
+                    } ?: emptyList()
+                )
+            } else {
+                result = StorageResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    ),
+                    id = "",
+                    title = "",
+                    listOfFiles = emptyList(),
+                )
+            }
+        } catch (e: IOException) {
             result = StorageResponseResult(
                 baseResponse = BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                ),
+                id = "",
+                title = "",
+                listOfFiles = emptyList(),
+            )
+        } catch (e: Exception) {
+            result = StorageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
                 ),
                 id = "",
                 title = "",
@@ -162,15 +227,47 @@ class StorageRemoteDataSource @Inject constructor(
     }
 
     suspend fun deleteStorageById(id: String): DeleteStorageResponseResult {
-        val resultFromApi = apiService.deleteVaultByID(id)
+        lateinit var result: DeleteStorageResponseResult
 
-        return DeleteStorageResponseResult(
-            baseResponse = BaseResponse(
-                isSuccess = resultFromApi.isSuccessful,
-                code = resultFromApi.code().toString(),
-                msg = resultFromApi.message(),
+        try {
+            val resultFromApi = apiService.deleteVaultByID(id)
+
+            if (resultFromApi.isSuccessful) {
+                result = DeleteStorageResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    )
+                )
+            } else {
+                result = DeleteStorageResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    )
+                )
+            }
+        } catch (e: IOException) {
+            result = DeleteStorageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                )
             )
-        )
+        } catch (e: Exception) {
+            result = DeleteStorageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
+                )
+            )
+        }
+
+        return result
     }
 
     suspend fun addFileInStorage(id: String, file: File): AddFileInStorageResponseResult {
@@ -210,26 +307,46 @@ class StorageRemoteDataSource @Inject constructor(
             }
         }
 
-        val resultFromApi = apiService.addFileToVault(
-            vaultId = vaultIdBody,
-            file = newFile
-        )
-
-        if (resultFromApi.isSuccessful) {
-            result = AddFileInStorageResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
-                ),
-                id = resultFromApi.body()?.id.orEmpty()
+        try {
+            val resultFromApi = apiService.addFileToVault(
+                vaultId = vaultIdBody,
+                file = newFile
             )
-        } else {
+
+            if (resultFromApi.isSuccessful) {
+                result = AddFileInStorageResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    ),
+                    id = resultFromApi.body()?.id.orEmpty()
+                )
+            } else {
+                result = AddFileInStorageResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    ),
+                    id = ""
+                )
+            }
+        } catch (e : IOException) {
             result = AddFileInStorageResponseResult(
                 baseResponse = BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                ),
+                id = ""
+            )
+        } catch (e: Exception) {
+            result = AddFileInStorageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
                 ),
                 id = ""
             )
@@ -239,29 +356,91 @@ class StorageRemoteDataSource @Inject constructor(
     }
 
     suspend fun deleteFileInStorage(vaultId: String, documentId: String): DeleteFileResponseResult {
-        val resultFromApi = apiService.deleteFileFromVaultByID(vaultId = vaultId, documentId = documentId)
+        lateinit var result: DeleteFileResponseResult
 
-        return DeleteFileResponseResult(
-            baseResponse = BaseResponse(
-                isSuccess = resultFromApi.isSuccessful,
-                code = resultFromApi.code().toString(),
-                msg = resultFromApi.message(),
+        try {
+            val resultFromApi = apiService.deleteFileFromVaultByID(vaultId = vaultId, documentId = documentId)
+
+            if (resultFromApi.isSuccessful) {
+                result = DeleteFileResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    )
+                )
+            } else {
+                result = DeleteFileResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    )
+                )
+            }
+        } catch (e: IOException) {
+            result = DeleteFileResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                )
             )
-        )
+        } catch (e: Exception) {
+            result = DeleteFileResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
+                )
+            )
+        }
+
+        return result
     }
 
     suspend fun renameStorage(id: String, title: String): RenameVaultResponseResult {
         lateinit var result: RenameVaultResponseResult
 
-        val resultFromApi = apiService.renameVault(RenameVaultBody(vaultId = id, title = title))
+        try {
+            val resultFromApi = apiService.renameVault(RenameVaultBody(vaultId = id, title = title))
 
-        return RenameVaultResponseResult(
-            baseResponse = BaseResponse(
-                isSuccess = resultFromApi.isSuccessful,
-                code = resultFromApi.code().toString(),
-                msg = resultFromApi.message(),
+            if (resultFromApi.isSuccessful) {
+                result = RenameVaultResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    )
+                )
+            } else {
+                result = RenameVaultResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    )
+                )
+            }
+        } catch (e: IOException) {
+            result = RenameVaultResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                )
             )
-        )
+        } catch (e: Exception) {
+            result = RenameVaultResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
+                )
+            )
+        }
+
+        return result
     }
 
 }

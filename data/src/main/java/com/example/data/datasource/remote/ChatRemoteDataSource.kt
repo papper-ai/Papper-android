@@ -9,9 +9,12 @@ import com.example.data.model.chat.CreateChatBody
 import com.example.data.model.chat.CreateChatResponseResult
 import com.example.data.model.chat.RenameChatBody
 import com.example.data.model.chat.SendMessageBody
+import com.example.data.model.chat.SendMessageResponse
 import com.example.data.model.chat.SendMessageResponseResult
 import com.example.data.utils.BaseResponseImitation
 import kotlinx.coroutines.delay
+import okio.IOException
+import retrofit2.Response
 import javax.inject.Inject
 
 class ChatRemoteDataSource @Inject constructor(
@@ -21,28 +24,48 @@ class ChatRemoteDataSource @Inject constructor(
     suspend fun createChat(vaultId: String, title: String): CreateChatResponseResult {
         lateinit var result: CreateChatResponseResult
 
-        val resultFromApi = apiService.createChat(
-            body = CreateChatBody(
-                id = vaultId,
-                title = title
+        try {
+            val resultFromApi = apiService.createChat(
+                body = CreateChatBody(
+                    id = vaultId,
+                    title = title
+                )
             )
-        )
 
-        if (resultFromApi.isSuccessful) {
-            result = CreateChatResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message()
-                ),
-                id = resultFromApi.body()?.id ?: ""
-            )
-        } else {
+            if (resultFromApi.isSuccessful) {
+                result = CreateChatResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message()
+                    ),
+                    id = resultFromApi.body()?.id ?: ""
+                )
+            } else {
+                result = CreateChatResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message()
+                    ),
+                    id = ""
+                )
+            }
+        } catch (e: IOException) {
             result = CreateChatResponseResult(
                 baseResponse = BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message()
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                ),
+                id = ""
+            )
+        } catch (e: Exception) {
+            result = CreateChatResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
                 ),
                 id = ""
             )
@@ -54,22 +77,44 @@ class ChatRemoteDataSource @Inject constructor(
 
     suspend fun fetchChatsPreview(): ChatsPreviewResponseResult {
         lateinit var result: ChatsPreviewResponseResult
-        val resultFromApi = apiService.getChatsPreview()
-        if (resultFromApi.isSuccessful) {
-            result = ChatsPreviewResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message()
-                ),
-                listOfChatsPreview = resultFromApi.body() ?: emptyList()
-            )
-        } else {
+
+        try {
+            val resultFromApi = apiService.getChatsPreview()
+
+            if (resultFromApi.isSuccessful) {
+                result = ChatsPreviewResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message()
+                    ),
+                    listOfChatsPreview = resultFromApi.body() ?: emptyList()
+                )
+            } else {
+                result = ChatsPreviewResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message()
+                    ),
+                    listOfChatsPreview = emptyList()
+                )
+            }
+        } catch (e: IOException) {
             result = ChatsPreviewResponseResult(
                 baseResponse = BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message()
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                ),
+                listOfChatsPreview = emptyList()
+            )
+        } catch (e: Exception) {
+            result = ChatsPreviewResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
                 ),
                 listOfChatsPreview = emptyList()
             )
@@ -80,22 +125,44 @@ class ChatRemoteDataSource @Inject constructor(
 
     suspend fun fetchArchiveChatsPreview(): ChatsPreviewResponseResult {
         lateinit var result: ChatsPreviewResponseResult
-        val resultFromApi = apiService.getArchiveChatsPreview()
-        if (resultFromApi.isSuccessful) {
-            result = ChatsPreviewResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message()
-                ),
-                listOfChatsPreview = resultFromApi.body() ?: emptyList()
-            )
-        } else {
+
+        try {
+            val resultFromApi = apiService.getArchiveChatsPreview()
+
+            if (resultFromApi.isSuccessful) {
+                result = ChatsPreviewResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message()
+                    ),
+                    listOfChatsPreview = resultFromApi.body() ?: emptyList()
+                )
+            } else {
+                result = ChatsPreviewResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message()
+                    ),
+                    listOfChatsPreview = emptyList()
+                )
+            }
+        } catch (e: IOException) {
             result = ChatsPreviewResponseResult(
                 baseResponse = BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message()
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                ),
+                listOfChatsPreview = emptyList()
+            )
+        } catch (e: Exception) {
+            result = ChatsPreviewResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
                 ),
                 listOfChatsPreview = emptyList()
             )
@@ -106,26 +173,56 @@ class ChatRemoteDataSource @Inject constructor(
 
     suspend fun fetchChatById(id: String): GetChatResponseResult {
         lateinit var result: GetChatResponseResult
-        val resultFromApi = apiService.getChatById(id)
-        if (resultFromApi.isSuccessful) {
-            result = GetChatResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message()
-                ),
-                id = resultFromApi.body()?.id ?: "",
-                title = resultFromApi.body()?.title ?: "",
-                listOfMessages = resultFromApi.body()?.chatHistory?.history ?: emptyList(),
-                storageId = resultFromApi.body()?.vaultId ?: "",
-                isArchived = resultFromApi.body()?.isArchived ?: false
-            )
-        } else {
+
+        try {
+            val resultFromApi = apiService.getChatById(id)
+
+            if (resultFromApi.isSuccessful) {
+                result = GetChatResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message()
+                    ),
+                    id = resultFromApi.body()?.id ?: "",
+                    title = resultFromApi.body()?.title ?: "",
+                    listOfMessages = resultFromApi.body()?.chatHistory?.history ?: emptyList(),
+                    storageId = resultFromApi.body()?.vaultId ?: "",
+                    isArchived = resultFromApi.body()?.isArchived ?: false
+                )
+            } else {
+                result = GetChatResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message()
+                    ),
+                    id = "",
+                    title = "",
+                    listOfMessages = emptyList(),
+                    storageId = "",
+                    isArchived = false
+                )
+            }
+        } catch (e: IOException) {
             result = GetChatResponseResult(
                 baseResponse = BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message()
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                ),
+                id = "",
+                title = "",
+                listOfMessages = emptyList(),
+                storageId = "",
+                isArchived = false
+            )
+        } catch (e: Exception) {
+            result = GetChatResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
                 ),
                 id = "",
                 title = "",
@@ -134,42 +231,75 @@ class ChatRemoteDataSource @Inject constructor(
                 isArchived = false
             )
         }
+
         return result
     }
 
     suspend fun renameChat(id: String, name: String): BaseResponse {
         lateinit var result: BaseResponse
-        val resultFromApi = apiService.renameChat(RenameChatBody(chatId = id, name = name))
-        if (resultFromApi.isSuccessful) {
-            result = BaseResponse(
-                isSuccess = true,
-                code = resultFromApi.code().toString(),
-                msg = resultFromApi.message()
-            )
-        } else {
+
+        try {
+            val resultFromApi = apiService.renameChat(RenameChatBody(chatId = id, name = name))
+
+            if (resultFromApi.isSuccessful) {
+                result = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                )
+            } else {
+                result = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                )
+            }
+        } catch (e: IOException) {
             result = BaseResponse(
                 isSuccess = false,
-                code = resultFromApi.code().toString(),
-                msg = resultFromApi.message()
+                code = "0",
+                msg = "Ошибка подключения к интернету"
+            )
+        } catch (e: Exception) {
+            result = BaseResponse(
+                isSuccess = false,
+                code = "0",
+                msg = "Неизвестная ошибка"
             )
         }
+
         return result
     }
 
     suspend fun changeArchiveStatus(id: String, archiveStatus: Boolean): BaseResponse {
         lateinit var result: BaseResponse
-        val resultFromApi = apiService.archiveChat(ChangeArchiveStatusChatBody(chatId = id, archiveAction = if (archiveStatus) "unarchive" else "archive"))
-        if (resultFromApi.isSuccessful) {
-            result = BaseResponse(
-                isSuccess = true,
-                code = resultFromApi.code().toString(),
-                msg = resultFromApi.message()
-            )
-        } else {
+
+        try {
+            val resultFromApi = apiService.archiveChat(ChangeArchiveStatusChatBody(chatId = id, archiveAction = if (archiveStatus) "unarchive" else "archive"))
+            if (resultFromApi.isSuccessful) {
+                result = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                )
+            } else {
+                result = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                )
+            }
+        } catch (e: IOException) {
             result = BaseResponse(
                 isSuccess = false,
-                code = resultFromApi.code().toString(),
-                msg = resultFromApi.message()
+                code = "0",
+                msg = "Ошибка подключения к интернету"
+            )
+        } catch (e: Exception) {
+            result = BaseResponse(
+                isSuccess = false,
+                code = "0",
+                msg = "Неизвестная ошибка"
             )
         }
 
@@ -178,18 +308,34 @@ class ChatRemoteDataSource @Inject constructor(
 
     suspend fun clearChat(id: String): BaseResponse {
         lateinit var result: BaseResponse
-        val resultFromApi = apiService.clearChat(id = id)
-        if (resultFromApi.isSuccessful) {
-            result = BaseResponse(
-                isSuccess = true,
-                code = resultFromApi.code().toString(),
-                msg = resultFromApi.message()
-            )
-        } else {
+
+        try {
+            val resultFromApi = apiService.clearChat(id = id)
+
+            if (resultFromApi.isSuccessful) {
+                result = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                )
+            } else {
+                result = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                )
+            }
+        } catch (e: IOException) {
             result = BaseResponse(
                 isSuccess = false,
-                code = resultFromApi.code().toString(),
-                msg = resultFromApi.message()
+                code = "0",
+                msg = "Ошибка подключения к интернету"
+            )
+        } catch (e: Exception) {
+            result = BaseResponse(
+                isSuccess = false,
+                code = "0",
+                msg = "Неизвестная ошибка"
             )
         }
 
@@ -198,18 +344,34 @@ class ChatRemoteDataSource @Inject constructor(
 
     suspend fun deleteChat(id: String): BaseResponse {
         lateinit var result: BaseResponse
-        val resultFromApi = apiService.deleteChat(id = id)
-        if (resultFromApi.isSuccessful) {
-            result = BaseResponse(
-                isSuccess = true,
-                code = resultFromApi.code().toString(),
-                msg = resultFromApi.message()
-            )
-        } else {
+
+        try {
+            val resultFromApi = apiService.deleteChat(id = id)
+
+            if (resultFromApi.isSuccessful) {
+                result = BaseResponse(
+                    isSuccess = true,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                )
+            } else {
+                result = BaseResponse(
+                    isSuccess = false,
+                    code = resultFromApi.code().toString(),
+                    msg = resultFromApi.message()
+                )
+            }
+        } catch (e: IOException) {
             result = BaseResponse(
                 isSuccess = false,
-                code = resultFromApi.code().toString(),
-                msg = resultFromApi.message()
+                code = "0",
+                msg = "Ошибка подключения к интернету"
+            )
+        } catch (e: Exception) {
+            result = BaseResponse(
+                isSuccess = false,
+                code = "0",
+                msg = "Неизвестная ошибка"
             )
         }
 
@@ -218,26 +380,49 @@ class ChatRemoteDataSource @Inject constructor(
 
     suspend fun sendMessage(message: String, chatId: String, vaultId: String): SendMessageResponseResult {
         lateinit var result: SendMessageResponseResult
-        val resultFromApi = apiService.sendMessage(SendMessageBody(vaultId = vaultId, chatId = chatId, query = message))
 
-        if (resultFromApi.isSuccessful) {
-            result = SendMessageResponseResult(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message()
-                ),
-                content = resultFromApi.body()?.aiMessage?.content ?: "",
-                traceback = resultFromApi.body()?.aiMessage?.traceback ?: emptyList()
-            )
-        } else {
+        try {
+            val resultFromApi = apiService.sendMessage(SendMessageBody(vaultId = vaultId, chatId = chatId, query = message))
+
+            if (resultFromApi.isSuccessful) {
+                result = SendMessageResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message()
+                    ),
+                    content = resultFromApi.body()?.aiMessage?.content ?: "",
+                    traceback = resultFromApi.body()?.aiMessage?.traceback ?: emptyList()
+                )
+            } else {
+                result = SendMessageResponseResult(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message()
+                    ),
+                    content = "",
+                    traceback = emptyList()
+                )
+            }
+        } catch (e: IOException) {
             result = SendMessageResponseResult(
                 baseResponse = BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message()
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
                 ),
                 content = "",
+                traceback = emptyList()
+            )
+        } catch (e : Exception) {
+            result = SendMessageResponseResult(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = e.message.orEmpty()
+                ),
+                content = "Неизвестная ошибка",
                 traceback = emptyList()
             )
         }

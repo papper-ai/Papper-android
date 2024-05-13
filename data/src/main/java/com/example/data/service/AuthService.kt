@@ -13,6 +13,7 @@ import com.example.data.utils.BaseResponseImitation
 import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import okio.IOException
 import javax.inject.Inject
 
 class AuthService @Inject constructor(
@@ -46,32 +47,52 @@ class AuthService @Inject constructor(
     }
 
     suspend fun registerUser(login: String, password: String, code: String): RegisterUserResponse {
-        val resultFromApi = apiService.registerUser(secret = code, login = login, password = password)
-        return if (resultFromApi.isSuccessful) {
-            authLocalDataSource.saveLogin(login = login)
-            authLocalDataSource.savePassword(password = password)
+        lateinit var result: RegisterUserResponse
 
-            RegisterUserResponse(
-                baseResponse = BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
-                ),
-            )
-        } else {
-            RegisterUserResponse(
+        try {
+            val resultFromApi = apiService.registerUser(secret = code, login = login, password = password)
+            if (resultFromApi.isSuccessful) {
+                authLocalDataSource.saveLogin(login = login)
+                authLocalDataSource.savePassword(password = password)
+
+                result = RegisterUserResponse(
+                    baseResponse = BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    ),
+                )
+            } else {
+                result = RegisterUserResponse(
+                    baseResponse = BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    )
+                )
+            }
+        } catch (e: IOException) {
+            result = RegisterUserResponse(
                 baseResponse = BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                )
+            )
+        } catch (e : Exception) {
+            result = RegisterUserResponse(
+                baseResponse = BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
                 )
             )
         }
 
+        return result
     }
 
     suspend fun signIn(login: String, password: String): SignInResponseResult {
-        delay(2000)
         lateinit var result: SignInResponseResult
 
         val resultFromApi = apiService.signIn(login = login, password = password)
@@ -110,53 +131,72 @@ class AuthService @Inject constructor(
             )
         }
 
+        delay(2000)
         return result
     }
 
     suspend fun checkSignInData(): SignInResponseResult {
-        delay(3000)
         lateinit var result: SignInResponseResult
 
-        val login = authLocalDataSource.getLogin()
-        val password = authLocalDataSource.getPassword()
+        try {
+            val login = authLocalDataSource.getLogin()
+            val password = authLocalDataSource.getPassword()
 
-        if (login != null && password != null) {
-            val resultFromApi = apiService.signIn(
-                login = login,
-                password = password
-            )
-            if (resultFromApi.isSuccessful) {
-
-                Log.e("Test", "signIn: ${resultFromApi.body()?.accessToken?.token.orEmpty()}")
-                Log.e("Test", "signIn: ${resultFromApi.body()?.refreshToken?.token.orEmpty()}")
-                authLocalDataSource.saveSuccessToken(token = resultFromApi.body()?.accessToken?.token.orEmpty())
-                authLocalDataSource.saveRefreshToken(token = resultFromApi.body()?.refreshToken?.token.orEmpty())
-                result = SignInResponseResult(
-                    BaseResponse(
-                        isSuccess = true,
-                        code = resultFromApi.code().toString(),
-                        msg = resultFromApi.message(),
-                    )
+            if (login != null && password != null) {
+                val resultFromApi = apiService.signIn(
+                    login = login,
+                    password = password
                 )
+                if (resultFromApi.isSuccessful) {
+
+                    Log.e("Test", "signIn: ${resultFromApi.body()?.accessToken?.token.orEmpty()}")
+                    Log.e("Test", "signIn: ${resultFromApi.body()?.refreshToken?.token.orEmpty()}")
+                    authLocalDataSource.saveSuccessToken(token = resultFromApi.body()?.accessToken?.token.orEmpty())
+                    authLocalDataSource.saveRefreshToken(token = resultFromApi.body()?.refreshToken?.token.orEmpty())
+                    result = SignInResponseResult(
+                        BaseResponse(
+                            isSuccess = true,
+                            code = resultFromApi.code().toString(),
+                            msg = resultFromApi.message(),
+                        )
+                    )
+                } else {
+                    result = SignInResponseResult(
+                        BaseResponse(
+                            isSuccess = false,
+                            code = resultFromApi.code().toString(),
+                            msg = resultFromApi.message(),
+                        )
+                    )
+                }
             } else {
                 result = SignInResponseResult(
                     BaseResponse(
                         isSuccess = false,
-                        code = resultFromApi.code().toString(),
-                        msg = resultFromApi.message(),
+                        code = "",
+                        msg = "",
                     )
                 )
             }
-        } else {
+        } catch (e: IOException) {
             result = SignInResponseResult(
                 BaseResponse(
                     isSuccess = false,
-                    code = "",
-                    msg = "",
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
+                )
+            )
+        } catch (e : Exception) {
+            result = SignInResponseResult(
+                BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
                 )
             )
         }
 
+        delay(3000)
         return result
     }
 
@@ -165,27 +205,47 @@ class AuthService @Inject constructor(
     }
 
     suspend fun getLogin(): GetUserLoginResponseResult {
-        delay(2000)
         lateinit var result: GetUserLoginResponseResult
 
-        val resultFromApi = apiService.fetchUserLogin()
-        if (resultFromApi.isSuccessful) {
-            result = GetUserLoginResponseResult(
-                BaseResponse(
-                    isSuccess = true,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
-                ),
-                login = resultFromApi.body()?.login.orEmpty()
-            )
-        } else {
+        try {
+            val resultFromApi = apiService.fetchUserLogin()
+
+            if (resultFromApi.isSuccessful) {
+                result = GetUserLoginResponseResult(
+                    BaseResponse(
+                        isSuccess = true,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    ),
+                    login = resultFromApi.body()?.login.orEmpty()
+                )
+            } else {
+                result = GetUserLoginResponseResult(
+                    BaseResponse(
+                        isSuccess = false,
+                        code = resultFromApi.code().toString(),
+                        msg = resultFromApi.message(),
+                    ),
+                    login = resultFromApi.body()?.login.orEmpty()
+                )
+            }
+        } catch (e: IOException) {
             result = GetUserLoginResponseResult(
                 BaseResponse(
                     isSuccess = false,
-                    code = resultFromApi.code().toString(),
-                    msg = resultFromApi.message(),
+                    code = "0",
+                    msg = "Ошибка подключения к интернету"
                 ),
-                login = resultFromApi.body()?.login.orEmpty()
+                login = ""
+            )
+        } catch (e : Exception) {
+            result = GetUserLoginResponseResult(
+                BaseResponse(
+                    isSuccess = false,
+                    code = "0",
+                    msg = "Неизвестная ошибка"
+                ),
+                login = ""
             )
         }
 
