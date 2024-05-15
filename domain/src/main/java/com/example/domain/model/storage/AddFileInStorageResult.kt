@@ -5,4 +5,5 @@ data class AddFileInStorageResult(
     val isSuccess: Boolean,
     val code: String,
     val msg: String,
+    val text: String,
 )

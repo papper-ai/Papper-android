@@ -71,6 +71,6 @@
     <string name="rename_storage">Переименовать хранилище</string>
     <string name="delete_storage_error">Ошибка удаления хранилища</string>
     <string name="create_chat_error">Ошибка создания чата</string>
-
+    <string name="empty_file">Пустой файл</string>
 
 </resources>

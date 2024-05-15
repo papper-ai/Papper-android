@@ -30,6 +30,7 @@ data class StorageResponseResult(
 data class FileDataModel(
     val id: String,
     val title: String,
+    val text: String,
 )
 
 internal fun StorageResponseResult.mapToDomainModel() : StorageModel =
@@ -43,6 +44,7 @@ internal fun StorageResponseResult.mapToDomainModel() : StorageModel =
             FileDomainModel(
                 id = fileDataModel.id,
                 title = fileDataModel.title,
+                text = fileDataModel.text,
             )
         },
     )

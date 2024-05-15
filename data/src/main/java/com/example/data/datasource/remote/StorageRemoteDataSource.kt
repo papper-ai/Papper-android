@@ -198,6 +198,7 @@ class StorageRemoteDataSource @Inject constructor(
                         FileDataModel(
                             id = document.id,
                             title = document.title,
+                            text = document.text,
                         )
                     } ?: emptyList()
                 )
@@ -346,7 +347,8 @@ class StorageRemoteDataSource @Inject constructor(
                         code = resultFromApi.code().toString(),
                         msg = resultFromApi.message(),
                     ),
-                    id = resultFromApi.body()?.id.orEmpty()
+                    id = resultFromApi.body()?.id.orEmpty(),
+                    text = resultFromApi.body()?.text.orEmpty(),
                 )
             } else {
                 if (resultFromApi.code() == 401) {
@@ -361,7 +363,8 @@ class StorageRemoteDataSource @Inject constructor(
                         code = resultFromApi.code().toString(),
                         msg = resultFromApi.message(),
                     ),
-                    id = ""
+                    id = "",
+                    text = "",
                 )
             }
         } catch (e : IOException) {
@@ -371,7 +374,8 @@ class StorageRemoteDataSource @Inject constructor(
                     code = "0",
                     msg = "Ошибка подключения к интернету"
                 ),
-                id = ""
+                id = "",
+                text = "",
             )
         } catch (e: Exception) {
             result = AddFileInStorageResponseResult(
@@ -380,7 +384,8 @@ class StorageRemoteDataSource @Inject constructor(
                     code = "0",
                     msg = "Неизвестная ошибка"
                 ),
-                id = ""
+                id = "",
+                text = "",
             )
         }
 

@@ -5,11 +5,13 @@ import com.example.domain.model.storage.AddFileInStorageResult
 
 data class AddFileIntoStorageResponse(
     val id: String,
+    val text: String,
 )
 
 data class AddFileInStorageResponseResult(
     val baseResponse: BaseResponse,
     val id: String,
+    val text: String,
 )
 
 fun AddFileInStorageResponseResult.mapToDomainModel(): AddFileInStorageResult = AddFileInStorageResult(
@@ -17,4 +19,5 @@ fun AddFileInStorageResponseResult.mapToDomainModel(): AddFileInStorageResult = 
     isSuccess = baseResponse.isSuccess,
     code = baseResponse.code,
     msg = baseResponse.msg,
+    text = text,
 )

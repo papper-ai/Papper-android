@@ -12,4 +12,5 @@ data class StorageModel(
 data class FileDomainModel(
     val id: String,
     val title: String,
+    val text: String,
 )

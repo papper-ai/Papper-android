@@ -115,6 +115,7 @@ class StorageViewModel @Inject constructor(
                             FilePresentationModel(
                                 id = result.id,
                                 title = file.name,
+                                text = result.text,
                             )
                         )
                     )

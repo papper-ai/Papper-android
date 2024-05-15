@@ -7,6 +7,7 @@ data class PresentationAddFileResult(
     val isSuccess: Boolean,
     val code: String,
     val msg: String,
+    val text: String,
 )
 
 internal fun AddFileInStorageResult.mapToPresentationModel(): PresentationAddFileResult =
@@ -15,4 +16,5 @@ internal fun AddFileInStorageResult.mapToPresentationModel(): PresentationAddFil
         isSuccess = isSuccess,
         code = code,
         msg = msg,
+        text = text,
     )

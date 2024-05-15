@@ -15,6 +15,7 @@ data class PresentationStorageModel(
 data class FilePresentationModel(
     val id: String,
     val title: String,
+    val text: String,
 )
 
 internal fun StorageModel.mapToPresentationModel() =
@@ -28,6 +29,7 @@ internal fun StorageModel.mapToPresentationModel() =
             FilePresentationModel(
                 id = fileDomainModel.id,
                 title = fileDomainModel.title,
+                text = fileDomainModel.text,
             )
         }
     )
