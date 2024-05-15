@@ -25,7 +25,8 @@ fun SuccessBasic(
         color = MaterialTheme.colorScheme.background,
     ) {
         Text(
-            text = viewModel.collectAsState().value.login,
+            modifier = Modifier.padding(start = MaterialTheme.dimens.gapBetweenComponentScreen, top = MaterialTheme.dimens.gapBetweenComponentScreen),
+            text = "Логин: ${viewModel.collectAsState().value.login}",
             style = MaterialTheme.typography.Heading1,
             color = MaterialTheme.colorScheme.onPrimary
         )
