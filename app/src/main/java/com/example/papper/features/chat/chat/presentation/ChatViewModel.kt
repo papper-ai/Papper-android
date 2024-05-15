@@ -12,6 +12,7 @@ import com.example.domain.usecases.chat.SendMessageUseCase
 import com.example.domain.usecases.chat.UnarchiveChatUseCase
 import com.example.papper.features.chat.chat.model.Message
 import com.example.papper.features.chat.chat.model.MessageSender
+import com.example.papper.features.chat.chat.model.TraceBack
 import com.example.papper.features.chat.chat.model.mapToPresentationModel
 import com.example.papper.features.chat.chat.view.success_data.bottom_bar.MessageStatus
 import com.example.papper.utils.AppDispatchers
@@ -125,10 +126,10 @@ class ChatViewModel @Inject constructor(
                         successState.value = SuccessState.NotEmptyChat
                     }
                     reduce {
-                        state.copy(listOfMessages = state.listOfMessages.plus(Message(text = text, from = MessageSender.User)), message = "")
+                        state.copy(listOfMessages = state.listOfMessages.plus(Message(text = text, from = MessageSender.User, traceBack = null)), message = "")
                     }
                     reduce {
-                        state.copy(listOfMessages = state.listOfMessages.plus(Message(text = result.content, from = MessageSender.Bot)))
+                        state.copy(listOfMessages = state.listOfMessages.plus(Message(text = result.content, from = MessageSender.Bot, traceBack = result.msgTraceback.map { TraceBack(documentId = it.documentId, information = it.information) })))
                     }
                     Log.d("Test", "sendMessage: ${result.content}")
                     isSendingMessage.value = MessageStatus(isSendingMsg = false, isSuccess = true)
