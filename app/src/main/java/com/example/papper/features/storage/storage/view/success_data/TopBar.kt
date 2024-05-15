@@ -100,7 +100,7 @@ fun TopBar(
         },
         showDialog = openDeleteDialog.value,
         title = stringResource(id = R.string.delete_storage),
-        text = "${stringResource(id = R.string.delete_storage)} $title?",
+        text = "${stringResource(id = R.string.delete_storage)} $title? Также удалятся все связанные с ним чаты.",
         confirmText = stringResource(id = R.string.delete),
         cancelText = stringResource(id = R.string.cancel),
     )
