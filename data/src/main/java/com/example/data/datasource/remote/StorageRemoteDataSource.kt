@@ -12,6 +12,7 @@ import com.example.data.model.storage.RenameVaultResponseResult
 import com.example.data.model.storage.StoragePreviewModel
 import com.example.data.model.storage.StoragePreviewResponseResult
 import com.example.data.model.storage.StorageResponseResult
+import com.example.data.service.AuthService
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -26,6 +27,7 @@ import javax.inject.Inject
 
 class StorageRemoteDataSource @Inject constructor(
     private val apiService: StorageApiService,
+    private val authService: AuthService,
 ) {
 
     suspend fun createStorage(title: String, type: String, listOfFiles: List<File>): CreateStorageResponseResult {
@@ -80,6 +82,12 @@ class StorageRemoteDataSource @Inject constructor(
                     id = resultFromApi.body()?.id.orEmpty()
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        createStorage(title = title, type = type, listOfFiles = listOfFiles)
+                    }
+                }
                 result = CreateStorageResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,
@@ -133,6 +141,12 @@ class StorageRemoteDataSource @Inject constructor(
                     } ?: emptyList()
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        getAllStoragesPreview()
+                    }
+                }
                 result = StoragePreviewResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,
@@ -188,6 +202,12 @@ class StorageRemoteDataSource @Inject constructor(
                     } ?: emptyList()
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        getStorageById(id = id)
+                    }
+                }
                 result = StorageResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,
@@ -241,6 +261,12 @@ class StorageRemoteDataSource @Inject constructor(
                     )
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        deleteStorageById(id = id)
+                    }
+                }
                 result = DeleteStorageResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,
@@ -323,6 +349,12 @@ class StorageRemoteDataSource @Inject constructor(
                     id = resultFromApi.body()?.id.orEmpty()
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        addFileInStorage(id = id, file = file)
+                    }
+                }
                 result = AddFileInStorageResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,
@@ -370,6 +402,12 @@ class StorageRemoteDataSource @Inject constructor(
                     )
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        deleteFileInStorage(vaultId = vaultId, documentId = documentId)
+                    }
+                }
                 result = DeleteFileResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,
@@ -414,6 +452,12 @@ class StorageRemoteDataSource @Inject constructor(
                     )
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        renameStorage(id = id, title = title)
+                    }
+                }
                 result = RenameVaultResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,

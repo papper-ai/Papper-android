@@ -25,14 +25,14 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideChatRemoteDataSource(apiService: ChatApiService): ChatRemoteDataSource {
-        return ChatRemoteDataSource(apiService = apiService)
+    fun provideChatRemoteDataSource(apiService: ChatApiService, authService: AuthService): ChatRemoteDataSource {
+        return ChatRemoteDataSource(apiService = apiService, authService = authService)
     }
 
     @Provides
     @Singleton
-    fun provideStorageRemoteDataSource(apiService: StorageApiService): StorageRemoteDataSource {
-        return StorageRemoteDataSource(apiService = apiService)
+    fun provideStorageRemoteDataSource(apiService: StorageApiService, authService: AuthService): StorageRemoteDataSource {
+        return StorageRemoteDataSource(apiService = apiService, authService = authService)
     }
 
     @Provides

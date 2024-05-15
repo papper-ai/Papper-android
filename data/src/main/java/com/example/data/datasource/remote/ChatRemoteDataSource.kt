@@ -1,5 +1,6 @@
 package com.example.data.datasource.remote
 
+import android.util.Log
 import com.example.data.api.ChatApiService
 import com.example.data.base.BaseResponse
 import com.example.data.model.chat.ChangeArchiveStatusChatBody
@@ -11,6 +12,7 @@ import com.example.data.model.chat.RenameChatBody
 import com.example.data.model.chat.SendMessageBody
 import com.example.data.model.chat.SendMessageResponse
 import com.example.data.model.chat.SendMessageResponseResult
+import com.example.data.service.AuthService
 import com.example.data.utils.BaseResponseImitation
 import kotlinx.coroutines.delay
 import okio.IOException
@@ -19,6 +21,7 @@ import javax.inject.Inject
 
 class ChatRemoteDataSource @Inject constructor(
     private val apiService: ChatApiService,
+    private val authService: AuthService,
 ) {
 
     suspend fun createChat(vaultId: String, title: String): CreateChatResponseResult {
@@ -42,6 +45,12 @@ class ChatRemoteDataSource @Inject constructor(
                     id = resultFromApi.body()?.id ?: ""
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        createChat(vaultId, title)
+                    }
+                }
                 result = CreateChatResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,
@@ -91,6 +100,13 @@ class ChatRemoteDataSource @Inject constructor(
                     listOfChatsPreview = resultFromApi.body() ?: emptyList()
                 )
             } else {
+                if (resultFromApi.code() == 401 || resultFromApi.code() == 403) {
+                    Log.e("TEST", "fetchChatsPreview: Попал2")
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        fetchChatsPreview()
+                    }
+                }
                 result = ChatsPreviewResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,
@@ -139,6 +155,12 @@ class ChatRemoteDataSource @Inject constructor(
                     listOfChatsPreview = resultFromApi.body() ?: emptyList()
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        fetchArchiveChatsPreview()
+                    }
+                }
                 result = ChatsPreviewResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,
@@ -191,6 +213,12 @@ class ChatRemoteDataSource @Inject constructor(
                     isArchived = resultFromApi.body()?.isArchived ?: false
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        fetchChatById(id = id)
+                    }
+                }
                 result = GetChatResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,
@@ -248,6 +276,12 @@ class ChatRemoteDataSource @Inject constructor(
                     msg = resultFromApi.message()
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        renameChat(id = id, name = name)
+                    }
+                }
                 result = BaseResponse(
                     isSuccess = false,
                     code = resultFromApi.code().toString(),
@@ -283,6 +317,12 @@ class ChatRemoteDataSource @Inject constructor(
                     msg = resultFromApi.message()
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        changeArchiveStatus(id = id, archiveStatus = archiveStatus)
+                    }
+                }
                 result = BaseResponse(
                     isSuccess = false,
                     code = resultFromApi.code().toString(),
@@ -319,6 +359,12 @@ class ChatRemoteDataSource @Inject constructor(
                     msg = resultFromApi.message()
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        clearChat(id = id)
+                    }
+                }
                 result = BaseResponse(
                     isSuccess = false,
                     code = resultFromApi.code().toString(),
@@ -355,6 +401,12 @@ class ChatRemoteDataSource @Inject constructor(
                     msg = resultFromApi.message()
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        deleteChat(id = id)
+                    }
+                }
                 result = BaseResponse(
                     isSuccess = false,
                     code = resultFromApi.code().toString(),
@@ -395,6 +447,12 @@ class ChatRemoteDataSource @Inject constructor(
                     traceback = resultFromApi.body()?.aiMessage?.traceback ?: emptyList()
                 )
             } else {
+                if (resultFromApi.code() == 401) {
+                    val token = authService.refreshToken()
+                    if (token.isSuccess) {
+                        sendMessage(message = message, chatId = chatId, vaultId = vaultId)
+                    }
+                }
                 result = SendMessageResponseResult(
                     baseResponse = BaseResponse(
                         isSuccess = false,

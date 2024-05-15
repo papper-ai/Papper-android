@@ -2,11 +2,9 @@ package com.example.data.api
 
 import com.example.data.model.auth.CheckApiResponse
 import com.example.data.model.auth.GetUserLoginResponse
-import com.example.data.model.auth.RegistrationBody
+import com.example.data.model.auth.RefreshTokenRequest
 import com.example.data.model.auth.SignInResponse
 import com.example.data.utils.Constants
-import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -42,6 +40,10 @@ interface AuthApiService {
     @GET(Constants.GET_LOGIN)
     suspend fun fetchUserLogin(): Response<GetUserLoginResponse>
 
-    suspend fun restoreCode()
+
+    @POST(Constants.REFRESH_ACCESS_TOKEN)
+    suspend fun restoreCode(
+        @Body body: RefreshTokenRequest,
+    ): Response<SignInResponse>
 
 }
