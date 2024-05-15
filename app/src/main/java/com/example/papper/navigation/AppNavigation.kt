@@ -57,6 +57,7 @@ fun AppNavigation(
         composable(route = Screens.SignInScreen.route) {
             SignInScreen(
                 viewModel = hiltViewModel(),
+                chatsViewModel = chatsViewModel,
                 navHostController = navHostController,
             )
         }

@@ -10,6 +10,7 @@ import com.example.papper.R
 import com.example.papper.features.auth.sign_in.presentation.SignInScreenState
 import com.example.papper.features.auth.sign_in.presentation.SignInSideEffects
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
+import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.navigation.Screens
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -17,6 +18,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 fun SignInScreen(
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel,
+    chatsViewModel: ChatsViewModel,
     navHostController: NavHostController,
 ) {
     val context = LocalContext.current
@@ -25,6 +27,7 @@ fun SignInScreen(
         handleSideEffects(
             sideEffects = sideEffect,
             viewModel = viewModel,
+            chatsViewModel = chatsViewModel,
             navHostController = navHostController,
             context = context,
         )
@@ -35,6 +38,7 @@ fun SignInScreen(
 private fun handleSideEffects(
     sideEffects: SignInSideEffects,
     viewModel: SignInViewModel,
+    chatsViewModel: ChatsViewModel,
     navHostController: NavHostController,
     context: Context,
 ) {
@@ -53,6 +57,7 @@ private fun handleSideEffects(
             viewModel.fieldsStatus.value = sideEffects.status
         }
         SignInSideEffects.NavigateToChatsScreen -> {
+            chatsViewModel.loadData()
             navHostController.navigate(
                 Screens.ChatsScreen.route,
             ) {
