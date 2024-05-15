@@ -12,6 +12,7 @@ import com.example.papper.features.storage.storage.presentation.StorageScreenSta
 import com.example.papper.features.storage.storage.presentation.StorageSideEffects
 import com.example.papper.features.storage.storage.presentation.StorageViewModel
 import com.example.papper.features.storage.storages.presentation.StoragesViewModel
+import com.example.papper.navigation.Screens
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -81,7 +82,15 @@ private fun handleSideEffect(
         is StorageSideEffects.DeleteStorageAndNavigateToStoragesScreen -> {
             storagesViewModel.deleteStorage(id = sideEffect.id)
             chatsViewModel.loadData()
-            navHostController.popBackStack()
+            navHostController.navigate(
+                Screens.ChatsScreen.route,
+            ) {
+                popUpTo(navHostController.previousBackStackEntry?.destination?.route ?: "") {
+                    inclusive = true
+                }
+                launchSingleTop = true
+                restoreState = true
+            }
         }
         StorageSideEffects.ShowToastDeleteStorageError -> {
             Toast.makeText(context, context.getText(R.string.delete_storage_error), Toast.LENGTH_LONG).show()
