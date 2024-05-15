@@ -1,6 +1,7 @@
 package com.example.papper.features.storage.storage.view.success_data
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
@@ -24,27 +25,31 @@ fun AddFilesBtn(
     modifier: Modifier = Modifier,
     viewModel: StorageViewModel,
 ) {
-    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-    val mimeTypeFilter = arrayOf("application/pdf")
+    val mimeTypeFilter = arrayOf("application/pdf", "text/plain", "text/markdown", "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 
-    val selectedPdfUris = remember { mutableStateOf<List<Uri>>(emptyList()) }
-    val selectPdfActivity = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetMultipleContents()) { fileUris ->
-        selectedPdfUris.value = fileUris
+    val selectedUris = remember { mutableStateOf<List<Uri>>(emptyList()) }
+    val selectFilesActivity = rememberLauncherForActivityResult(contract = ActivityResultContracts.GetMultipleContents()) { fileUris ->
+        val tempList = mutableListOf<Uri>()
         fileUris.forEach { fileUri ->
-            val file = fileUri.getFile(context)
-            if (file != null) {
-                viewModel.addFile(file)
+            val fileType = context.contentResolver.getType(fileUri)
+            if (fileType in mimeTypeFilter) {
+                tempList.add(fileUri)
+                val file = fileUri.getFile(context)
+                if (file != null) {
+                    viewModel.addFile(file)
+                }
+            } else {
+                Toast.makeText(context, "${fileType} не поддерживается", Toast.LENGTH_SHORT).show()
             }
         }
+        selectedUris.value = tempList
     }
 
     StrokeButtonComponent(
         modifier = modifier,
         onClick = {
-            coroutineScope.launch(AppDispatchers.io) {
-                selectPdfActivity.launch(mimeTypeFilter.first(), options = ActivityOptionsCompat.makeBasic())
-            }
+            selectFilesActivity.launch("*/*", options = ActivityOptionsCompat.makeBasic())
         },
         text = stringResource(id = R.string.attach_file),
         isLoading = viewModel.btnLoading.value
