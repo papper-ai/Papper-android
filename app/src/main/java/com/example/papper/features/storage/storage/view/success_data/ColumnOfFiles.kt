@@ -1,6 +1,5 @@
 package com.example.papper.features.storage.storage.view.success_data
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -22,7 +21,6 @@ import com.example.papper.features.storage.storage.presentation.StorageViewModel
 import com.example.papper.features.storage.storage.view.success_data.storage_item.StorageItemBasic
 import com.example.papper.theme.Heading2
 import com.example.papper.theme.dimens
-import java.io.File
 
 @Composable
 fun ColumnOfFiles(

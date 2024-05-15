@@ -7,7 +7,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -15,10 +14,7 @@ import androidx.core.app.ActivityOptionsCompat
 import com.example.papper.R
 import com.example.papper.features.common.components.StrokeButtonComponent
 import com.example.papper.features.storage.storage.presentation.StorageViewModel
-import com.example.papper.features.storage.storages.presentation.StoragesViewModel
-import com.example.papper.utils.AppDispatchers
 import com.example.papper.utils.GetFile.getFile
-import kotlinx.coroutines.launch
 
 @Composable
 fun AddFilesBtn(

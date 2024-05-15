@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.storage.CreateStorageUseCase
 import com.example.papper.features.storage.create_storage.view.attach_files.CreateStorageBtnStatus
-import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.navigation.Screens
 import com.example.papper.utils.AppDispatchers
 import com.example.papper.utils.CheckNetworkStatus

@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
 import com.example.papper.features.storage.create_storage.view.attach_files.storage_item.StorageItemBasic
-import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.theme.dimens
 import java.io.File
 

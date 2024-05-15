@@ -12,7 +12,6 @@ import com.example.papper.R
 import com.example.papper.features.auth.sign_in.presentation.SignInScreenState
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
 import com.example.papper.features.common.components.OutlinedPasswordTextFieldComponent
-import com.example.papper.features.common.components.OutlinedTextFieldComponent
 import org.orbitmvi.orbit.compose.collectAsState
 
 @SuppressLint("StateFlowValueCalledInComposition")

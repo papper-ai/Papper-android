@@ -22,7 +22,6 @@ import com.example.papper.features.chat.create_chat.CreateChatScreen
 import com.example.papper.features.profile.ProfileScreen
 import com.example.papper.features.storage.create_storage.CreateStoragesScreen
 import com.example.papper.features.storage.storage.StorageScreen
-import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.features.storage.storages.StoragesScreen
 import com.example.papper.features.storage.storages.presentation.StoragesViewModel
 

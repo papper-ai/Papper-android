@@ -16,7 +16,6 @@ import com.example.papper.R
 import com.example.papper.features.chat.chats.model.ChatDescription
 import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.features.chat.chats.view.success_data.top_bar.TopBarBasic
-import com.example.papper.navigation.Screens
 
 @Composable
 fun SuccessBasic(

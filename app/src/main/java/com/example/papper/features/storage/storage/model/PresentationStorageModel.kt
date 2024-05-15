@@ -1,7 +1,6 @@
 package com.example.papper.features.storage.storage.model
 
 import com.example.domain.model.storage.StorageModel
-import java.io.File
 
 data class PresentationStorageModel(
     val isSuccess: Boolean,

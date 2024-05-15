@@ -11,10 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import com.example.papper.features.chat.chats.model.ChatDescription
 import com.example.papper.features.chat.chats.presentation.ChatsViewModel
-import com.example.papper.navigation.Screens
 import com.example.papper.theme.dimens
 
 @Composable

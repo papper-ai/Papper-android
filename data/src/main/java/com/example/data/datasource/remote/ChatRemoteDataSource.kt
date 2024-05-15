@@ -4,19 +4,16 @@ import android.util.Log
 import com.example.data.api.ChatApiService
 import com.example.data.base.BaseResponse
 import com.example.data.model.chat.ChangeArchiveStatusChatBody
-import com.example.data.model.chat.GetChatResponseResult
 import com.example.data.model.chat.ChatsPreviewResponseResult
 import com.example.data.model.chat.CreateChatBody
 import com.example.data.model.chat.CreateChatResponseResult
+import com.example.data.model.chat.GetChatResponseResult
 import com.example.data.model.chat.RenameChatBody
 import com.example.data.model.chat.SendMessageBody
-import com.example.data.model.chat.SendMessageResponse
 import com.example.data.model.chat.SendMessageResponseResult
 import com.example.data.service.AuthService
-import com.example.data.utils.BaseResponseImitation
 import kotlinx.coroutines.delay
 import okio.IOException
-import retrofit2.Response
 import javax.inject.Inject
 
 class ChatRemoteDataSource @Inject constructor(

@@ -12,7 +12,6 @@ import com.example.papper.features.chat.chat.presentation.ChatScreenState
 import com.example.papper.features.chat.chat.presentation.ChatSideEffects
 import com.example.papper.features.chat.chat.presentation.ChatViewModel
 import com.example.papper.features.chat.chats.presentation.ChatsViewModel
-import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.navigation.Screens
 import org.orbitmvi.orbit.compose.collectSideEffect
 

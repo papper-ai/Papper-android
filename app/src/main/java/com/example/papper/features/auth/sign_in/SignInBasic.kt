@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
-import com.example.papper.features.auth.sign_in.view.ForgotPasswordBtn
 import com.example.papper.features.auth.sign_in.view.LoginTextField
 import com.example.papper.features.auth.sign_in.view.PasswordTextField
 import com.example.papper.features.auth.sign_in.view.SignInBtn

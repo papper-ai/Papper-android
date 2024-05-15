@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import com.example.papper.R
 import com.example.papper.features.chat.chats.model.ChatDescription
 import com.example.papper.features.chat.chats.presentation.ChatsViewModel

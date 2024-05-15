@@ -9,7 +9,6 @@ import com.example.data.model.chat.RenameChatBody
 import com.example.data.model.chat.SendMessageBody
 import com.example.data.model.chat.SendMessageResponse
 import com.example.data.utils.Constants
-import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -18,7 +17,6 @@ import retrofit2.http.Headers
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface ChatApiService {
 

@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.papper.R
-import com.example.papper.features.chat.chat.presentation.ChatViewModel
 import com.example.papper.features.common.components.ButtonComponent
 import com.example.papper.features.profile.presentation.ProfileViewModel
 

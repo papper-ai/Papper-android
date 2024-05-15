@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
-import com.example.papper.features.storage.storage.model.FilePresentationModel
 import com.example.papper.theme.Heading2
 import com.example.papper.theme.dimens
 import java.io.File
