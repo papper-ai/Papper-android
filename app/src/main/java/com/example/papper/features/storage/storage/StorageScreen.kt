@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.papper.R
+import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.features.storage.storage.presentation.StorageScreenState
 import com.example.papper.features.storage.storage.presentation.StorageSideEffects
 import com.example.papper.features.storage.storage.presentation.StorageViewModel
@@ -18,6 +19,7 @@ fun StorageScreen(
     modifier: Modifier = Modifier,
     viewModel: StorageViewModel,
     storagesViewModel: StoragesViewModel,
+    chatsViewModel: ChatsViewModel,
     navHostController: NavHostController,
     id: String,
 ) {
@@ -29,6 +31,7 @@ fun StorageScreen(
         handleSideEffect(
             viewModel = viewModel,
             storagesViewModel = storagesViewModel,
+            chatsViewModel = chatsViewModel,
             sideEffect = sideEffect,
             navHostController = navHostController,
             context = context,
@@ -44,6 +47,7 @@ fun StorageScreen(
 private fun handleSideEffect(
     viewModel: StorageViewModel,
     storagesViewModel: StoragesViewModel,
+    chatsViewModel: ChatsViewModel,
     sideEffect: StorageSideEffects,
     navHostController: NavHostController,
     context: Context,
@@ -76,7 +80,7 @@ private fun handleSideEffect(
         }
         is StorageSideEffects.DeleteStorageAndNavigateToStoragesScreen -> {
             storagesViewModel.deleteStorage(id = sideEffect.id)
-            //storagesViewModel.loadData()
+            chatsViewModel.loadData()
             navHostController.popBackStack()
         }
         StorageSideEffects.ShowToastDeleteStorageError -> {

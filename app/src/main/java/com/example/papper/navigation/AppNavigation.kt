@@ -117,6 +117,7 @@ fun AppNavigation(
             StorageScreen(
                 viewModel = hiltViewModel(),
                 storagesViewModel = storagesViewModel,
+                chatsViewModel = chatsViewModel,
                 navHostController = navHostController,
                 id = id
             )
