@@ -29,7 +29,7 @@ class ChatsViewModel @Inject constructor(
     val chatsScreenState = mutableStateOf<ChatsScreenState>(ChatsScreenState.Loading)
 
     init {
-        loadData()
+        //loadData()
         //checkApi()
     }
 

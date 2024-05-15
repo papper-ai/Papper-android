@@ -7,10 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.papper.R
+import com.example.papper.features.archive.presentation.ArchivesViewModel
 import com.example.papper.features.auth.sign_in.presentation.SignInScreenState
 import com.example.papper.features.auth.sign_in.presentation.SignInSideEffects
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
 import com.example.papper.features.chat.chats.presentation.ChatsViewModel
+import com.example.papper.features.storage.storages.presentation.StoragesViewModel
 import com.example.papper.navigation.Screens
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -19,6 +21,8 @@ fun SignInScreen(
     modifier: Modifier = Modifier,
     viewModel: SignInViewModel,
     chatsViewModel: ChatsViewModel,
+    storagesViewModel: StoragesViewModel,
+    archivesViewModel: ArchivesViewModel,
     navHostController: NavHostController,
 ) {
     val context = LocalContext.current
@@ -28,6 +32,8 @@ fun SignInScreen(
             sideEffects = sideEffect,
             viewModel = viewModel,
             chatsViewModel = chatsViewModel,
+            storagesViewModel = storagesViewModel,
+            archivesViewModel = archivesViewModel,
             navHostController = navHostController,
             context = context,
         )
@@ -39,6 +45,8 @@ private fun handleSideEffects(
     sideEffects: SignInSideEffects,
     viewModel: SignInViewModel,
     chatsViewModel: ChatsViewModel,
+    storagesViewModel: StoragesViewModel,
+    archivesViewModel: ArchivesViewModel,
     navHostController: NavHostController,
     context: Context,
 ) {
@@ -58,6 +66,8 @@ private fun handleSideEffects(
         }
         SignInSideEffects.NavigateToChatsScreen -> {
             chatsViewModel.loadData()
+            storagesViewModel.loadData()
+            archivesViewModel.loadData()
             navHostController.navigate(
                 Screens.ChatsScreen.route,
             ) {

@@ -7,8 +7,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.papper.R
+import com.example.papper.features.archive.presentation.ArchivesViewModel
 import com.example.papper.features.auth.start.presentation.StartSideEffects
 import com.example.papper.features.auth.start.presentation.StartViewModel
+import com.example.papper.features.chat.chats.presentation.ChatsViewModel
+import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
+import com.example.papper.features.storage.storages.presentation.StoragesViewModel
 import com.example.papper.navigation.Screens
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -16,6 +20,9 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 fun StartScreen(
     modifier: Modifier = Modifier,
     viewModel: StartViewModel,
+    chatsViewModel: ChatsViewModel,
+    storagesViewModel: StoragesViewModel,
+    archivesViewModel: ArchivesViewModel,
     navHostController: NavHostController,
 ) {
     val context = LocalContext.current
@@ -23,6 +30,9 @@ fun StartScreen(
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffects(
             sideEffect = sideEffect,
+            chatsViewModel = chatsViewModel,
+            storagesViewModel = storagesViewModel,
+            archivesViewModel = archivesViewModel,
             navHostController = navHostController,
             context = context,
         )
@@ -37,11 +47,17 @@ fun StartScreen(
 
 private fun handleSideEffects(
     sideEffect: StartSideEffects,
+    chatsViewModel: ChatsViewModel,
+    storagesViewModel: StoragesViewModel,
+    archivesViewModel: ArchivesViewModel,
     navHostController: NavHostController,
     context: Context,
 ) {
     when (sideEffect) {
         StartSideEffects.NavigateToChatsScreen -> {
+            chatsViewModel.loadData()
+            storagesViewModel.loadData()
+            archivesViewModel.loadData()
             navHostController.navigate(
                 Screens.ChatsScreen.route,
             ) {

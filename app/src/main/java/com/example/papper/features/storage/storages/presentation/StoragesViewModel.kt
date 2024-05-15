@@ -27,7 +27,7 @@ class StoragesViewModel @Inject constructor(
     val storagesScreenState = mutableStateOf<StoragesScreenState>(StoragesScreenState.Loading)
 
     init {
-        loadData()
+        //loadData()
     }
 
     fun loadData() = intent {

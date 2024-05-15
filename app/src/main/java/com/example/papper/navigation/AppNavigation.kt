@@ -45,12 +45,18 @@ fun AppNavigation(
         composable(route = Screens.StartScreen.route) {
             StartScreen(
                 viewModel = hiltViewModel(),
+                chatsViewModel = chatsViewModel,
+                storagesViewModel = storagesViewModel,
+                archivesViewModel = archivesViewModel,
                 navHostController = navHostController,
             )
         }
         composable(route = Screens.RegistrationScreen.route) {
             RegistrationScreen(
                 viewModel = hiltViewModel(),
+                chatsViewModel = chatsViewModel,
+                storagesViewModel = storagesViewModel,
+                archivesViewModel = archivesViewModel,
                 navHostController = navHostController,
             )
         }
@@ -58,6 +64,8 @@ fun AppNavigation(
             SignInScreen(
                 viewModel = hiltViewModel(),
                 chatsViewModel = chatsViewModel,
+                storagesViewModel = storagesViewModel,
+                archivesViewModel = archivesViewModel,
                 navHostController = navHostController,
             )
         }

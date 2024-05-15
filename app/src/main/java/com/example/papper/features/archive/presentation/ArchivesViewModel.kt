@@ -26,7 +26,7 @@ class ArchivesViewModel @Inject constructor(
     val archivesScreenState = mutableStateOf<ArchivesScreenState>(ArchivesScreenState.Loading)
 
     init {
-        loadData()
+        //loadData()
     }
 
     fun loadData() = intent {

@@ -6,15 +6,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.example.papper.R
+import com.example.papper.features.archive.presentation.ArchivesViewModel
 import com.example.papper.features.auth.registration.presentation.RegistrationScreenState
 import com.example.papper.features.auth.registration.presentation.RegistrationSideEffects
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
+import com.example.papper.features.chat.chats.presentation.ChatsViewModel
+import com.example.papper.features.storage.storages.presentation.StoragesViewModel
 import com.example.papper.navigation.Screens
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun RegistrationScreen(
     viewModel: RegistrationViewModel,
+    chatsViewModel: ChatsViewModel,
+    storagesViewModel: StoragesViewModel,
+    archivesViewModel: ArchivesViewModel,
     navHostController: NavHostController,
 ) {
     val context = LocalContext.current
@@ -22,6 +28,9 @@ fun RegistrationScreen(
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffects (
             viewModel = viewModel,
+            chatsViewModel = chatsViewModel,
+            storagesViewModel = storagesViewModel,
+            archivesViewModel = archivesViewModel,
             sideEffect = sideEffect,
             navHostController = navHostController,
             context = context,
@@ -32,6 +41,9 @@ fun RegistrationScreen(
 
 private fun handleSideEffects(
     viewModel: RegistrationViewModel,
+    chatsViewModel: ChatsViewModel,
+    storagesViewModel: StoragesViewModel,
+    archivesViewModel: ArchivesViewModel,
     sideEffect: RegistrationSideEffects,
     navHostController: NavHostController,
     context: Context,
@@ -54,6 +66,9 @@ private fun handleSideEffects(
         }
 
         is RegistrationSideEffects.NavigateToChatsScreen -> {
+            chatsViewModel.loadData()
+            storagesViewModel.loadData()
+            archivesViewModel.loadData()
             navHostController.navigate(
                 Screens.ChatsScreen.route,
             ) {
