@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,7 +40,7 @@ fun MessageItem(
                         shape = RoundedCornerShape(
                             topStart = MaterialTheme.dimens.textFieldCornerRadius,
                             topEnd = MaterialTheme.dimens.textFieldCornerRadius,
-                            bottomStart = if (message.from == MessageSender.Bot) 0.dp else  MaterialTheme.dimens.textFieldCornerRadius,
+                            bottomStart = if (message.from == MessageSender.Bot) 0.dp else MaterialTheme.dimens.textFieldCornerRadius,
                             bottomEnd = if (message.from == MessageSender.Bot) MaterialTheme.dimens.textFieldCornerRadius else 0.dp,
                         )
                     )
@@ -51,7 +52,9 @@ fun MessageItem(
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                MessageText(text = message.text)
+                SelectionContainer {
+                    MessageText(text = message.text)
+                }
             }
         }
     }
