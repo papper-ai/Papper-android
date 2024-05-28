@@ -36,7 +36,7 @@ object NetworkModule {
             }
             .addInterceptor(loggingInterceptor)
             .connectTimeout(10, java.util.concurrent.TimeUnit.SECONDS)
-            .callTimeout(10, java.util.concurrent.TimeUnit.SECONDS)
+            .callTimeout(5*60, java.util.concurrent.TimeUnit.SECONDS)
             .readTimeout(5*60, java.util.concurrent.TimeUnit.SECONDS)
             .writeTimeout(5*60, java.util.concurrent.TimeUnit.SECONDS)
             .build()
