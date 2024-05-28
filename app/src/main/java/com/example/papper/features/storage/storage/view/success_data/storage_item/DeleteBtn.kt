@@ -1,7 +1,9 @@
 package com.example.papper.features.storage.storage.view.success_data.storage_item
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -42,9 +44,11 @@ fun DeleteBtn(
     }
 
     Box(
-        modifier = modifier
-            .size(48.dp)
+        modifier = Modifier
+            .padding(start = 5.dp)
+            .size(30.dp)
             .clip(CircleShape)
+            .background(color = MaterialTheme.colorScheme.error)
             .clickable {
                 openDialog.value = true
             },
