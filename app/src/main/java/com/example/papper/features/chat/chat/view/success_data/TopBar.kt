@@ -18,6 +18,7 @@ import androidx.navigation.NavHostController
 import com.example.papper.R
 import com.example.papper.features.chat.chat.presentation.ChatViewModel
 import com.example.papper.features.common.components.AlertDialogComponent
+import com.example.papper.features.common.components.ConfirmAlertDialog
 import com.example.papper.features.common.components.TextInputAlertDialog
 import com.example.papper.features.common.components.TopBarWithTitleSettingsComponent
 import com.example.papper.theme.Buttons
@@ -128,7 +129,7 @@ fun TopBar(
         cancelText = stringResource(id = R.string.cancel),
     )
 
-    AlertDialogComponent(
+    ConfirmAlertDialog(
         onConfirm = {
             viewModel.deleteChat()
         },
@@ -136,10 +137,12 @@ fun TopBar(
             openDeleteDialog.value = false
         },
         showDialog = openDeleteDialog.value,
-        title = stringResource(id = R.string.delete_chat),
+        title = title,
         text = "${stringResource(id = R.string.delete_chat)} $title?",
+        dialogTitle = stringResource(id = R.string.delete_chat),
         confirmText = stringResource(id = R.string.delete),
         cancelText = stringResource(id = R.string.cancel),
+        placeHolderText = stringResource(id = R.string.chat_title),
     )
 
 }

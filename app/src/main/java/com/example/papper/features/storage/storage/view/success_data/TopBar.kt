@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.papper.R
-import com.example.papper.features.common.components.AlertDialogComponent
+import com.example.papper.features.common.components.ConfirmAlertDialog
 import com.example.papper.features.common.components.TextInputAlertDialog
 import com.example.papper.features.common.components.TopBarWithTitleSettingsComponent
 import com.example.papper.features.storage.storage.presentation.StorageViewModel
@@ -91,7 +91,7 @@ fun TopBar(
         cancelText = stringResource(id = R.string.cancel),
     )
 
-    AlertDialogComponent(
+    ConfirmAlertDialog(
         onConfirm = {
             viewModel.deleteStorage()
         },
@@ -99,10 +99,12 @@ fun TopBar(
             openDeleteDialog.value = false
         },
         showDialog = openDeleteDialog.value,
-        title = stringResource(id = R.string.delete_storage),
+        dialogTitle = stringResource(id = R.string.delete_storage),
+        title = title,
         text = "${stringResource(id = R.string.delete_storage)} $title? Также удалятся все связанные с ним чаты.",
         confirmText = stringResource(id = R.string.delete),
         cancelText = stringResource(id = R.string.cancel),
+        placeHolderText = stringResource(id = R.string.storage_title),
     )
 
 }

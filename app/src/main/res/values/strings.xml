@@ -72,5 +72,7 @@
     <string name="delete_storage_error">Ошибка удаления хранилища</string>
     <string name="create_chat_error">Ошибка создания чата</string>
     <string name="empty_file">Пустой файл</string>
+    <string name="storage_title">Название хранилища</string>
+    <string name="chat_title">Название чата</string>
 
 </resources>
