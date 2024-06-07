@@ -1,5 +1,6 @@
 package com.example.papper.features.common.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -214,6 +215,62 @@ fun WithoutlinedTextFieldComponent(
                     textAlign = TextAlign.Center,
                 )
             },
+            shape = RoundedCornerShape(MaterialTheme.dimens.textFieldCornerRadius),
+            colors = TextFieldDefaults.colors(
+                focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                errorIndicatorColor = Color.Transparent,
+            ),
+        )
+    }
+}
+
+@Composable
+fun WithoutlinedPasswordTextFieldComponent(
+    modifier: Modifier = Modifier,
+    value: String = "",
+    onValueChange: (String) -> Unit = {},
+    placeholder: String,
+    singleLine: Boolean,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
+    isVisible: Boolean
+) {
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .wrapContentHeight(),
+        contentAlignment = Alignment.Center
+    ) {
+        TextField(
+            modifier = modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            value = value,
+            onValueChange = { newValue ->
+                onValueChange(newValue)
+            },
+            keyboardOptions = KeyboardOptions(
+                capitalization = keyboardCapitalization,
+                autoCorrect = true,
+                keyboardType = keyboardType,
+                imeAction = ImeAction.Next
+            ),
+            textStyle = TextStyle(textAlign = TextAlign.Center) + MaterialTheme.typography.TypingText2,
+            singleLine = singleLine,
+            placeholder = {
+                Text(
+                    modifier = modifier
+                        .fillMaxWidth(),
+                    text = placeholder,
+                    style = MaterialTheme.typography.TypingText2,
+                    textAlign = TextAlign.Center,
+                )
+            },
+            visualTransformation = if (isVisible) VisualTransformation.None else PasswordVisualTransformation(),
             shape = RoundedCornerShape(MaterialTheme.dimens.textFieldCornerRadius),
             colors = TextFieldDefaults.colors(
                 focusedTextColor = MaterialTheme.colorScheme.onPrimary,

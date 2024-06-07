@@ -44,6 +44,7 @@ fun PasswordBasic(
             FillPasswordText()
             Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.gapBetweenComponents2))
             PasswordTextField(viewModel = viewModel)
+            PasswordVisibilityBtn(viewModel = viewModel)
         }
     }
 

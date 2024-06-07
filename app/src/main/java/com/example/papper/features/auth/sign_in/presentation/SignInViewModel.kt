@@ -4,6 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.account.SignInUseCase
 import com.example.papper.utils.AppDispatchers
+import com.example.papper.utils.CheckAuthFields.checkLogin
+import com.example.papper.utils.CheckAuthFields.checkPassword
 import com.example.papper.utils.CheckNetworkStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
@@ -68,7 +70,7 @@ class SignInViewModel @Inject constructor(
     private fun checkField() = intent {
         postSideEffect(
             SignInSideEffects.FieldsFilled(
-                status = (state.login.isNotEmpty() && state.password.isNotEmpty())
+                status = (checkLogin(state.login) && checkPassword(password = state.password) == null)
             ),
         )
     }

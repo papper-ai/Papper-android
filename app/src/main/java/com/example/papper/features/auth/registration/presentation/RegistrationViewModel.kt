@@ -6,7 +6,7 @@ import com.example.domain.usecases.account.SignInUseCase
 import com.example.domain.usecases.account.SignUpUseCase
 import com.example.papper.utils.AppDispatchers
 import com.example.papper.utils.CheckNetworkStatus
-import com.example.papper.utils.CheckRegistration
+import com.example.papper.utils.CheckAuthFields
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
@@ -29,6 +29,7 @@ class RegistrationViewModel @Inject constructor(
     val allFieldScreenState = mutableStateOf<AllFieldsScreenState>(AllFieldsScreenState.Default)
     val validateLogin = mutableStateOf(false)
     val validatePassword = mutableStateOf(false)
+    val passwordVisibility = mutableStateOf(false)
 
 //    fun updateName(name: String) = intent {
 //        reduce {
@@ -56,7 +57,7 @@ class RegistrationViewModel @Inject constructor(
                 reduce {
                     state.copy(login = login)
                 }
-                validateLogin.value = CheckRegistration.checkLogin(login)
+                validateLogin.value = CheckAuthFields.checkLogin(login)
             },
             onFail = {
                 postSideEffect(RegistrationSideEffects.ShowNetworkConnectionError)
@@ -75,7 +76,7 @@ class RegistrationViewModel @Inject constructor(
                 reduce {
                     state.copy(password = password)
                 }
-                validatePassword.value = CheckRegistration.checkPassword(password)
+                validatePassword.value = CheckAuthFields.checkPassword(password) == null
             },
             onFail = {
                 postSideEffect(RegistrationSideEffects.ShowNetworkConnectionError)
