@@ -103,6 +103,9 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version")
     kapt("androidx.hilt:hilt-compiler:$hilt_compiler_version")
 
+    //pull to refresh
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.13-rc")
+
     implementation("androidx.compose.runtime:runtime:$compose_version")
     implementation("androidx.compose.runtime:runtime-livedata:$compose_version")
 
