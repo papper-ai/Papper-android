@@ -4,16 +4,20 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityOptionsCompat
 import com.example.papper.R
 import com.example.papper.features.common.components.StrokeButtonComponent
 import com.example.papper.features.storage.storage.presentation.StorageViewModel
+import com.example.papper.theme.dimens
 import com.example.papper.utils.GetFile.getFile
 
 @Composable
@@ -43,7 +47,8 @@ fun AddFilesBtn(
     }
 
     StrokeButtonComponent(
-        modifier = modifier,
+        modifier = modifier
+            .padding(start = MaterialTheme.dimens.gapBetweenComponentScreen, end = 5.dp),
         onClick = {
             selectFilesActivity.launch("*/*", options = ActivityOptionsCompat.makeBasic())
         },

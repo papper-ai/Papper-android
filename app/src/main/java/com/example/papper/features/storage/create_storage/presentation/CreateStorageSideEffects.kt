@@ -5,6 +5,7 @@ sealed class CreateStorageSideEffects {
     object ShowChooseStorageType: CreateStorageSideEffects()
     data class NavigateToStorageScreen(val id: String? = null): CreateStorageSideEffects()
     data class NavigateToCreateChatScreen(val id: String? = null): CreateStorageSideEffects()
+    object NavigateToCreateFileScreen: CreateStorageSideEffects()
     object ShowErrorToast: CreateStorageSideEffects()
     object ShowNetworkConnectionError: CreateStorageSideEffects()
 }

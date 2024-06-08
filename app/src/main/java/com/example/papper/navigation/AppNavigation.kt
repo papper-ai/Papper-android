@@ -20,6 +20,7 @@ import com.example.papper.features.chat.chats.ChatsScreen
 import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.features.chat.create_chat.CreateChatScreen
 import com.example.papper.features.profile.ProfileScreen
+import com.example.papper.features.storage.create_file.CreateFileScreen
 import com.example.papper.features.storage.create_storage.CreateStoragesScreen
 import com.example.papper.features.storage.storage.StorageScreen
 import com.example.papper.features.storage.storages.StoragesScreen
@@ -138,6 +139,13 @@ fun AppNavigation(
         }
         composable(route = Screens.ProfileScreen.route) {
             ProfileScreen(
+                viewModel = hiltViewModel(),
+                navHostController = navHostController,
+            )
+        }
+
+        composable(route = Screens.CreateFileScreen.route) {
+            CreateFileScreen(
                 viewModel = hiltViewModel(),
                 navHostController = navHostController,
             )

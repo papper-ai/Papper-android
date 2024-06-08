@@ -98,6 +98,10 @@ class CreateStorageViewModel @Inject constructor(
         }
     }
 
+    fun navigateToCreateFileScreen() = intent {
+        postSideEffect(CreateStorageSideEffects.NavigateToCreateFileScreen)
+    }
+
 //    fun updateFiles() = intent {
 //        reduce {
 //            state.value = state.value.copy(createStorageState = state.value.createStorageState.copy(title = state.value.createStorageState.title))

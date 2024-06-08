@@ -14,4 +14,5 @@ sealed class Screens(val route: String) {
     object StorageScreen : Screens(route = Constants.STORAGE_SCREEN)
     object ArchivesScreen : Screens(route = Constants.ARCHIVES_SCREEN)
     object ProfileScreen : Screens(route = Constants.PROFILE_SCREEN)
+    object CreateFileScreen : Screens(route = Constants.CREATE_FILE_SCREEN)
 }

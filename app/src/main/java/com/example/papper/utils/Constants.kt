@@ -12,4 +12,5 @@ object Constants {
     val STORAGE_SCREEN = "StorageScreen"
     val ARCHIVES_SCREEN = "ArchivesScreen"
     val PROFILE_SCREEN = "ProfileScreen"
+    val CREATE_FILE_SCREEN = "CreateFileScreen"
 }

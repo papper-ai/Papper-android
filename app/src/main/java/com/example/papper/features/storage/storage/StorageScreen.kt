@@ -103,5 +103,9 @@ private fun handleSideEffect(
         StorageSideEffects.ShowNetworkConnectionError -> {
             Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_LONG).show()
         }
+
+        StorageSideEffects.NavigateToCreateFileScreen -> {
+            navHostController.navigate(Screens.CreateFileScreen.route)
+        }
     }
 }

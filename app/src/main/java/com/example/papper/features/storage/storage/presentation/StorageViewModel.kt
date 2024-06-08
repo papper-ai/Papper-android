@@ -157,4 +157,8 @@ class StorageViewModel @Inject constructor(
         }
     }
 
+    fun navigateToCreateFileScreen() = intent {
+        postSideEffect(StorageSideEffects.NavigateToCreateFileScreen)
+    }
+
 }
