@@ -30,7 +30,7 @@ fun StoragesScreen(
         )
     }
 
-    StorageScreenBasic(
+    StoragesBasic(
         modifier = modifier,
         viewModel = viewModel,
         navHostController = navHostController,

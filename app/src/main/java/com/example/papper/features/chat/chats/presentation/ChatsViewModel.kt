@@ -53,7 +53,27 @@ class ChatsViewModel @Inject constructor(
                 postSideEffect(ChatsSideEffects.ShowNetworkConnectionError)
             }
         )
+    }
 
+    fun refreshData() = intent {
+        checkNetworkStatus.isNetworkConnected(
+            onSuccess = {
+                val result = withContext(AppDispatchers.io) {
+                    getAllChatsUseCase.execute().mapToPresentationModel()
+                }
+                if (result.isSuccess) {
+                    reduce {
+                        state.copy(listOfChats = result.list)
+                    }
+                    postSideEffect(ChatsSideEffects.ShowSuccess)
+                } else {
+                    postSideEffect(ChatsSideEffects.ShowError)
+                }
+            },
+            onFail = {
+                postSideEffect(ChatsSideEffects.ShowNetworkConnectionError)
+            }
+        )
     }
 
 //    fun renameChat(id: String, title: String) = intent {

@@ -26,14 +26,33 @@ class StoragesViewModel @Inject constructor(
 
     val storagesScreenState = mutableStateOf<StoragesScreenState>(StoragesScreenState.Loading)
 
-    init {
-        //loadData()
-    }
 
     fun loadData() = intent {
         checkNetworkStatus.isNetworkConnected(
             onSuccess = {
                 postSideEffect(StoragesSideEffects.ShowLoading)
+                val result = withContext(AppDispatchers.io) {
+                    getAllStoragesPreviewUseCase.execute().mapToPresentationModel()
+                }
+                if (result.isSuccess) {
+                    reduce {
+                        state.copy(listOfStorages = result.list)
+                    }
+                    postSideEffect(StoragesSideEffects.ShowSuccess)
+                }
+                else {
+                    postSideEffect(StoragesSideEffects.ShowError)
+                }
+            },
+            onFail = {
+                postSideEffect(StoragesSideEffects.ShowNetworkConnectionError)
+            },
+        )
+    }
+
+    fun refreshData() = intent {
+        checkNetworkStatus.isNetworkConnected(
+            onSuccess = {
                 val result = withContext(AppDispatchers.io) {
                     getAllStoragesPreviewUseCase.execute().mapToPresentationModel()
                 }

@@ -49,7 +49,27 @@ class ArchivesViewModel @Inject constructor(
                 postSideEffect(ArchivesSideEffects.ShowNetworkConnectionError)
             }
         )
+    }
 
+    fun refreshSata() = intent {
+        checkNetworkStatus.isNetworkConnected(
+            onSuccess = {
+                val result = withContext(AppDispatchers.io) {
+                    getAllArchiveChatsPreviewUseCase.execute().mapToPresentationModel()
+                }
+                if (result.isSuccess) {
+                    reduce {
+                        state.copy(listOfChats = result.list)
+                    }
+                    postSideEffect(ArchivesSideEffects.ShowSuccess)
+                } else {
+                    postSideEffect(ArchivesSideEffects.ShowError)
+                }
+            },
+            onFail = {
+                postSideEffect(ArchivesSideEffects.ShowNetworkConnectionError)
+            }
+        )
     }
 
 }

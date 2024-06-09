@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.papper.R
 import com.example.papper.features.chat.chat.presentation.ChatViewModel
-import com.example.papper.features.common.components.AlertDialogComponent
 import com.example.papper.features.common.components.ConfirmAlertDialog
 import com.example.papper.features.common.components.TextInputAlertDialog
 import com.example.papper.features.common.components.TopBarWithTitleSettingsComponent

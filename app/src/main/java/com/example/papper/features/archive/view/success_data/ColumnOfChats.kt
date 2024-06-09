@@ -3,8 +3,8 @@ package com.example.papper.features.archive.view.success_data
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -27,24 +27,27 @@ fun ColumnOfChats(
     navHostController: NavHostController,
     listOfChats: List<ChatDescription>,
 ) {
-    if (listOfChats.isEmpty()) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize(),
-            contentAlignment = Alignment.TopCenter
-        ) {
-            Text(
-                text = stringResource(id = R.string.nothing_there),
-                style = MaterialTheme.typography.Heading2,
-                color = MaterialTheme.colorScheme.onPrimary,
-            )
-        }
-    } else {
-        LazyColumn(
-            modifier = modifier
-                .fillMaxHeight(),
-            contentPadding = PaddingValues(bottom = MaterialTheme.dimens.bottomGap)
-        ) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize(),
+        contentPadding = PaddingValues(bottom = MaterialTheme.dimens.bottomGap)
+    ) {
+        if (listOfChats.isEmpty()) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = MaterialTheme.dimens.bottomGap2),
+                    contentAlignment = Alignment.TopCenter
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.nothing_there),
+                        style = MaterialTheme.typography.Heading2,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                    )
+                }
+            }
+        } else {
             items(
                 items = listOfChats,
             ) { chat ->

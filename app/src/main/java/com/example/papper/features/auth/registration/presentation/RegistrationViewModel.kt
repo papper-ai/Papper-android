@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.account.SignInUseCase
 import com.example.domain.usecases.account.SignUpUseCase
 import com.example.papper.utils.AppDispatchers
-import com.example.papper.utils.CheckNetworkStatus
 import com.example.papper.utils.CheckAuthFields
+import com.example.papper.utils.CheckNetworkStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
 import org.orbitmvi.orbit.ContainerHost
