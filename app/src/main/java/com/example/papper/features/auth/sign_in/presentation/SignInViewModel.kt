@@ -58,7 +58,11 @@ class SignInViewModel @Inject constructor(
                     postSideEffect(SignInSideEffects.NavigateToChatsScreen)
                 }
                 else {
-                    postSideEffect(SignInSideEffects.ShowErrorState(result.msg))
+                    if (result.code == "502") {
+                        postSideEffect(SignInSideEffects.ShowErrorState("Неверный логин или пароль"))
+                    } else {
+                        postSideEffect(SignInSideEffects.ShowErrorState("Неизвестная ошибка"))
+                    }
                 }
             },
             onFail = {
