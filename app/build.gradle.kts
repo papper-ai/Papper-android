@@ -56,7 +56,7 @@ android {
 
 dependencies {
     val compose_compiler = "1.4.3"
-    val compose_version = "1.3.3"
+    val compose_version = "1.6.7"
     val compose_material_icons = "1.3.1"
 
     val navigation_version = "2.7.7"
@@ -68,7 +68,7 @@ dependencies {
     val hilt_compiler_version = "1.2.0"
     val hilt_work_version = "1.2.0"
     val orbit_version = "7.0.0"
-    val work_runtime_version = "2.7.1"
+    val work_runtime_version = "2.9.0"
     val kotlin_version = "1.8.10"
     implementation(project(":domain"))
 
@@ -112,8 +112,6 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:$work_runtime_version")
 
     implementation("androidx.hilt:hilt-work:$hilt_work_version")
-
-
 
     implementation("androidx.compose.material3:material3-window-size-class-android:1.2.1")
 

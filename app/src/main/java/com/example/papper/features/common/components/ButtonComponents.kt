@@ -1,6 +1,8 @@
 package com.example.papper.features.common.components
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -154,6 +156,7 @@ fun StrokeButtonComponent(
     onClick: () -> Unit = {},
     text: String,
     isLoading: Boolean = false,
+    isWithBackground: Boolean = false,
 ) {
     val stroke = Stroke(
         width = 4f,
@@ -166,6 +169,7 @@ fun StrokeButtonComponent(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
+            .background(color = if (isWithBackground) MaterialTheme.colorScheme.primary else Color.Transparent, shape = RoundedCornerShape(cornerRadiusBtn))
             .drawBehind {
                 drawRoundRect(
                     color = borderColor,
@@ -210,6 +214,8 @@ fun StrokeButtonComponent(
 fun SmallStrokeButtonComponent(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    @DrawableRes iconDrawable: Int,
+    isWithBackground: Boolean = false,
 ) {
     val stroke = Stroke(
         width = 4f,
@@ -222,6 +228,7 @@ fun SmallStrokeButtonComponent(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
+            .background(color = if (isWithBackground) MaterialTheme.colorScheme.primary else Color.Transparent, shape = RoundedCornerShape(cornerRadiusBtn))
             .drawBehind {
                 drawRoundRect(
                     color = borderColor,
@@ -242,7 +249,7 @@ fun SmallStrokeButtonComponent(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.camera_24),
+                painter = painterResource(id = iconDrawable),
                 contentDescription = "camera",
                 tint = MaterialTheme.colorScheme.onPrimary
             )

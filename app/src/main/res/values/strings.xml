@@ -76,6 +76,7 @@
     <string name="chat_title">Название чата</string>
     <string name="fill_file_title">Введите название файла</string>
     <string name="convert">Преобразовать</string>
-    <string name="add_photos_into_storage">Добавьте фотографии в хранилище</string>
-
+    <string name="add_photos_into_storage">Добавьте фотографии в файл</string>
+    <string name="attach_photo">Прикрепить фото</string>
+    <string name="replace_photo">Заменить фото</string>
 </resources>

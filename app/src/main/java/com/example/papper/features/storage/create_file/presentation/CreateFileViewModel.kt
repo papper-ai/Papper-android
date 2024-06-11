@@ -3,6 +3,7 @@ package com.example.papper.features.storage.create_file.presentation
 import android.graphics.Bitmap
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.papper.features.storage.create_file.model.AttachPhotoModel
 import com.example.papper.features.storage.create_storage.view.attach_files.CreateStorageBtnStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
@@ -27,7 +28,12 @@ class CreateFileViewModel @Inject constructor(
         }
     }
 
-    fun attachPhotoFromCamera(photo: Bitmap) = intent {
+    fun attachPhotoFromCamera(bitmap: Bitmap) = intent {
+        val photo = AttachPhotoModel(
+            id = state.listOfPhotos.size+1,
+            image = bitmap,
+        )
+
         reduce {
             state.copy(listOfPhotos = state.listOfPhotos.plus(photo))
         }
@@ -41,6 +47,42 @@ class CreateFileViewModel @Inject constructor(
         postSideEffect(CreateFileSideEffects.ShowConfirmCreating)
     }
 
+    fun addPhoto(bitmap: Bitmap) = intent {
+        val photo = AttachPhotoModel(
+            id = state.listOfPhotos.size+1,
+            image = bitmap,
+        )
 
+        reduce {
+            state.copy(listOfPhotos = state.listOfPhotos.plus(photo))
+        }
+    }
+
+    fun deletePhoto(photo: AttachPhotoModel) = intent {
+        val result = mutableListOf<AttachPhotoModel>()
+        var index = 1
+        for (item in state.listOfPhotos.minus(photo)) {
+            result.add(
+                AttachPhotoModel(
+                    id = index,
+                    image = item.image,
+                )
+            )
+            index++
+        }
+
+        reduce {
+            state.copy(listOfPhotos = result)
+        }
+    }
+
+    fun replacePhoto(oldPhoto: AttachPhotoModel, newPhoto: AttachPhotoModel) = intent {
+        val result: MutableList<AttachPhotoModel> = state.listOfPhotos.toMutableList()
+        result[result.indexOf(oldPhoto)] = newPhoto
+
+        reduce {
+            state.copy(listOfPhotos = result)
+        }
+    }
 
 }
