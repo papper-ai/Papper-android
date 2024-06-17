@@ -1,5 +1,6 @@
 package com.example.papper.features.common.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,6 +42,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.papper.R
+import com.example.papper.theme.Buttons
 import com.example.papper.theme.TypingText
 import com.example.papper.theme.TypingText2
 import com.example.papper.theme.dimens
@@ -51,6 +53,7 @@ fun OutlinedTextFieldComponent(
     value: String = "",
     onValueChange: (String) -> Unit = {},
     placeholder: String,
+    label: String? = null,
     singleLine: Boolean,
     keyboardType: KeyboardType = KeyboardType.Text,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
@@ -83,6 +86,17 @@ fun OutlinedTextFieldComponent(
                 style = MaterialTheme.typography.TypingText,
             )
         },
+//        label = {
+//            if (label != "") {
+//                Text(
+//                    modifier = Modifier
+//                        .background(color = MaterialTheme.colorScheme.primary),
+//                    text = label.orEmpty(),
+//                    style = MaterialTheme.typography.Buttons,
+//                    color = MaterialTheme.colorScheme.onPrimary
+//                )
+//            }
+//        },
         enabled = isEnable,
         isError = isError,
         shape = RoundedCornerShape(MaterialTheme.dimens.textFieldCornerRadius),
@@ -90,8 +104,8 @@ fun OutlinedTextFieldComponent(
             focusedTextColor = MaterialTheme.colorScheme.onPrimary,
             unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
             focusedContainerColor = Color.Transparent,
-            unfocusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            focusedLabelColor = MaterialTheme.colorScheme.primary,
+            unfocusedLabelColor = MaterialTheme.colorScheme.primary,
             focusedBorderColor = MaterialTheme.colorScheme.primary,
             unfocusedBorderColor = MaterialTheme.colorScheme.onPrimary,
             errorBorderColor = MaterialTheme.colorScheme.error,

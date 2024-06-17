@@ -1,11 +1,16 @@
 package com.example.papper.features.storage.create_file.view
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.papper.features.common.components.TopBarWithLogoComponent
 import com.example.papper.features.storage.create_file.presentation.CreateFileScreenState
 import com.example.papper.features.storage.create_file.presentation.CreateFileViewModel
+import com.example.papper.features.storage.create_file.view.confirm_creating.ConfirmExitAlertDialog
 
 @Composable
 fun TopBar(
@@ -13,6 +18,10 @@ fun TopBar(
     viewModel: CreateFileViewModel,
     navHostController: NavHostController,
 ) {
+    var confirmExit by remember {
+        mutableStateOf(false)
+    }
+
     TopBarWithLogoComponent(
         modifier = modifier,
         onClick = {
@@ -26,7 +35,7 @@ fun TopBar(
                 }
 
                 CreateFileScreenState.ConfirmCreating -> {
-                    viewModel.createFileScreenState.value = CreateFileScreenState.AttachPhotos
+                    confirmExit = true
                 }
 
                 CreateFileScreenState.Error -> {
@@ -34,5 +43,11 @@ fun TopBar(
                 }
             }
         },
+    )
+
+    ConfirmExitAlertDialog(
+        onDismiss = { confirmExit = false },
+        viewModel = viewModel,
+        showDialog = confirmExit,
     )
 }

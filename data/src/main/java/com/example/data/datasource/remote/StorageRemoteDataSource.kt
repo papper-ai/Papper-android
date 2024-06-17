@@ -3,6 +3,8 @@ package com.example.data.datasource.remote
 import com.example.data.api.StorageApiService
 import com.example.data.base.BaseResponse
 import com.example.data.model.storage.AddFileInStorageResponseResult
+import com.example.data.model.storage.ConvertPhotoResponseResult
+import com.example.data.model.storage.ConvertedPhoto
 import com.example.data.model.storage.CreateStorageResponseResult
 import com.example.data.model.storage.DeleteFileResponseResult
 import com.example.data.model.storage.DeleteStorageResponseResult
@@ -13,6 +15,8 @@ import com.example.data.model.storage.StoragePreviewModel
 import com.example.data.model.storage.StoragePreviewResponseResult
 import com.example.data.model.storage.StorageResponseResult
 import com.example.data.service.AuthService
+import com.example.domain.model.storage.ConvertPhotoModel
+import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -20,6 +24,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
 import java.io.File
+import java.util.Base64
 import javax.inject.Inject
 
 
@@ -490,4 +495,28 @@ class StorageRemoteDataSource @Inject constructor(
         return result
     }
 
+    suspend fun convertPhoto(list: List<ConvertPhotoModel>): ConvertPhotoResponseResult {
+        delay(1000)
+        val myList = mutableListOf<ConvertedPhoto>()
+
+        list.forEach { photo ->
+            myList.add(
+                ConvertedPhoto(
+                    id = photo.id,
+                    text = "Переработанный текст ${photo.id} бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла\n бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла\n" +
+                            " бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла\n" +
+                            " бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла бла"
+                )
+            )
+        }
+        return ConvertPhotoResponseResult(
+            baseResponse = BaseResponse(
+                isSuccess = true,
+                code = "200",
+                msg = "Success"
+            ),
+            list = myList
+        )
+
+    }
 }

@@ -81,7 +81,8 @@ dependencies {
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
 
-    //Json
+    //Coil
+    implementation("io.coil-kt:coil-compose:1.4.0")
 
     //Picasso
     implementation("com.squareup.picasso:picasso:$picasso_version")

@@ -11,20 +11,21 @@ import org.orbitmvi.orbit.compose.collectAsState
 @Composable
 fun ConvertPhotosBtn(
     modifier: Modifier = Modifier,
+    onClick: () -> Unit,
     viewModel: CreateFileViewModel,
 ) {
     ButtonComponent(
         modifier = modifier,
         onClick = {
-
+            onClick()
         },
         text = stringResource(id = R.string.convert),
-        isLoading = viewModel.createStorageBtnStatus.value.isLoading,
-        isEnable = ((viewModel.createStorageBtnStatus.value.isEnable) && viewModel.collectAsState().value.listOfPhotos.isNotEmpty()),
+        isLoading = viewModel.convertPhotoBtnStatus.value.isLoading,
+        isEnable = ((viewModel.convertPhotoBtnStatus.value.isEnable) && viewModel.collectAsState().value.listOfPhotos.isNotEmpty()),
     )
 }
 
-data class CreateStorageBtnStatus(
+data class ConvertPhotoBtnStatus(
     val isLoading: Boolean,
     val isEnable: Boolean,
 )

@@ -1,12 +1,10 @@
 package com.example.papper.features.storage.create_file.presentation
 
-import com.example.papper.features.storage.create_file.model.AttachPhotoModel
-import com.example.papper.features.storage.create_file.model.ConvertedPhotoModel
+import com.example.papper.features.storage.create_file.model.PhotoModel
 
 data class CreateFileState (
     val title: String = "",
-    val listOfPhotos: List<AttachPhotoModel> = emptyList<AttachPhotoModel>(),
-    val listOfConvertedPhoto: List<ConvertedPhotoModel> = emptyList<ConvertedPhotoModel>(),
+    val listOfPhotos: List<PhotoModel> = emptyList<PhotoModel>(),
 )
 
 sealed class CreateFileScreenState {

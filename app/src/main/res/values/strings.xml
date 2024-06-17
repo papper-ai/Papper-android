@@ -64,7 +64,7 @@
     <string name="unarchive_chat">Разархивировать чат</string>
     <string name="clear_history_of_chat">Очистить историю чата</string>
     <string name="delete_chat">Удалить чат</string>
-    <string name="rename">Переменовать</string>
+    <string name="rename">Переименовать</string>
     <string name="delete_chat_error">Ошибка удаления чата</string>
     <string name="are_u_sure_to_delete_chat">Вы уверены, что хотите окончательно удалить</string>
     <string name="delete_storage">Удалить хранилище</string>
@@ -79,4 +79,12 @@
     <string name="add_photos_into_storage">Добавьте фотографии в файл</string>
     <string name="attach_photo">Прикрепить фото</string>
     <string name="replace_photo">Заменить фото</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="confirm_correct_converted">Подтвердите правильность обработки</string>
+    <string name="converted_text">Обработаный текст</string>
+    <string name="confirm_exit">Подтвердите выход</string>
+    <string name="confirm_exit_text">При выходе все отсканированные документы будут утеряны. Их придется сканировать заного</string>
+    <string name="edit_text">Редактирование текста</string>
+    <string name="confirm_delete">Вы уверены, что хотите удалить фотографию </string>
+    <string name="delete_photo">Удалить фотографию</string>
 </resources>

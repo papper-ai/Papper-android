@@ -1,12 +1,14 @@
 package com.example.papper.features.common.components
 
-import android.graphics.Bitmap
+import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
@@ -22,11 +24,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import coil.compose.rememberImagePainter
 import com.example.papper.R
 import com.example.papper.theme.dimens
 
@@ -79,14 +81,16 @@ fun AlertDialogComponent(
 fun TextInputAlertDialog(
     onDismiss: () -> Unit,
     onConfirm: (String) -> Unit,
-    title: String,
+    textInTextField: String,
+    placeHolder: String,
     showDialog: Boolean,
     dialogTitle: String,
     confirmText: String,
     cancelText: String,
+    singleLine: Boolean = true,
 ) {
     if (showDialog) {
-        val titleState = remember { mutableStateOf(title) }
+        val titleState = remember { mutableStateOf(textInTextField) }
 
         AlertDialog(
             onDismissRequest = onDismiss,
@@ -112,19 +116,14 @@ fun TextInputAlertDialog(
             text = {
                 Column {
                     OutlinedTextFieldComponent(
+                        modifier = Modifier.fillMaxHeight(0.4f),
                         value = titleState.value,
                         onValueChange = { newTitle ->
                             titleState.value = newTitle
                         },
-                        placeholder = "Название",
-                        singleLine = true,
+                        placeholder = placeHolder,
+                        singleLine = singleLine,
                     )
-//                    TextField(
-//                        value = titleState.value,
-//                        onValueChange = { newTitle ->
-//                            titleState.value = newTitle
-//                        }
-//                    )
                 }
             },
             containerColor = MaterialTheme.colorScheme.onBackground,
@@ -205,13 +204,14 @@ fun ImageAlertDialog(
     isWithReplaceImage: Boolean = false,
     onReplaceClick: () -> Unit = {if (isWithReplaceImage) {throw Exception ("ReplaceImageAlertDialog: onReplaceClick is not defined")} },
     onGetPhotoClick: () -> Unit = {if (isWithReplaceImage) {throw Exception ("ReplaceImageAlertDialog: onGetPhotoClick is not defined")} },
-    image: Bitmap,
+    image: Uri,
 ) {
     Dialog(
         onDismissRequest = { onDismissRequest() },
         properties = DialogProperties(
             dismissOnClickOutside = true,
             dismissOnBackPress = true,
+            usePlatformDefaultWidth = false,
         ),
     ) {
         BackHandler {
@@ -226,19 +226,20 @@ fun ImageAlertDialog(
         ) {
             Image(
                 modifier = Modifier
-                    .wrapContentSize()
+                    .fillMaxWidth(0.995f)
+                    .fillMaxHeight(0.9f)
                     .clip(shape = RoundedCornerShape(MaterialTheme.dimens.buttonCornerRadius)),
-                bitmap = image.asImageBitmap(),
+                painter = rememberImagePainter(image),
                 contentDescription = "image",
-                contentScale = ContentScale.FillBounds
+                contentScale = ContentScale.Fit,
             )
             if (isWithReplaceImage) {
                 Spacer(modifier = Modifier.height(MaterialTheme.dimens.buttonGap))
-                Row {
+                Row{
                     StrokeButtonComponent(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(end = MaterialTheme.dimens.buttonGap/2),
+                            .padding(end = MaterialTheme.dimens.buttonGap / 2),
                         onClick = {
                             onReplaceClick()
                         },
@@ -248,7 +249,7 @@ fun ImageAlertDialog(
                     SmallStrokeButtonComponent(
                         modifier = Modifier
                             .weight(0.25f)
-                            .padding(start = MaterialTheme.dimens.buttonGap/2),
+                            .padding(start = MaterialTheme.dimens.buttonGap / 2),
                         iconDrawable = R.drawable.camera_24,
                         onClick = {
                             onGetPhotoClick()

@@ -2,6 +2,8 @@ package com.example.domain.repository
 
 import com.example.domain.model.BaseResponse
 import com.example.domain.model.storage.AddFileInStorageResult
+import com.example.domain.model.storage.ConvertPhotoModel
+import com.example.domain.model.storage.ConvertPhotoResult
 import com.example.domain.model.storage.CreateStorageResult
 import com.example.domain.model.storage.StorageModel
 import com.example.domain.model.storage.StoragePreviewModelResult
@@ -15,4 +17,5 @@ interface StorageRepository {
     suspend fun addFileById(id: String, file: File): AddFileInStorageResult
     suspend fun deleteFileById(vaultId: String, documentId: String): BaseResponse
     suspend fun renameStorage(id: String, title: String): BaseResponse
+    suspend fun convertPhoto(list: List<ConvertPhotoModel>): ConvertPhotoResult
 }

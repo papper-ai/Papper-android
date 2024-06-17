@@ -33,3 +33,24 @@ fun CardComponent(
     }
 }
 
+@Composable
+fun CardItemComponent(
+    modifier: Modifier = Modifier,
+    content: @Composable() (ColumnScope.() -> Unit),
+) {
+    Card(
+        modifier = modifier
+            .wrapContentHeight()
+            .fillMaxWidth(1f),
+        shape = RoundedCornerShape(MaterialTheme.dimens.cardCornerRadius),
+        colors = CardColors(
+            containerColor = MaterialTheme.colorScheme.onBackground,
+            contentColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
+            disabledContentColor = Color.Transparent,
+        )
+    ) {
+        content()
+    }
+}
+

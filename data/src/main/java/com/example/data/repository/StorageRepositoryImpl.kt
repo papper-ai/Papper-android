@@ -4,11 +4,14 @@ import com.example.data.datasource.remote.StorageRemoteDataSource
 import com.example.data.model.storage.mapToDomainModel
 import com.example.domain.model.BaseResponse
 import com.example.domain.model.storage.AddFileInStorageResult
+import com.example.domain.model.storage.ConvertPhotoModel
+import com.example.domain.model.storage.ConvertPhotoResult
 import com.example.domain.model.storage.CreateStorageResult
 import com.example.domain.model.storage.StorageModel
 import com.example.domain.model.storage.StoragePreviewModelResult
 import com.example.domain.repository.StorageRepository
 import java.io.File
+import java.util.Base64
 import javax.inject.Inject
 
 class StorageRepositoryImpl @Inject constructor(
@@ -43,5 +46,9 @@ class StorageRepositoryImpl @Inject constructor(
 
     override suspend fun renameStorage(id: String, title: String): BaseResponse {
         return storageDataSource.renameStorage(id = id, title = title).mapToDomainModel()
+    }
+
+    override suspend fun convertPhoto(list: List<ConvertPhotoModel>): ConvertPhotoResult {
+        return storageDataSource.convertPhoto(list).mapToDomainModel()
     }
 }
