@@ -51,7 +51,7 @@ interface ChatApiService {
         @Body body: ChangeArchiveStatusChatBody
     ): Response<Any>
 
-    @POST("${Constants.CLEAR_CHAT}/{id}")
+    @POST("${Constants.CLEAR_CHAT_PART1}/{id}/${Constants.CLEAR_CHAT_PART2}")
     suspend fun clearChat(
         @Path("id") id: String
     ): Response<Any>

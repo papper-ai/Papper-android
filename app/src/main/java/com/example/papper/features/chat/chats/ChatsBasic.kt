@@ -99,7 +99,7 @@ fun ChatBasic(
                     }
                     is ChatsScreenState.Error -> ErrorBasic(
                         modifier = modifier
-                            .padding(it),
+                            .padding(it.calculateBottomPadding() - it.calculateBottomPadding()),
                         viewModel = viewModel,
                     )
                 }

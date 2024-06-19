@@ -38,8 +38,8 @@ fun AppNavigation(
 
     NavHost (
         navController = navHostController,
-        //startDestination = Screens.StartScreen.route,
-        startDestination = Screens.SignInByFaceScreen.route,
+        startDestination = Screens.StartScreen.route,
+        //startDestination = Screens.SignInByFaceScreen.route,
         enterTransition = { fadeIn(tween(300)) },
         exitTransition = { fadeOut(tween(300)) },
         popEnterTransition = { fadeIn(tween(300)) },
