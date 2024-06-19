@@ -87,4 +87,5 @@
     <string name="edit_text">Редактирование текста</string>
     <string name="confirm_delete">Вы уверены, что хотите удалить фотографию </string>
     <string name="delete_photo">Удалить фотографию</string>
+    <string name="put_face_into_camera">Поместите лицо в рамку камеры для сканирования</string>
 </resources>

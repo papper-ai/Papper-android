@@ -70,6 +70,7 @@ dependencies {
     val orbit_version = "7.0.0"
     val work_runtime_version = "2.9.0"
     val kotlin_version = "1.8.10"
+    val cameraxVersion = "1.3.0-rc01"
     implementation(project(":domain"))
 
     //modules
@@ -80,6 +81,15 @@ dependencies {
 
     //Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
+
+    //CameraX
+    implementation("androidx.camera:camera-core:$cameraxVersion")
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-video:$cameraxVersion")
+
+    implementation("androidx.camera:camera-view:$cameraxVersion")
+    implementation("androidx.camera:camera-extensions:$cameraxVersion")
 
     //Coil
     implementation("io.coil-kt:coil-compose:1.4.0")

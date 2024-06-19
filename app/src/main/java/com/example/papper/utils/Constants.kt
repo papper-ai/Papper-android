@@ -13,4 +13,5 @@ object Constants {
     val ARCHIVES_SCREEN = "ArchivesScreen"
     val PROFILE_SCREEN = "ProfileScreen"
     val CREATE_FILE_SCREEN = "CreateFileScreen"
+    val SIGN_IN_BY_FACE_SCREEN = "SignInByFaceScreen"
 }

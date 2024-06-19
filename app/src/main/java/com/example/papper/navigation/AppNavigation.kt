@@ -14,6 +14,8 @@ import com.example.papper.features.archive.ArchivesScreen
 import com.example.papper.features.archive.presentation.ArchivesViewModel
 import com.example.papper.features.auth.registration.RegistrationScreen
 import com.example.papper.features.auth.sign_in.SignInScreen
+import com.example.papper.features.auth.sign_in_by_face.SignInByFaceBasic
+import com.example.papper.features.auth.sign_in_by_face.SignInByFaceScreen
 import com.example.papper.features.auth.start.StartScreen
 import com.example.papper.features.chat.chat.ChatScreen
 import com.example.papper.features.chat.chats.ChatsScreen
@@ -37,7 +39,7 @@ fun AppNavigation(
     NavHost (
         navController = navHostController,
         //startDestination = Screens.StartScreen.route,
-        startDestination = Screens.CreateFileScreen.route,
+        startDestination = Screens.SignInByFaceScreen.route,
         enterTransition = { fadeIn(tween(300)) },
         exitTransition = { fadeOut(tween(300)) },
         popEnterTransition = { fadeIn(tween(300)) },
@@ -143,10 +145,18 @@ fun AppNavigation(
                 navHostController = navHostController,
             )
         }
-
         composable(route = Screens.CreateFileScreen.route) {
             CreateFileScreen(
                 viewModel = hiltViewModel(),
+                navHostController = navHostController,
+            )
+        }
+        composable(route = Screens.SignInByFaceScreen.route) {
+            SignInByFaceScreen(
+                viewModel = hiltViewModel(),
+                chatsViewModel = chatsViewModel,
+                storagesViewModel = storagesViewModel,
+                archivesViewModel = archivesViewModel,
                 navHostController = navHostController,
             )
         }

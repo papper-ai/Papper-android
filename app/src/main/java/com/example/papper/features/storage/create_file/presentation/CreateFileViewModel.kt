@@ -90,7 +90,7 @@ class CreateFileViewModel @Inject constructor(
                     listOfPhoto = state.listOfPhotos.map {
                         ConvertPhotoModel(
                             id = it.id,
-                            photo = BitmapFactory.decodeFile(it.imageUri.toFile().absolutePath).toBase64(),
+                            photo = BitmapFactory.decodeFile(it.imageUri.toFile().path).toBase64(),
                         )
                     }
                 )
@@ -130,7 +130,7 @@ class CreateFileViewModel @Inject constructor(
                     listOfPhoto = listOf(newPhoto).map {
                         ConvertPhotoModel(
                             id = it.id,
-                            photo = BitmapFactory.decodeFile(it.imageUri.toFile().absolutePath).toBase64(),
+                            photo = BitmapFactory.decodeFile(it.imageUri.toFile().path).toBase64(),
                         )
                     }
                 )
