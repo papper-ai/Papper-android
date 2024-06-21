@@ -102,8 +102,7 @@ fun CreateFileBasic(
                 }
 
                 Column(
-                    modifier = Modifier
-                        .weight(0.15f),
+                    modifier = Modifier,
                     verticalArrangement = Arrangement.Bottom,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {

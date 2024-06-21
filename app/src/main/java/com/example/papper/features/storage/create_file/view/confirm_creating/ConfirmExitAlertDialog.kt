@@ -17,8 +17,8 @@ fun ConfirmExitAlertDialog(
 ) {
     AlertDialogComponent(
         onConfirm = {
-            viewModel.clearConvertedText()
             viewModel.createFileScreenState.value = CreateFileScreenState.AttachPhotos
+            viewModel.clearConvertedText()
         },
         onDismiss = { onDismiss() },
         showDialog = showDialog,

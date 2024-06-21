@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
@@ -116,7 +118,6 @@ fun TextInputAlertDialog(
             text = {
                 Column {
                     OutlinedTextFieldComponent(
-                        modifier = Modifier.fillMaxHeight(0.4f),
                         value = titleState.value,
                         onValueChange = { newTitle ->
                             titleState.value = newTitle
@@ -129,6 +130,71 @@ fun TextInputAlertDialog(
             containerColor = MaterialTheme.colorScheme.onBackground,
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
             textContentColor = MaterialTheme.colorScheme.onPrimary,
+        )
+    }
+}
+
+@Composable
+fun BigTextInputAlertDialog(
+    onDismiss: () -> Unit,
+    onConfirm: (String) -> Unit,
+    textInTextField: String,
+    placeHolder: String,
+    showDialog: Boolean,
+    dialogTitle: String,
+    confirmText: String,
+    cancelText: String,
+    singleLine: Boolean = true,
+) {
+    if (showDialog) {
+        val titleState = remember { mutableStateOf(textInTextField) }
+
+        AlertDialog(
+            onDismissRequest = onDismiss,
+            confirmButton = {
+                Button(
+                    onClick = {
+                        onConfirm(titleState.value)
+                        onDismiss()
+                    },
+                    enabled = titleState.value.isNotEmpty()
+                ) {
+                    Text(confirmText)
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = onDismiss
+                ) {
+                    Text(cancelText)
+                }
+            },
+            title = { Text(text = dialogTitle) },
+            text = {
+                Column(
+                    modifier = Modifier
+                        .wrapContentHeight()
+                        .padding(horizontal = MaterialTheme.dimens.gapBetweenComponentScreen)
+                ) {
+                    OutlinedResponsiveTextFieldComponent(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.5f),
+                        value = titleState.value,
+                        onValueChange = { newTitle ->
+                            titleState.value = newTitle
+                        },
+                        placeholder = placeHolder,
+                        singleLine = singleLine,
+                    )
+                }
+            },
+            containerColor = MaterialTheme.colorScheme.onBackground,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            textContentColor = MaterialTheme.colorScheme.onPrimary,
+            properties = DialogProperties(
+                usePlatformDefaultWidth = false,
+            )
         )
     }
 }
@@ -239,7 +305,10 @@ fun ImageAlertDialog(
                     StrokeButtonComponent(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(end = MaterialTheme.dimens.buttonGap / 2),
+                            .padding(
+                                start = MaterialTheme.dimens.gapBetweenComponentScreen,
+                                end = MaterialTheme.dimens.buttonGap / 2,
+                            ),
                         onClick = {
                             onReplaceClick()
                         },
@@ -249,7 +318,10 @@ fun ImageAlertDialog(
                     SmallStrokeButtonComponent(
                         modifier = Modifier
                             .weight(0.25f)
-                            .padding(start = MaterialTheme.dimens.buttonGap / 2),
+                            .padding(
+                                start = MaterialTheme.dimens.buttonGap / 2,
+                                end = MaterialTheme.dimens.gapBetweenComponentScreen,
+                            ),
                         iconDrawable = R.drawable.camera_24,
                         onClick = {
                             onGetPhotoClick()

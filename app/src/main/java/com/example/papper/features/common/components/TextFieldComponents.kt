@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -53,13 +55,14 @@ fun OutlinedTextFieldComponent(
     value: String = "",
     onValueChange: (String) -> Unit = {},
     placeholder: String,
-    label: String? = null,
     singleLine: Boolean,
     keyboardType: KeyboardType = KeyboardType.Text,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
     isEnable: Boolean = true,
     isError: Boolean = false,
 ) {
+    //val scrollState = rememberScrollState()
+
     OutlinedTextField(
         modifier = modifier
             .height(MaterialTheme.dimens.buttonsHeight)
@@ -68,6 +71,71 @@ fun OutlinedTextFieldComponent(
                 start = MaterialTheme.dimens.gapBetweenComponentScreen,
                 end = MaterialTheme.dimens.gapBetweenComponentScreen
             ),
+            //.verticalScroll(scrollState),
+        value = value,
+        onValueChange = { newValue ->
+            onValueChange(newValue)
+        },
+        keyboardOptions = KeyboardOptions(
+            capitalization = keyboardCapitalization,
+            autoCorrect = true,
+            keyboardType = keyboardType,
+            imeAction = ImeAction.Next
+        ),
+        textStyle = MaterialTheme.typography.TypingText,
+        singleLine = singleLine,
+        placeholder = {
+            Text(
+                text = placeholder,
+                style = MaterialTheme.typography.TypingText,
+            )
+        },
+//        label = {
+//            if (label != "") {
+//                Text(
+//                    modifier = Modifier
+//                        .background(color = MaterialTheme.colorScheme.primary),
+//                    text = label.orEmpty(),
+//                    style = MaterialTheme.typography.Buttons,
+//                    color = MaterialTheme.colorScheme.onPrimary
+//                )
+//            }
+//        },
+        enabled = isEnable,
+        isError = isError,
+        shape = RoundedCornerShape(MaterialTheme.dimens.textFieldCornerRadius),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+            focusedContainerColor = Color.Transparent,
+            focusedLabelColor = MaterialTheme.colorScheme.primary,
+            unfocusedLabelColor = MaterialTheme.colorScheme.primary,
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
+            unfocusedBorderColor = MaterialTheme.colorScheme.onPrimary,
+            errorBorderColor = MaterialTheme.colorScheme.error,
+            errorTextColor = MaterialTheme.colorScheme.onPrimary,
+            disabledBorderColor = MaterialTheme.colorScheme.secondaryContainer,
+            disabledTextColor = MaterialTheme.colorScheme.onPrimary,
+        ),
+    )
+}
+
+@Composable
+fun OutlinedResponsiveTextFieldComponent(
+    modifier: Modifier = Modifier,
+    value: String = "",
+    onValueChange: (String) -> Unit = {},
+    placeholder: String,
+    singleLine: Boolean,
+    keyboardType: KeyboardType = KeyboardType.Text,
+    keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
+    isEnable: Boolean = true,
+    isError: Boolean = false,
+) {
+    //val scrollState = rememberScrollState()
+
+    OutlinedTextField(
+        modifier = modifier,
         value = value,
         onValueChange = { newValue ->
             onValueChange(newValue)

@@ -1,5 +1,6 @@
 package com.example.papper.features.storage.create_file.view.confirm_creating
 
+import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -25,8 +26,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.papper.R
+import com.example.papper.features.common.components.BigTextInputAlertDialog
 import com.example.papper.features.common.components.TextInputAlertDialog
-import com.example.papper.features.common.components.verticalScrollbar
+import com.example.papper.features.common.components.drawVerticalScrollbar
 import com.example.papper.features.storage.create_file.model.PhotoModel
 import com.example.papper.features.storage.create_file.presentation.CreateFileViewModel
 import com.example.papper.features.storage.create_file.view.PhotoItemBasic
@@ -61,7 +63,11 @@ fun ConvertedTextPagerItem(
             PhotoItemBasic(
                 onDeleteClick = { confirmDelete = true },
                 viewModel = viewModel,
-                photo = PhotoModel(id = convertedPhoto.id, imageUri = convertedPhoto.imageUri, text = convertedPhoto.text),
+                photo = PhotoModel(
+                    id = convertedPhoto.id,
+                    imageUri = convertedPhoto.imageUri,
+                    text = convertedPhoto.text
+                ),
             )
             Spacer(modifier = Modifier.height(MaterialTheme.dimens.buttonGap))
             Box(
@@ -72,20 +78,20 @@ fun ConvertedTextPagerItem(
                         horizontal = MaterialTheme.dimens.gapBetweenComponentScreen,
                         vertical = MaterialTheme.dimens.gapBetweenComponentScreen
                     )
-                    .clickable {
-                        textFieldAlertDialogVisibility = true
-                    }
                     .border(
                         width = 1.dp,
                         color = MaterialTheme.colorScheme.onPrimary,
                         shape = RoundedCornerShape(MaterialTheme.dimens.buttonGap)
                     )
+                    .clickable {
+                        textFieldAlertDialogVisibility = true
+                    }
                     .padding(
                         horizontal = MaterialTheme.dimens.gapBetweenComponents,
                         vertical = MaterialTheme.dimens.gapBetweenComponents
                     )
-                    .verticalScrollbar(scroll, isAlwaysVisible = true)
-                    .verticalScroll(scroll),
+                    .drawVerticalScrollbar(scroll)
+                    .verticalScroll(scroll)
             ) {
                 Text(
                     text = if (convertedPhoto.text.isNotEmpty()) convertedPhoto.text else "Пустой текст",
@@ -97,7 +103,7 @@ fun ConvertedTextPagerItem(
         }
     }
 
-    TextInputAlertDialog(
+    BigTextInputAlertDialog(
         onDismiss = { textFieldAlertDialogVisibility = false },
         onConfirm = { viewModel.editConvertedText(photo = convertedPhoto, text = it) },
         textInTextField = convertedPhoto.text,

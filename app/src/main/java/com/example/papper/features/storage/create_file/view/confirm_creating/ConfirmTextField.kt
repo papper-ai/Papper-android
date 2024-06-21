@@ -32,7 +32,7 @@ fun ConfirmTextField(
         },
         value = textFieldState,
         placeholder = stringResource(id = R.string.converted_text),
-        label = stringResource(id = R.string.converted_text),
+        //label = stringResource(id = R.string.converted_text),
         singleLine = false,
     )
 }
