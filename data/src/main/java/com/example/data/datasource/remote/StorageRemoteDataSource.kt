@@ -14,7 +14,6 @@ import com.example.data.model.storage.RenameVaultResponseResult
 import com.example.data.model.storage.StoragePreviewModel
 import com.example.data.model.storage.StoragePreviewResponseResult
 import com.example.data.model.storage.StorageResponseResult
-import com.example.data.service.AuthService
 import com.example.domain.model.storage.ConvertPhotoModel
 import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaType
@@ -24,13 +23,12 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
 import java.io.File
-import java.util.Base64
 import javax.inject.Inject
 
 
 class StorageRemoteDataSource @Inject constructor(
     private val apiService: StorageApiService,
-    private val authService: AuthService,
+    private val authRemoteDataSource: AuthRemoteDataSource,
 ) {
 
     suspend fun createStorage(title: String, type: String, listOfFiles: List<File>): CreateStorageResponseResult {
@@ -86,7 +84,7 @@ class StorageRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         createStorage(title = title, type = type, listOfFiles = listOfFiles)
                     }
@@ -145,7 +143,7 @@ class StorageRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         getAllStoragesPreview()
                     }
@@ -207,7 +205,7 @@ class StorageRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         getStorageById(id = id)
                     }
@@ -266,7 +264,7 @@ class StorageRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         deleteStorageById(id = id)
                     }
@@ -355,7 +353,7 @@ class StorageRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         addFileInStorage(id = id, file = file)
                     }
@@ -411,7 +409,7 @@ class StorageRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         deleteFileInStorage(vaultId = vaultId, documentId = documentId)
                     }
@@ -461,7 +459,7 @@ class StorageRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         renameStorage(id = id, title = title)
                     }

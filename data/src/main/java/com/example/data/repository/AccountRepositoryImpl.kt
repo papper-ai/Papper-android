@@ -2,14 +2,14 @@ package com.example.data.repository
 
 import android.util.Log
 import com.example.data.model.auth.mapToDomainModel
-import com.example.data.service.AuthService
+import com.example.data.datasource.remote.AuthRemoteDataSource
 import com.example.domain.model.auth.AccountResponseResult
 import com.example.domain.model.auth.LoginResponseResult
 import com.example.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
-    private val service: AuthService,
+    private val service: AuthRemoteDataSource,
 ) : AccountRepository {
     override suspend fun checkApi() {
         val result = service.checkApi()

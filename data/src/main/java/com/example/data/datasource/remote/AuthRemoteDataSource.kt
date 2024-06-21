@@ -1,6 +1,5 @@
-package com.example.data.service
+package com.example.data.datasource.remote
 
-import android.util.Log
 import com.example.data.api.AuthApiService
 import com.example.data.base.BaseResponse
 import com.example.data.datasource.local.AuthLocalDataSource
@@ -13,7 +12,7 @@ import kotlinx.coroutines.delay
 import okio.IOException
 import javax.inject.Inject
 
-class AuthService @Inject constructor(
+class AuthRemoteDataSource @Inject constructor(
     private val apiService: AuthApiService,
     private val authLocalDataSource: AuthLocalDataSource,
 ) {
@@ -49,9 +48,6 @@ class AuthService @Inject constructor(
         try {
             val resultFromApi = apiService.registerUser(secret = code, login = login, password = password)
             if (resultFromApi.isSuccessful) {
-                authLocalDataSource.saveLogin(login = login)
-                authLocalDataSource.savePassword(password = password)
-
                 result = RegisterUserResponse(
                     baseResponse = BaseResponse(
                         isSuccess = true,
@@ -95,10 +91,6 @@ class AuthService @Inject constructor(
         val resultFromApi = apiService.signIn(login = login, password = password)
         try {
             if (resultFromApi.isSuccessful) {
-                authLocalDataSource.saveLogin(login = login)
-                authLocalDataSource.savePassword(password = password)
-                Log.e("Test", "signIn: ${resultFromApi.body()?.accessToken?.token.orEmpty()}")
-                Log.e("Test", "signIn: ${resultFromApi.body()?.refreshToken?.token.orEmpty()}")
                 authLocalDataSource.saveSuccessToken(token = resultFromApi.body()?.accessToken?.token.orEmpty())
                 authLocalDataSource.saveRefreshToken(token = resultFromApi.body()?.refreshToken?.token.orEmpty())
                 result = SignInResponseResult(
@@ -136,30 +128,24 @@ class AuthService @Inject constructor(
         lateinit var result: SignInResponseResult
 
         try {
-            val login = authLocalDataSource.getLogin()
-            val password = authLocalDataSource.getPassword()
+            val refreshToken = authLocalDataSource.getRefreshToken()
 
-            if (login != null && password != null) {
-                val resultFromApi = apiService.signIn(
-                    login = login,
-                    password = password
-                )
-                if (resultFromApi.isSuccessful) {
-                    authLocalDataSource.saveSuccessToken(token = resultFromApi.body()?.accessToken?.token.orEmpty())
-                    authLocalDataSource.saveRefreshToken(token = resultFromApi.body()?.refreshToken?.token.orEmpty())
+            if (refreshToken != null) {
+                val resultFromApi = refreshToken()
+                if (resultFromApi.isSuccess) {
                     result = SignInResponseResult(
                         BaseResponse(
                             isSuccess = true,
-                            code = resultFromApi.code().toString(),
-                            msg = resultFromApi.message(),
+                            code = resultFromApi.code,
+                            msg = resultFromApi.msg,
                         )
                     )
                 } else {
                     result = SignInResponseResult(
                         BaseResponse(
                             isSuccess = false,
-                            code = resultFromApi.code().toString(),
-                            msg = resultFromApi.message(),
+                            code = resultFromApi.code,
+                            msg = resultFromApi.msg,
                         )
                     )
                 }
@@ -199,9 +185,6 @@ class AuthService @Inject constructor(
             apiService.restoreCode(body =  RefreshTokenRequest(refreshToken = it))
         }
         if (resultFromApi?.isSuccessful == true) {
-            Log.e("Test", "Попал в refresh")
-            Log.e("Test", "accessToken: ${resultFromApi.body()?.accessToken?.token.orEmpty()}")
-            Log.e("Test", "refreshToken: ${resultFromApi.body()?.refreshToken?.token.orEmpty()}")
             authLocalDataSource.saveSuccessToken(token = resultFromApi.body()?.accessToken?.token.orEmpty())
             authLocalDataSource.saveRefreshToken(token = resultFromApi.body()?.refreshToken?.token.orEmpty())
             return BaseResponse(
@@ -210,7 +193,6 @@ class AuthService @Inject constructor(
                 msg = resultFromApi.message(),
             )
         } else {
-            Log.e("Test", "Попал в false")
             return BaseResponse(
                 isSuccess = false,
                 code = resultFromApi?.code().toString(),
@@ -272,8 +254,6 @@ class AuthService @Inject constructor(
     }
 
     suspend fun logOut() {
-        authLocalDataSource.saveLogin(login = "")
-        authLocalDataSource.savePassword(password = "")
         authLocalDataSource.saveSuccessToken(token = "")
         authLocalDataSource.saveRefreshToken(token = "")
     }

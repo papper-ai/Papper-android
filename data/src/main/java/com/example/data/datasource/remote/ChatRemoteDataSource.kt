@@ -11,14 +11,13 @@ import com.example.data.model.chat.GetChatResponseResult
 import com.example.data.model.chat.RenameChatBody
 import com.example.data.model.chat.SendMessageBody
 import com.example.data.model.chat.SendMessageResponseResult
-import com.example.data.service.AuthService
 import kotlinx.coroutines.delay
 import okio.IOException
 import javax.inject.Inject
 
 class ChatRemoteDataSource @Inject constructor(
     private val apiService: ChatApiService,
-    private val authService: AuthService,
+    private val authRemoteDataSource: AuthRemoteDataSource,
 ) {
 
     suspend fun createChat(vaultId: String, title: String): CreateChatResponseResult {
@@ -43,7 +42,7 @@ class ChatRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         createChat(vaultId, title)
                     }
@@ -99,7 +98,7 @@ class ChatRemoteDataSource @Inject constructor(
             } else {
                 if (resultFromApi.code() == 401 || resultFromApi.code() == 403) {
                     Log.e("TEST", "fetchChatsPreview: Попал2")
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         fetchChatsPreview()
                     }
@@ -153,7 +152,7 @@ class ChatRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         fetchArchiveChatsPreview()
                     }
@@ -211,7 +210,7 @@ class ChatRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         fetchChatById(id = id)
                     }
@@ -274,7 +273,7 @@ class ChatRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         renameChat(id = id, name = name)
                     }
@@ -315,7 +314,7 @@ class ChatRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         changeArchiveStatus(id = id, archiveStatus = archiveStatus)
                     }
@@ -357,7 +356,7 @@ class ChatRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         clearChat(id = id)
                     }
@@ -399,7 +398,7 @@ class ChatRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         deleteChat(id = id)
                     }
@@ -445,7 +444,7 @@ class ChatRemoteDataSource @Inject constructor(
                 )
             } else {
                 if (resultFromApi.code() == 401) {
-                    val token = authService.refreshToken()
+                    val token = authRemoteDataSource.refreshToken()
                     if (token.isSuccess) {
                         sendMessage(message = message, chatId = chatId, vaultId = vaultId)
                     }

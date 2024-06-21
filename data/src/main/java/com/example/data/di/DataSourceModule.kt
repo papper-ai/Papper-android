@@ -9,7 +9,7 @@ import com.example.data.datasource.remote.StorageRemoteDataSource
 import com.example.data.repository.AccountRepositoryImpl
 import com.example.data.repository.ChatRepositoryImpl
 import com.example.data.repository.StorageRepositoryImpl
-import com.example.data.service.AuthService
+import com.example.data.datasource.remote.AuthRemoteDataSource
 import com.example.domain.repository.AccountRepository
 import com.example.domain.repository.ChatRepository
 import com.example.domain.repository.StorageRepository
@@ -25,26 +25,26 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideChatRemoteDataSource(apiService: ChatApiService, authService: AuthService): ChatRemoteDataSource {
-        return ChatRemoteDataSource(apiService = apiService, authService = authService)
+    fun provideChatRemoteDataSource(apiService: ChatApiService, authRemoteDataSource: AuthRemoteDataSource): ChatRemoteDataSource {
+        return ChatRemoteDataSource(apiService = apiService, authRemoteDataSource = authRemoteDataSource)
     }
 
     @Provides
     @Singleton
-    fun provideStorageRemoteDataSource(apiService: StorageApiService, authService: AuthService): StorageRemoteDataSource {
-        return StorageRemoteDataSource(apiService = apiService, authService = authService)
+    fun provideStorageRemoteDataSource(apiService: StorageApiService, authRemoteDataSource: AuthRemoteDataSource): StorageRemoteDataSource {
+        return StorageRemoteDataSource(apiService = apiService, authRemoteDataSource = authRemoteDataSource)
     }
 
     @Provides
     @Singleton
-    fun provideAuthService(apiService: AuthApiService, authLocalDataSource: AuthLocalDataSource): AuthService {
-        return AuthService(apiService = apiService, authLocalDataSource = authLocalDataSource)
+    fun provideAuthService(apiService: AuthApiService, authLocalDataSource: AuthLocalDataSource): AuthRemoteDataSource {
+        return AuthRemoteDataSource(apiService = apiService, authLocalDataSource = authLocalDataSource)
     }
 
     @Provides
     @Singleton
-    fun provideAuthRepository(authService: AuthService): AccountRepository {
-        return AccountRepositoryImpl(service = authService)
+    fun provideAuthRepository(authRemoteDataSource: AuthRemoteDataSource): AccountRepository {
+        return AccountRepositoryImpl(service = authRemoteDataSource)
     }
 
     @Provides

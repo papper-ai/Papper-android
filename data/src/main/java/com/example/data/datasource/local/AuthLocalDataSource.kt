@@ -26,19 +26,19 @@ class AuthLocalDataSource @Inject constructor(
 
     fun getRefreshToken(): String? = context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).getString(Constants.JWT_REFRESH_TOKEN, "")
 
-    fun saveLogin(login: String) {
-        context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).edit()
-            .putString(Constants.LOGIN, login)
-            .apply()
-    }
-
-    fun getLogin(): String? = context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).getString(Constants.LOGIN, "")
-
-    fun savePassword(password: String) {
-        context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).edit()
-            .putString(Constants.PASSWORD, password)
-            .apply()
-    }
-
-    fun getPassword(): String? = context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).getString(Constants.PASSWORD, "")
+//    fun saveLogin(login: String) {
+//        context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).edit()
+//            .putString(Constants.LOGIN, login)
+//            .apply()
+//    }
+//
+//    fun getLogin(): String? = context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).getString(Constants.LOGIN, "")
+//
+//    fun savePassword(password: String) {
+//        context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).edit()
+//            .putString(Constants.PASSWORD, password)
+//            .apply()
+//    }
+//
+//    fun getPassword(): String? = context.getSharedPreferences(Constants.AUTH_SHARED_PREF, Context.MODE_PRIVATE).getString(Constants.PASSWORD, "")
 }
