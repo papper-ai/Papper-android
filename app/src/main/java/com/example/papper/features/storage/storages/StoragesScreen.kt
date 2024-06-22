@@ -10,7 +10,8 @@ import com.example.papper.R
 import com.example.papper.features.storage.storages.presentation.StoragesScreenState
 import com.example.papper.features.storage.storages.presentation.StoragesSideEffects
 import com.example.papper.features.storage.storages.presentation.StoragesViewModel
-import com.example.papper.navigation.Screens
+import com.example.papper.navigation.CreateStorageScreen
+import com.example.papper.navigation.StorageScreen
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -58,10 +59,10 @@ private fun handleSideEffects(
             navHostController.popBackStack()
         }
         is StoragesSideEffects.NavigateToStorageScreen -> {
-            navHostController.navigate(Screens.StorageScreen.route + "/${sideEffect.id}")
+            navHostController.navigate(StorageScreen(storageId = sideEffect.id))
         }
         StoragesSideEffects.NavigateToCreateStorageScreen -> {
-            navHostController.navigate(Screens.CreateStorageScreen.route)
+            navHostController.navigate(CreateStorageScreen)
         }
         StoragesSideEffects.ShowNetworkConnectionError -> {
             Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()

@@ -4,7 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.domain.usecases.storage.CreateStorageUseCase
 import com.example.papper.features.storage.create_storage.view.attach_files.CreateStorageBtnStatus
-import com.example.papper.navigation.Screens
+import com.example.papper.navigation.CreateChatScreen
+import com.example.papper.navigation.StoragesScreen
 import com.example.papper.utils.AppDispatchers
 import com.example.papper.utils.CheckNetworkStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -67,10 +68,11 @@ class CreateStorageViewModel @Inject constructor(
                     createStorageUseCase.execute(title = state.title, type = state.storageType, list = state.listOfFiles.toList())
                 }
                 if (result.isSuccess) {
-                    if (lastDestination == Screens.CreateChatScreen.route) {
+                    // ЭТО МЕСТО
+                    if (lastDestination == CreateChatScreen.toString()) {
                         postSideEffect(CreateStorageSideEffects.NavigateToCreateChatScreen(id = result.id))
                     }
-                    else if (lastDestination == Screens.StoragesScreen.route) {
+                    else if (lastDestination == StoragesScreen.toString()) {
                         postSideEffect(CreateStorageSideEffects.NavigateToStorageScreen(id = result.id))
                     }
                 }

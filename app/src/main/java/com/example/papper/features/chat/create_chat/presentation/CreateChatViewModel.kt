@@ -103,4 +103,8 @@ class CreateChatViewModel @Inject constructor(
         postSideEffect(CreateChatSideEffects.NavigateToStoragesScreen)
     }
 
+    fun navigateToCreateStorageScreen() = intent {
+        postSideEffect(CreateChatSideEffects.NavigateToCreateStorageScreen)
+    }
+
 }

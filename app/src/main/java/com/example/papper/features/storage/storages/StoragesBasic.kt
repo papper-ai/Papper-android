@@ -18,7 +18,7 @@ import com.example.papper.features.storage.storages.view.error_data.ErrorBasic
 import com.example.papper.features.storage.storages.view.loading_data.LoadingBasic
 import com.example.papper.features.storage.storages.view.success_data.FloatingBtn
 import com.example.papper.features.storage.storages.view.success_data.SuccessBasic
-import com.example.papper.navigation.Screens
+import com.example.papper.navigation.ChatsScreen
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.SwipeRefreshIndicator
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
@@ -61,9 +61,10 @@ fun StoragesBasic(
             },
             floatingActionButton = {
                 if (viewModel.storagesScreenState.value == StoragesScreenState.Success) {
-                    if (navHostController.previousBackStackEntry?.destination?.route == Screens.ChatsScreen.route) {
+                    //ЭТО МЕСТО
+                    if (navHostController.previousBackStackEntry?.destination?.route == ChatsScreen.toString()) {
                         FloatingBtn(
-                            navHostController = navHostController,
+                            viewModel = viewModel,
                         )
                     }
                 }

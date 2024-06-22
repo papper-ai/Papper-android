@@ -113,4 +113,16 @@ class ChatsViewModel @Inject constructor(
         postSideEffect(ChatsSideEffects.NavigateToChatScreen(id))
     }
 
+    fun navigateToArchivesScreen() = intent {
+        postSideEffect(ChatsSideEffects.NavigateToArchivesScreen)
+    }
+
+    fun navigateToProfileScreen() = intent {
+        postSideEffect(ChatsSideEffects.NavigateToProfileScreen)
+    }
+
+    fun navigateToStoragesScreen() = intent {
+        postSideEffect(ChatsSideEffects.NavigateToStoragesScreen)
+    }
+
 }

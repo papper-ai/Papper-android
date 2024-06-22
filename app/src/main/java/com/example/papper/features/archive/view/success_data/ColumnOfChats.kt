@@ -14,8 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import com.example.papper.R
+import com.example.papper.features.archive.presentation.ArchivesViewModel
 import com.example.papper.features.archive.view.success_data.archive_item.ItemBasic
 import com.example.papper.features.chat.chats.model.ChatDescription
 import com.example.papper.theme.Heading2
@@ -24,7 +24,7 @@ import com.example.papper.theme.dimens
 @Composable
 fun ColumnOfChats(
     modifier: Modifier = Modifier,
-    navHostController: NavHostController,
+    viewModel: ArchivesViewModel,
     listOfChats: List<ChatDescription>,
 ) {
     LazyColumn(
@@ -51,7 +51,7 @@ fun ColumnOfChats(
             items(
                 items = listOfChats,
             ) { chat ->
-                ItemBasic(navHostController = navHostController, chat = chat)
+                ItemBasic(viewModel = viewModel, chat = chat)
                 Spacer(modifier = Modifier.padding(bottom = MaterialTheme.dimens.bottomGap))
             }
         }

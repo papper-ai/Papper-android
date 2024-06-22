@@ -9,4 +9,5 @@ sealed class CreateChatSideEffects {
     object ShowFetchStorageError: CreateChatSideEffects()
     object ShowCreateChatErrorToast: CreateChatSideEffects()
     object ShowNetworkConnectionError: CreateChatSideEffects()
+    object NavigateToCreateStorageScreen: CreateChatSideEffects()
 }

@@ -28,7 +28,6 @@ fun ChooseStorageBasic(
             ChooseVariableBasic(
                 modifier = modifier,
                 viewModel = viewModel,
-                navHostController = navHostController,
             )
         }
 
@@ -36,7 +35,6 @@ fun ChooseStorageBasic(
             AttachFilesBasic(
                 modifier = modifier,
                 viewModel = viewModel,
-                navHostController = navHostController,
             )
         }
 

@@ -92,7 +92,6 @@ fun ArchivesBasic(
                                 modifier = modifier
                                     .fillMaxSize(),
                                 viewModel = viewModel,
-                                navHostController = navHostController,
                             )
                         }
                     }

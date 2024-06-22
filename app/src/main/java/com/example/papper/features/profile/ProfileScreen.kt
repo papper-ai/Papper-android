@@ -10,7 +10,10 @@ import com.example.papper.R
 import com.example.papper.features.profile.presentation.ProfileScreenState
 import com.example.papper.features.profile.presentation.ProfileSideEffects
 import com.example.papper.features.profile.presentation.ProfileViewModel
-import com.example.papper.navigation.Screens
+import com.example.papper.navigation.ChatScreen
+import com.example.papper.navigation.ChatsScreen
+import com.example.papper.navigation.ProfileScreen
+import com.example.papper.navigation.StartScreen
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -62,12 +65,12 @@ private fun handleSideEffects(
 
         ProfileSideEffects.NavigateToStartScreen -> {
             navHostController.navigate(
-                Screens.StartScreen.route,
+                StartScreen,
             ) {
-                popUpTo(Screens.ProfileScreen.route) {
+                popUpTo(ProfileScreen) {
                     inclusive = true
                 }
-                popUpTo(Screens.ChatsScreen.route) {
+                popUpTo(ChatsScreen) {
                     inclusive = true
                 }
                 launchSingleTop = true

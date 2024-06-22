@@ -1,6 +1,5 @@
 package com.example.papper.features.storage.create_file.view.confirm_creating
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -27,7 +26,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.papper.R
 import com.example.papper.features.common.components.BigTextInputAlertDialog
-import com.example.papper.features.common.components.TextInputAlertDialog
 import com.example.papper.features.common.components.drawVerticalScrollbar
 import com.example.papper.features.storage.create_file.model.PhotoModel
 import com.example.papper.features.storage.create_file.presentation.CreateFileViewModel

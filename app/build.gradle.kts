@@ -5,6 +5,7 @@ plugins {
 
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlinx-serialization")
 }
 
 android {
@@ -59,7 +60,7 @@ dependencies {
     val compose_version = "1.6.7"
     val compose_material_icons = "1.3.1"
 
-    val navigation_version = "2.7.7"
+    val navigation_version = "2.8.0-alpha08"
     val coroutines_version = "1.7.3"
     val picasso_version = "2.8"
     val dagger2_version = "2.50"
@@ -71,9 +72,10 @@ dependencies {
     val work_runtime_version = "2.9.0"
     val kotlin_version = "1.8.10"
     val cameraxVersion = "1.3.0-rc01"
-    implementation(project(":domain"))
+    val serialization = "1.6.3"
 
     //modules
+    implementation(project(":domain"))
     implementation(project(path = ":data"))
 
     //navigation
@@ -90,6 +92,9 @@ dependencies {
 
     implementation("androidx.camera:camera-view:$cameraxVersion")
     implementation("androidx.camera:camera-extensions:$cameraxVersion")
+
+    //serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization")
 
     //Coil
     implementation("io.coil-kt:coil-compose:1.4.0")

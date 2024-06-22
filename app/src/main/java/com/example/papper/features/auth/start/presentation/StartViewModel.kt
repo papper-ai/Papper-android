@@ -56,4 +56,13 @@ class StartViewModel @Inject constructor(
         )
 
     }
+
+    fun navigateToSignInScreen() = intent {
+        postSideEffect(StartSideEffects.NavigateToSignInScreen)
+    }
+
+    fun navigateToSignUpScreen() = intent {
+        postSideEffect(StartSideEffects.NavigateToRegistrationScreen)
+    }
+
 }

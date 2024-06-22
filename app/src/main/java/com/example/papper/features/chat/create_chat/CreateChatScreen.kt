@@ -14,7 +14,10 @@ import com.example.papper.features.chat.create_chat.presentation.ChooseStorageSc
 import com.example.papper.features.chat.create_chat.presentation.CreateChatScreenState
 import com.example.papper.features.chat.create_chat.presentation.CreateChatSideEffects
 import com.example.papper.features.chat.create_chat.presentation.CreateChatViewModel
-import com.example.papper.navigation.Screens
+import com.example.papper.navigation.ChatScreen
+import com.example.papper.navigation.CreateChatScreen
+import com.example.papper.navigation.CreateStorageScreen
+import com.example.papper.navigation.StoragesScreen
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectSideEffect
@@ -72,17 +75,16 @@ private fun handleSideEffect(
             viewModel.chooseStorageScreenState.value = ChooseStorageScreenState.Loading
         }
         is CreateChatSideEffects.NavigateToStoragesScreen -> {
-            navHostController.navigate(Screens.StoragesScreen.route)
+            navHostController.navigate(StoragesScreen)
         }
         is CreateChatSideEffects.NavigateToChatScreen -> {
             chatsViewModel.loadData()
-            navHostController.navigate("${Screens.ChatScreen.route}/${sideEffect.id}") {
-                popUpTo(Screens.CreateChatScreen.route) {
+            navHostController.navigate(ChatScreen(chatId = sideEffect.id)) {
+                popUpTo(CreateChatScreen(storageId = null)) {
                     inclusive = true
                 }
                 launchSingleTop = true
                 restoreState = true
-
             }
         }
         CreateChatSideEffects.ShowFetchStorageError -> {
@@ -93,6 +95,10 @@ private fun handleSideEffect(
         }
         CreateChatSideEffects.ShowNetworkConnectionError -> {
             Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()
+        }
+
+        CreateChatSideEffects.NavigateToCreateStorageScreen -> {
+            navHostController.navigate(CreateStorageScreen)
         }
     }
 }

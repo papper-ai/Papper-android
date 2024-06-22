@@ -1,6 +1,7 @@
 package com.example.papper.features.auth.start
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,7 +13,10 @@ import com.example.papper.features.auth.start.presentation.StartSideEffects
 import com.example.papper.features.auth.start.presentation.StartViewModel
 import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.features.storage.storages.presentation.StoragesViewModel
-import com.example.papper.navigation.Screens
+import com.example.papper.navigation.ChatsScreen
+import com.example.papper.navigation.RegistrationScreen
+import com.example.papper.navigation.SignInScreen
+import com.example.papper.navigation.StartScreen
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -40,7 +44,6 @@ fun StartScreen(
     StartBasic(
         modifier = modifier,
         viewModel = viewModel,
-        navHostController = navHostController,
     )
 }
 
@@ -58,9 +61,9 @@ private fun handleSideEffects(
             storagesViewModel.loadData()
             archivesViewModel.loadData()
             navHostController.navigate(
-                Screens.ChatsScreen.route,
+                ChatsScreen,
             ) {
-                popUpTo(Screens.StartScreen.route) {
+                popUpTo(StartScreen) {
                     inclusive = true
                 }
                 launchSingleTop = true
@@ -68,10 +71,11 @@ private fun handleSideEffects(
             }
         }
         StartSideEffects.NavigateToRegistrationScreen -> {
-            navHostController.navigate(Screens.RegistrationScreen.route)
+            Log.d("TAG", "handleSideEffects: ${navHostController.currentDestination?.route} ${StartScreen}")
+            navHostController.navigate(RegistrationScreen)
         }
         StartSideEffects.NavigateToSignInScreen -> {
-            navHostController.navigate(Screens.SignInScreen.route)
+            navHostController.navigate(SignInScreen)
         }
 
         StartSideEffects.ShowNetworkConnectionError -> {

@@ -72,4 +72,8 @@ class ArchivesViewModel @Inject constructor(
         )
     }
 
+    fun navigateToChatScreen(id: String) = intent {
+        postSideEffect(ArchivesSideEffects.NavigateToChatScreen(id))
+    }
+
 }

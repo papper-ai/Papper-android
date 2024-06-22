@@ -1,18 +1,14 @@
 package com.example.papper.features.storage.create_file.presentation
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.core.net.toFile
 import androidx.lifecycle.ViewModel
 import com.example.domain.model.storage.ConvertPhotoModel
 import com.example.domain.usecases.storage.ConvertPhotoIntoTextUseCase
 import com.example.papper.features.storage.create_file.model.PhotoModel
 import com.example.papper.features.storage.create_storage.view.attach_files.CreateStorageBtnStatus
 import com.example.papper.utils.CheckNetworkStatus
-import com.example.papper.utils.toBase64
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent

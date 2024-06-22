@@ -5,4 +5,5 @@ sealed class ArchivesSideEffects {
     object ShowError: ArchivesSideEffects()
     object ShowSuccess: ArchivesSideEffects()
     object ShowNetworkConnectionError: ArchivesSideEffects()
+    data class NavigateToChatScreen(val id: String): ArchivesSideEffects()
 }

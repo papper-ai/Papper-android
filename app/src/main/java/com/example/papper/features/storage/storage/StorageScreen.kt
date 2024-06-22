@@ -12,7 +12,8 @@ import com.example.papper.features.storage.storage.presentation.StorageScreenSta
 import com.example.papper.features.storage.storage.presentation.StorageSideEffects
 import com.example.papper.features.storage.storage.presentation.StorageViewModel
 import com.example.papper.features.storage.storages.presentation.StoragesViewModel
-import com.example.papper.navigation.Screens
+import com.example.papper.navigation.ChatsScreen
+import com.example.papper.navigation.CreateFileScreen
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -82,9 +83,7 @@ private fun handleSideEffect(
         is StorageSideEffects.DeleteStorageAndNavigateToStoragesScreen -> {
             storagesViewModel.deleteStorage(id = sideEffect.id)
             chatsViewModel.loadData()
-            navHostController.navigate(
-                Screens.ChatsScreen.route,
-            ) {
+            navHostController.navigate(ChatsScreen) {
                 popUpTo(navHostController.previousBackStackEntry?.destination?.route ?: "") {
                     inclusive = true
                 }
@@ -105,7 +104,7 @@ private fun handleSideEffect(
         }
 
         StorageSideEffects.NavigateToCreateFileScreen -> {
-            navHostController.navigate(Screens.CreateFileScreen.route)
+            navHostController.navigate(CreateFileScreen)
         }
     }
 }

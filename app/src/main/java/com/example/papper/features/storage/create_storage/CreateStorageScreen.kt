@@ -11,7 +11,9 @@ import com.example.papper.features.storage.create_storage.presentation.CreateSto
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageSideEffects
 import com.example.papper.features.storage.create_storage.presentation.CreateStorageViewModel
 import com.example.papper.features.storage.storages.presentation.StoragesViewModel
-import com.example.papper.navigation.Screens
+import com.example.papper.navigation.CreateFileScreen
+import com.example.papper.navigation.CreateStorageScreen
+import com.example.papper.navigation.StorageScreen
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -53,6 +55,7 @@ private fun handleSideEffect(
             viewModel.createStorageScreenState.value = CreateStorageScreenState.AttachFiles
         }
         is CreateStorageSideEffects.NavigateToCreateChatScreen -> {
+            // ВОТ ЭТО МЕСТО
             navHostController.previousBackStackEntry?.savedStateHandle?.set(
                 key = "storageId",
                 value = sideEffect.id,
@@ -61,10 +64,8 @@ private fun handleSideEffect(
         }
         is CreateStorageSideEffects.NavigateToStorageScreen -> {
             storagesViewModel.loadData()
-            navHostController.navigate(
-                route = "${Screens.StorageScreen.route}/${sideEffect.id}",
-            ) {
-                popUpTo(Screens.CreateStorageScreen.route) {
+            navHostController.navigate(StorageScreen(storageId = sideEffect.id)) {
+                popUpTo(CreateStorageScreen) {
                     inclusive = true
                 }
                 launchSingleTop = true
@@ -79,7 +80,7 @@ private fun handleSideEffect(
         }
 
         CreateStorageSideEffects.NavigateToCreateFileScreen -> {
-            navHostController.navigate(Screens.CreateFileScreen.route)
+            navHostController.navigate(CreateFileScreen)
         }
     }
 }

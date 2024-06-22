@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import com.example.papper.R
-import com.example.papper.theme.Heading1
 import com.example.papper.theme.Heading2
 import com.example.papper.theme.dimens
 

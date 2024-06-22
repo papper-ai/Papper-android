@@ -1,7 +1,6 @@
 package com.example.papper.features.storage.create_file.view.confirm_creating
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -9,19 +8,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.util.lerp
-import com.example.papper.R
 import com.example.papper.features.common.components.CardItemComponent
 import com.example.papper.features.common.components.PageProgressComponent
 import com.example.papper.features.storage.create_file.model.PhotoModel
 import com.example.papper.features.storage.create_file.presentation.CreateFileViewModel
 import com.example.papper.features.storage.create_storage.view.attach_files.CreateStorageBtnStatus
-import com.example.papper.theme.Heading2
 import com.example.papper.theme.dimens
 import kotlin.math.absoluteValue
 

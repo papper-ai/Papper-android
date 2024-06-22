@@ -10,6 +10,7 @@ import com.example.papper.R
 import com.example.papper.features.archive.presentation.ArchivesScreenState
 import com.example.papper.features.archive.presentation.ArchivesSideEffects
 import com.example.papper.features.archive.presentation.ArchivesViewModel
+import com.example.papper.navigation.ChatScreen
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -24,6 +25,7 @@ fun ArchivesScreen(
         handleSideEffect(
             viewModel = viewModel,
             sideEffect = sideEffect,
+            navHostController = navHostController,
             context = context,
         )
     }
@@ -37,6 +39,7 @@ fun ArchivesScreen(
 private fun handleSideEffect(
     viewModel: ArchivesViewModel,
     sideEffect: ArchivesSideEffects,
+    navHostController: NavHostController,
     context: Context,
 ) {
     when (sideEffect) {
@@ -53,6 +56,10 @@ private fun handleSideEffect(
         ArchivesSideEffects.ShowNetworkConnectionError -> {
             viewModel.archivesScreenState.value = ArchivesScreenState.Error
             Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()
+        }
+
+        is ArchivesSideEffects.NavigateToChatScreen -> {
+            navHostController.navigate(ChatScreen(chatId = sideEffect.id))
         }
     }
 }

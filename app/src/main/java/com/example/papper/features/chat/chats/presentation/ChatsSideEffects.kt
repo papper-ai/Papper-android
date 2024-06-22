@@ -7,4 +7,7 @@ sealed class ChatsSideEffects {
     object ShowSuccess: ChatsSideEffects()
     object NavigateToCreateChatScreen: ChatsSideEffects()
     data class NavigateToChatScreen(val id: String): ChatsSideEffects()
+    object NavigateToArchivesScreen: ChatsSideEffects()
+    object NavigateToProfileScreen: ChatsSideEffects()
+    object NavigateToStoragesScreen: ChatsSideEffects()
 }

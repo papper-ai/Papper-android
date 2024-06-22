@@ -12,21 +12,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.papper.R
-import com.example.papper.navigation.Screens
+import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 
 @Composable
 fun ArchiveBtn(
     modifier: Modifier = Modifier,
-    navHostController: NavHostController,
+    viewModel: ChatsViewModel,
 ) {
     Box(
         modifier = modifier
             .size(48.dp)
             .clip(CircleShape)
             .clickable {
-                navHostController.navigate(Screens.ArchivesScreen.route)
+                viewModel.navigateToArchivesScreen()
             },
         contentAlignment = Alignment.Center,
     ) {

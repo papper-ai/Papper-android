@@ -13,7 +13,8 @@ import com.example.papper.features.auth.sign_in.presentation.SignInSideEffects
 import com.example.papper.features.auth.sign_in.presentation.SignInViewModel
 import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.features.storage.storages.presentation.StoragesViewModel
-import com.example.papper.navigation.Screens
+import com.example.papper.navigation.ChatsScreen
+import com.example.papper.navigation.StartScreen
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -69,9 +70,9 @@ private fun handleSideEffects(
             storagesViewModel.loadData()
             archivesViewModel.loadData()
             navHostController.navigate(
-                Screens.ChatsScreen.route,
+                ChatsScreen,
             ) {
-                popUpTo(Screens.StartScreen.route) {
+                popUpTo(StartScreen) {
                     inclusive = true
                 }
                 launchSingleTop = true

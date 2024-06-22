@@ -12,7 +12,9 @@ import com.example.papper.features.chat.chat.presentation.ChatScreenState
 import com.example.papper.features.chat.chat.presentation.ChatSideEffects
 import com.example.papper.features.chat.chat.presentation.ChatViewModel
 import com.example.papper.features.chat.chats.presentation.ChatsViewModel
-import com.example.papper.navigation.Screens
+import com.example.papper.navigation.ArchivesScreen
+import com.example.papper.navigation.ChatsScreen
+import com.example.papper.navigation.StorageScreen
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -74,17 +76,17 @@ private fun handleSideEffects(
         }
         is ChatSideEffects.RenameChat -> {
             when (navHostController.previousBackStackEntry?.destination?.route) {
-                Screens.ChatsScreen.route -> chatsViewModel.loadData()
-                Screens.ArchivesScreen.route -> archivesViewModel.loadData()
+                ChatsScreen.toString() -> chatsViewModel.loadData()
+                ArchivesScreen.toString() -> archivesViewModel.loadData()
             }
         }
         is ChatSideEffects.NavigateToStorageScreen -> {
-            navHostController.navigate("${Screens.StorageScreen.route}/${sideEffect.storageId}")
+            navHostController.navigate(StorageScreen(storageId = sideEffect.storageId))
         }
         is ChatSideEffects.DeleteChatAndNavigateToChatsScreen -> {
             when (navHostController.previousBackStackEntry?.destination?.route) {
-                Screens.ChatsScreen.route -> chatsViewModel.loadData()
-                Screens.ArchivesScreen.route -> archivesViewModel.loadData()
+                ChatsScreen.toString() -> chatsViewModel.loadData()
+                ArchivesScreen.toString() -> archivesViewModel.loadData()
             }
             navHostController.popBackStack()
         }

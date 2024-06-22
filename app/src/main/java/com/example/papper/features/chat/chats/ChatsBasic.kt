@@ -62,7 +62,7 @@ fun ChatBasic(
         Scaffold(
             topBar = {
                 TopBarBasic(
-                    navHostController = navHostController,
+                    viewModel = viewModel,
                 )
             },
             floatingActionButton = {

@@ -20,7 +20,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.example.papper.features.auth.start.presentation.StartScreenState
 import com.example.papper.features.auth.start.presentation.StartViewModel
 import com.example.papper.features.auth.start.view.SignInBtn
@@ -36,7 +35,6 @@ import kotlinx.coroutines.launch
 fun StartBasic(
     modifier: Modifier = Modifier,
     viewModel: StartViewModel,
-    navHostController: NavHostController,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val startLogoAnimation = remember {
@@ -124,9 +122,9 @@ fun StartBasic(
                         ) {
                             //CompanyPolicyClickableText(modifier = modifier)
                             //Spacer(modifier = Modifier.padding(MaterialTheme.dimens.bottomGap))
-                            SignInBtn(navHostController = navHostController)
+                            SignInBtn(viewModel = viewModel)
                             Spacer(modifier = Modifier.padding(MaterialTheme.dimens.bottomGap))
-                            SignUpBtn(navHostController = navHostController)
+                            SignUpBtn(viewModel = viewModel)
                             Spacer(modifier = Modifier.padding(MaterialTheme.dimens.bottomGap2))
                         }
                     }

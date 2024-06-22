@@ -10,13 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.theme.dimens
 
 @Composable
 fun TopBarBasic(
     modifier: Modifier = Modifier,
-    navHostController: NavHostController
+    viewModel: ChatsViewModel
 ) {
     Row(
         modifier = modifier
@@ -38,13 +38,13 @@ fun TopBarBasic(
             horizontalArrangement = Arrangement.End
         ) {
             StorageBtn(
-                navHostController = navHostController,
+                viewModel = viewModel,
             )
             ArchiveBtn(
-                navHostController = navHostController,
+                viewModel = viewModel,
             )
             ProfileBtn(
-                navHostController = navHostController,
+                viewModel = viewModel,
             )
         }
     }

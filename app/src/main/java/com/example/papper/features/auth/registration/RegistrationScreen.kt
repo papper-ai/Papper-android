@@ -12,7 +12,9 @@ import com.example.papper.features.auth.registration.presentation.RegistrationSi
 import com.example.papper.features.auth.registration.presentation.RegistrationViewModel
 import com.example.papper.features.chat.chats.presentation.ChatsViewModel
 import com.example.papper.features.storage.storages.presentation.StoragesViewModel
-import com.example.papper.navigation.Screens
+import com.example.papper.navigation.ChatsScreen
+import com.example.papper.navigation.RegistrationScreen
+import com.example.papper.navigation.StartScreen
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -70,12 +72,12 @@ private fun handleSideEffects(
             storagesViewModel.loadData()
             archivesViewModel.loadData()
             navHostController.navigate(
-                Screens.ChatsScreen.route,
+                ChatsScreen,
             ) {
-                popUpTo(Screens.RegistrationScreen.route) {
+                popUpTo(RegistrationScreen) {
                     inclusive = true
                 }
-                popUpTo(Screens.StartScreen.route) {
+                popUpTo(StartScreen) {
                     inclusive = true
                 }
                 launchSingleTop = true

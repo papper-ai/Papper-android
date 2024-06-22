@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import com.example.papper.features.chat.create_chat.presentation.CreateChatViewModel
 import com.example.papper.features.common.components.PageProgressComponent
 import com.example.papper.theme.dimens
@@ -21,7 +20,6 @@ import org.orbitmvi.orbit.compose.collectAsState
 fun AttachFilesBasic(
     modifier: Modifier = Modifier,
     viewModel: CreateChatViewModel,
-    navHostController: NavHostController,
 ) {
     Box(
         modifier = modifier

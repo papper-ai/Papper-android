@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.example.papper.features.archive.ArchivesScreen
 import com.example.papper.features.archive.presentation.ArchivesViewModel
 import com.example.papper.features.auth.registration.RegistrationScreen
@@ -38,14 +39,15 @@ fun AppNavigation(
 
     NavHost (
         navController = navHostController,
-        startDestination = Screens.StartScreen.route,
-        //startDestination = Screens.SignInByFaceScreen.route,
+        //startDestination = Screens.StartScreen.route,
+        startDestination = StartScreen,
+        //startDestination = Screens.CreateFileScreen.route,
         enterTransition = { fadeIn(tween(300)) },
         exitTransition = { fadeOut(tween(300)) },
         popEnterTransition = { fadeIn(tween(300)) },
         popExitTransition = { fadeOut(tween(300)) },
     ) {
-        composable(route = Screens.StartScreen.route) {
+        composable<StartScreen> {
             StartScreen(
                 viewModel = hiltViewModel(),
                 chatsViewModel = chatsViewModel,
@@ -54,7 +56,7 @@ fun AppNavigation(
                 navHostController = navHostController,
             )
         }
-        composable(route = Screens.RegistrationScreen.route) {
+        composable<RegistrationScreen> {
             RegistrationScreen(
                 viewModel = hiltViewModel(),
                 chatsViewModel = chatsViewModel,
@@ -63,7 +65,7 @@ fun AppNavigation(
                 navHostController = navHostController,
             )
         }
-        composable(route = Screens.SignInScreen.route) {
+        composable<SignInScreen> {
             SignInScreen(
                 viewModel = hiltViewModel(),
                 chatsViewModel = chatsViewModel,
@@ -72,13 +74,14 @@ fun AppNavigation(
                 navHostController = navHostController,
             )
         }
-        composable(route = Screens.ChatsScreen.route) {
+        composable<ChatsScreen> {
             ChatsScreen(
                 viewModel = chatsViewModel,
                 navHostController = navHostController,
             )
         }
-        composable(route = Screens.CreateChatScreen.route) { entry ->
+        composable<CreateChatScreen> { entry ->
+            val args = entry.toRoute<CreateChatScreen>()
             val id = entry.savedStateHandle.get<String>("storageId")
             CreateChatScreen(
                 viewModel = hiltViewModel(),
@@ -87,71 +90,58 @@ fun AppNavigation(
                 id = id,
             )
         }
-        composable(
-            route = "${Screens.ChatScreen.route}/{chatId}",
-            arguments = listOf(
-                navArgument("chatId") { type = NavType.StringType }
-            )
-        ) { entry ->
-            val id = entry.arguments?.getString("chatId") ?: throw Exception("Id not found")
+        composable<ChatScreen> { entry ->
+            val args = entry.toRoute<ChatScreen>()
             ChatScreen(
                 viewModel = hiltViewModel(),
                 chatsViewModel = chatsViewModel,
                 archivesViewModel = archivesViewModel,
                 navHostController = navHostController,
-                id = id,
-                //file = entry.savedStateHandle.get<FilePresentationModel>("file"),
+                id = args.chatId,
             )
         }
-        composable(route = Screens.StoragesScreen.route) {
+        composable<StoragesScreen> {
             StoragesScreen(
                 viewModel = storagesViewModel,
                 navHostController = navHostController,
             )
         }
-        composable(
-            route = Screens.CreateStorageScreen.route,
-        ) {
+        composable<CreateStorageScreen> {
             CreateStoragesScreen(
                 viewModel = hiltViewModel(),
                 storagesViewModel = storagesViewModel,
                 navHostController = navHostController,
             )
         }
-        composable(
-            route = "${Screens.StorageScreen.route}/{storageId}",
-            arguments = listOf(
-                navArgument("storageId") { type = NavType.StringType }
-            )
-        ) {
-            val id = it.arguments?.getString("storageId") ?: throw Exception("Id not found")
+        composable<StorageScreen> {entry ->
+            val args = entry.toRoute<StorageScreen>()
             StorageScreen(
                 viewModel = hiltViewModel(),
                 storagesViewModel = storagesViewModel,
                 chatsViewModel = chatsViewModel,
                 navHostController = navHostController,
-                id = id
+                id = args.storageId
             )
         }
-        composable(route = Screens.ArchivesScreen.route) {
+        composable<ArchivesScreen> {
             ArchivesScreen(
                 viewModel = archivesViewModel,
                 navHostController = navHostController,
             )
         }
-        composable(route = Screens.ProfileScreen.route) {
+        composable<ProfileScreen> {
             ProfileScreen(
                 viewModel = hiltViewModel(),
                 navHostController = navHostController,
             )
         }
-        composable(route = Screens.CreateFileScreen.route) {
+        composable<CreateFileScreen> {
             CreateFileScreen(
                 viewModel = hiltViewModel(),
                 navHostController = navHostController,
             )
         }
-        composable(route = Screens.SignInByFaceScreen.route) {
+        composable<SignInByFaceScreen> {
             SignInByFaceScreen(
                 viewModel = hiltViewModel(),
                 chatsViewModel = chatsViewModel,
