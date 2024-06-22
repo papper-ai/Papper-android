@@ -173,4 +173,20 @@ class CreateFileViewModel @Inject constructor(
         }
     }
 
+    fun navigateToStorageScreen() = intent {
+        var text = ""
+        for (content in state.listOfPhotos) {
+            text += " ${content.text}"
+        }
+        postSideEffect(CreateFileSideEffects.NavigateToStorageScreen(state.title, text))
+    }
+
+    fun navigateToCreateStorageScreen() = intent {
+        var text = ""
+        for (content in state.listOfPhotos) {
+            text += " ${content.text}"
+        }
+        postSideEffect(CreateFileSideEffects.NavigateToCreateStorageScreen(state.title, text))
+    }
+
 }

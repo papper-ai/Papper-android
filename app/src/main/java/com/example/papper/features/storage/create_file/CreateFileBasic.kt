@@ -30,7 +30,6 @@ import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
 
 @SuppressLint("CoroutineCreationDuringComposition")
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CreateFileBasic(
     modifier: Modifier = Modifier,
@@ -130,7 +129,7 @@ fun CreateFileBasic(
                             }
                             2 -> {
                                 ConfirmBtn(
-                                    onClick = { /*TODO*/ },
+                                    onClick = { viewModel.navigateToCreateStorageScreen() },
                                     isEnable = viewModel.createFileBtnStatus.value.isEnable,
                                 )
                             }

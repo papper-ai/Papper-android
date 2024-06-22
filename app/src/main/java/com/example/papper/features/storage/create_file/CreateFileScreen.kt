@@ -41,5 +41,25 @@ private fun handleSideEffects(
         CreateFileSideEffects.ShowConfirmCreating -> {
             viewModel.createFileScreenState.value = CreateFileScreenState.ConfirmCreating
         }
+
+        is CreateFileSideEffects.NavigateToCreateStorageScreen -> {
+            navHostController.previousBackStackEntry?.savedStateHandle?.set(
+                "title", sideEffect.title
+            )
+            navHostController.previousBackStackEntry?.savedStateHandle?.set(
+                "text", sideEffect.text
+            )
+            navHostController.popBackStack()
+        }
+
+        is CreateFileSideEffects.NavigateToStorageScreen -> {
+            navHostController.previousBackStackEntry?.savedStateHandle?.set(
+                "title", sideEffect.title
+            )
+            navHostController.previousBackStackEntry?.savedStateHandle?.set(
+                "text", sideEffect.text
+            )
+            navHostController.popBackStack()
+        }
     }
 }

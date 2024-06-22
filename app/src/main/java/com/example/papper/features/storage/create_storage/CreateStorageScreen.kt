@@ -14,6 +14,7 @@ import com.example.papper.features.storage.storages.presentation.StoragesViewMod
 import com.example.papper.navigation.CreateFileScreen
 import com.example.papper.navigation.CreateStorageScreen
 import com.example.papper.navigation.StorageScreen
+import com.example.papper.utils.createFile
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
@@ -22,8 +23,15 @@ fun CreateStoragesScreen(
     viewModel: CreateStorageViewModel,
     storagesViewModel: StoragesViewModel,
     navHostController: NavHostController,
+    title: String?,
+    text: String?,
 ) {
     val context = LocalContext.current
+
+    if (title != null && text != null) {
+        viewModel.addFile(createFile(context, title, text))
+    }
+
     viewModel.collectSideEffect { sideEffect ->
         handleSideEffect(
             viewModel = viewModel,

@@ -106,21 +106,29 @@ fun AppNavigation(
                 navHostController = navHostController,
             )
         }
-        composable<CreateStorageScreen> {
+        composable<CreateStorageScreen> { entry ->
+            val title = entry.savedStateHandle.get<String>("title")
+            val text = entry.savedStateHandle.get<String>("text")
             CreateStoragesScreen(
                 viewModel = hiltViewModel(),
                 storagesViewModel = storagesViewModel,
                 navHostController = navHostController,
+                title = title,
+                text = text,
             )
         }
         composable<StorageScreen> {entry ->
             val args = entry.toRoute<StorageScreen>()
+            val title = entry.savedStateHandle.get<String>("title")
+            val text = entry.savedStateHandle.get<String>("text")
             StorageScreen(
                 viewModel = hiltViewModel(),
                 storagesViewModel = storagesViewModel,
                 chatsViewModel = chatsViewModel,
                 navHostController = navHostController,
-                id = args.storageId
+                id = args.storageId,
+                title = title,
+                text = text,
             )
         }
         composable<ArchivesScreen> {
