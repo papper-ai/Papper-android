@@ -63,11 +63,21 @@ fun getFilePickerLauncher(
         }
     )
 
+//@Composable
+//fun getMultipleFilePickerLauncher(
+//    onResult: (list: List<Uri>) -> Unit,
+//) = rememberLauncherForActivityResult(
+//    contract = ActivityResultContracts.GetMultipleContents(),
+//    onResult = { list ->
+//        onResult(list)
+//    },
+//)
+
 @Composable
 fun getMultipleFilePickerLauncher(
     onResult: (list: List<Uri>) -> Unit,
 ) = rememberLauncherForActivityResult(
-    contract = ActivityResultContracts.GetMultipleContents(),
+    contract = ActivityResultContracts.OpenMultipleDocuments(),
     onResult = { list ->
         onResult(list)
     },

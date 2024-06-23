@@ -10,7 +10,6 @@ import com.example.papper.R
 import com.example.papper.features.profile.presentation.ProfileScreenState
 import com.example.papper.features.profile.presentation.ProfileSideEffects
 import com.example.papper.features.profile.presentation.ProfileViewModel
-import com.example.papper.navigation.ChatScreen
 import com.example.papper.navigation.ChatsScreen
 import com.example.papper.navigation.ProfileScreen
 import com.example.papper.navigation.StartScreen

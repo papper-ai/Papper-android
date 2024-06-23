@@ -257,11 +257,15 @@ fun WithoutlinedTextFieldComponent(
     modifier: Modifier = Modifier,
     value: String = "",
     onValueChange: (String) -> Unit = {},
+//    imeAction: ImeAction = ImeAction.Next,
+//    onAction: () -> Unit = {},
     placeholder: String,
     singleLine: Boolean,
     keyboardType: KeyboardType = KeyboardType.Text,
     keyboardCapitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
 ) {
+    //val keyboardController = LocalSoftwareKeyboardController.current
+
     Box(modifier = Modifier
         .fillMaxWidth()
         .wrapContentHeight(),
@@ -279,8 +283,34 @@ fun WithoutlinedTextFieldComponent(
                 capitalization = keyboardCapitalization,
                 autoCorrect = true,
                 keyboardType = keyboardType,
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Done
             ),
+//            keyboardActions = KeyboardActions(
+//                onDone = {
+//                    onAction()
+//                    keyboardController?.hide()
+//                },
+//                onGo = {
+//                    onAction()
+//                    keyboardController?.hide()
+//                },
+//                onNext = {
+//                    onAction()
+//                    keyboardController?.hide()
+//                },
+//                onPrevious = {
+//                    onAction()
+//                    keyboardController?.hide()
+//                },
+//                onSearch = {
+//                    onAction()
+//                    keyboardController?.hide()
+//                },
+//                onSend = {
+//                    onAction()
+//                    keyboardController?.hide()
+//                },
+//            ),
             textStyle = TextStyle(textAlign = TextAlign.Center) + MaterialTheme.typography.TypingText2,
             singleLine = singleLine,
             placeholder = {

@@ -81,13 +81,12 @@ fun AppNavigation(
             )
         }
         composable<CreateChatScreen> { entry ->
-            val args = entry.toRoute<CreateChatScreen>()
             val id = entry.savedStateHandle.get<String>("storageId")
             CreateChatScreen(
                 viewModel = hiltViewModel(),
                 chatsViewModel = chatsViewModel,
                 navHostController = navHostController,
-                id = id,
+                storageId = id,
             )
         }
         composable<ChatScreen> { entry ->

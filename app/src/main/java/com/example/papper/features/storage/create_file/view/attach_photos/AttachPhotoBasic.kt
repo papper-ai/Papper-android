@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
-import com.example.papper.features.storage.create_file.presentation.CreateFileScreenState
 import com.example.papper.features.storage.create_file.presentation.CreateFileViewModel
 import com.example.papper.theme.dimens
 import com.example.papper.utils.checkPermissions
@@ -29,8 +28,10 @@ import java.util.Objects
 fun AttachPhotoBasic(
     modifier: Modifier = Modifier,
     viewModel: CreateFileViewModel,
+    onBackHandler: () -> Unit,
 ) {
     val context = LocalContext.current
+
     val file = context.createImageFile()
     val uri = FileProvider.getUriForFile(
         Objects.requireNonNull(context),
@@ -54,7 +55,7 @@ fun AttachPhotoBasic(
     )
 
     BackHandler {
-        viewModel.createFileScreenState.value = CreateFileScreenState.TypingTitle
+        onBackHandler()
     }
 
     Column(

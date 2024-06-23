@@ -3,6 +3,7 @@ package com.example.papper.features.storage.create_storage
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -28,8 +29,10 @@ fun CreateStoragesScreen(
 ) {
     val context = LocalContext.current
 
-    if (title != null && text != null) {
-        viewModel.addFile(createFile(context, title, text))
+    LaunchedEffect(title, text) {
+        if (title != null && text != null) {
+            viewModel.addFile(createFile(context, title, text))
+        }
     }
 
     viewModel.collectSideEffect { sideEffect ->
@@ -63,7 +66,6 @@ private fun handleSideEffect(
             viewModel.createStorageScreenState.value = CreateStorageScreenState.AttachFiles
         }
         is CreateStorageSideEffects.NavigateToCreateChatScreen -> {
-            // ВОТ ЭТО МЕСТО
             navHostController.previousBackStackEntry?.savedStateHandle?.set(
                 key = "storageId",
                 value = sideEffect.id,

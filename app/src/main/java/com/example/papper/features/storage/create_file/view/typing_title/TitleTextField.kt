@@ -30,6 +30,10 @@ fun TitleTextField(
             viewModel.updateTitle(newTitle)
             textFieldState = newTitle
         },
+//        imeAction = ImeAction.Next,
+//        onAction = {
+//            viewModel.toAttachScreen()
+//        },
         modifier = modifier,
         placeholder = stringResource(id = R.string.title),
         singleLine = true

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -18,8 +18,6 @@ import com.example.papper.navigation.ChatScreen
 import com.example.papper.navigation.CreateChatScreen
 import com.example.papper.navigation.CreateStorageScreen
 import com.example.papper.navigation.StoragesScreen
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -29,15 +27,13 @@ fun CreateChatScreen(
     viewModel: CreateChatViewModel,
     chatsViewModel: ChatsViewModel,
     navHostController: NavHostController,
-    id: String? = null
+    storageId: String? = null
 ) {
-    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    coroutineScope.launch {
-        delay(10)
-        if (id != null) {
-            viewModel.toListOfFiles(id = id)
+    LaunchedEffect(storageId) {
+        if (storageId != null) {
+            viewModel.toListOfFiles(id = storageId)
         }
     }
 
@@ -50,6 +46,7 @@ fun CreateChatScreen(
             context = context,
         )
     }
+
     CreateChatBasic(
         modifier = modifier,
         viewModel = viewModel,
@@ -96,7 +93,6 @@ private fun handleSideEffect(
         CreateChatSideEffects.ShowNetworkConnectionError -> {
             Toast.makeText(context, context.getText(R.string.network_connection_error), Toast.LENGTH_SHORT).show()
         }
-
         CreateChatSideEffects.NavigateToCreateStorageScreen -> {
             navHostController.navigate(CreateStorageScreen)
         }

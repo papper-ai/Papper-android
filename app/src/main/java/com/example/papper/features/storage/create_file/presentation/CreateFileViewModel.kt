@@ -24,18 +24,17 @@ class CreateFileViewModel @Inject constructor(
 ): ViewModel(), ContainerHost<CreateFileState, CreateFileSideEffects> {
 
     override val container = container<CreateFileState, CreateFileSideEffects>(CreateFileState())
-    val createFileScreenState = mutableStateOf<CreateFileScreenState>(CreateFileScreenState.TypingTitle)
     val convertPhotoBtnStatus = mutableStateOf<CreateStorageBtnStatus>(CreateStorageBtnStatus(isLoading = false, isEnable = true))
     val createFileBtnStatus = mutableStateOf<CreateStorageBtnStatus>(CreateStorageBtnStatus(isLoading = false, isEnable = false))
+
+    fun navigateBack() = intent {
+        postSideEffect(CreateFileSideEffects.NavigateBack)
+    }
 
     fun updateTitle(title: String) = intent {
         reduce {
             state.copy(title = title)
         }
-    }
-
-    fun toAttachPhotos() = intent {
-        postSideEffect(CreateFileSideEffects.ShowAttachPhotos)
     }
 
     fun addPhoto(image: Uri) = intent {
@@ -107,8 +106,6 @@ class CreateFileViewModel @Inject constructor(
                     for (text in state.listOfPhotos) {
                         Log.e("Test", "convertPhotos: ${text.text}\n")
                     }
-
-                    postSideEffect(CreateFileSideEffects.ShowConfirmCreating)
                 } else {
 
                 }
@@ -173,20 +170,12 @@ class CreateFileViewModel @Inject constructor(
         }
     }
 
-    fun navigateToStorageScreen() = intent {
+    fun navigatePopBack() = intent {
         var text = ""
         for (content in state.listOfPhotos) {
             text += " ${content.text}"
         }
-        postSideEffect(CreateFileSideEffects.NavigateToStorageScreen(state.title, text))
-    }
-
-    fun navigateToCreateStorageScreen() = intent {
-        var text = ""
-        for (content in state.listOfPhotos) {
-            text += " ${content.text}"
-        }
-        postSideEffect(CreateFileSideEffects.NavigateToCreateStorageScreen(state.title, text))
+        postSideEffect(CreateFileSideEffects.NavigatePopBack(state.title, text))
     }
 
 }

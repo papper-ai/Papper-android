@@ -3,6 +3,7 @@ package com.example.papper.features.storage.storage
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
@@ -32,8 +33,10 @@ fun StorageScreen(
 
     viewModel.id = id
 
-    if (title != null && text != null) {
-        viewModel.addFile(createFile(context, title, text))
+    LaunchedEffect(title, text) {
+        if (title != null && text != null) {
+            viewModel.addFile(createFile(context, title, text))
+        }
     }
 
     viewModel.collectSideEffect { sideEffect ->

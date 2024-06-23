@@ -1,6 +1,5 @@
 package com.example.papper.features.storage.create_file.view.confirm_creating
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -20,16 +19,17 @@ import com.example.papper.features.storage.create_storage.view.attach_files.Crea
 import com.example.papper.theme.dimens
 import kotlin.math.absoluteValue
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ConvertedPhotoPager(
     modifier: Modifier = Modifier,
     viewModel: CreateFileViewModel,
     list: List<PhotoModel>,
+    onEmptyList: () -> Unit,
 ) {
     val pagerState = rememberPagerState(
         pageCount = {list.size}
     )
+
     Column(
         modifier = modifier
     ) {
@@ -37,20 +37,17 @@ fun ConvertedPhotoPager(
             HorizontalPager(
                 modifier = Modifier,
                 state = pagerState,
-                //pageSize = PageSize.Fill,
                 contentPadding = PaddingValues(horizontal = MaterialTheme.dimens.gapBetweenComponentScreen),
                 pageSpacing = MaterialTheme.dimens.bottomGap,
             ) { page ->
                 CardItemComponent(
                     modifier = Modifier
-                        //.wrapContentSize()
                         .graphicsLayer {
                             val pageOffset = (
                                     (pagerState.currentPage - page) + pagerState
                                         .currentPageOffsetFraction
                                     ).absoluteValue
 
-                            // We animate the alpha, between 50% and 100%
                             alpha = lerp(
                                 start = 0.5f,
                                 stop = 1f,
@@ -58,7 +55,6 @@ fun ConvertedPhotoPager(
                             )
                         },
                 ) {
-                    // Card content
                     ConvertedTextPagerItem(
                         viewModel = viewModel,
                         convertedPhoto = list[page]
@@ -68,12 +64,11 @@ fun ConvertedPhotoPager(
             Spacer(modifier = Modifier.height(MaterialTheme.dimens.bottomGap2))
             PageProgressComponent(
                 modifier = Modifier,
-                //.wrapContentSize(),
                 pageCount = if (pagerState.pageCount > 1) pagerState.pageCount else 0,
                 currentPage = pagerState.currentPage + 1
             )
         } else {
-            viewModel.toAttachPhotos()
+            onEmptyList()
         }
     }
     if (pagerState.currentPage+1 == pagerState.pageCount)

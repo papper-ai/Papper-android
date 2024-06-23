@@ -5,7 +5,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.core.app.ActivityOptionsCompat
 import com.example.papper.R
 import com.example.papper.features.common.components.StrokeButtonComponent
 import com.example.papper.features.storage.create_file.presentation.CreateFileViewModel
@@ -29,7 +28,7 @@ fun AddPhotosBtn(
         modifier = modifier
             .padding(start = MaterialTheme.dimens.gapBetweenComponentScreen, end = MaterialTheme.dimens.buttonGap/2),
         onClick = {
-            multipleFilePicker.launch("image/*", options = ActivityOptionsCompat.makeBasic())
+            multipleFilePicker.launch(arrayOf("image/*"))
         },
         text = stringResource(id = R.string.attach_photo),
     )

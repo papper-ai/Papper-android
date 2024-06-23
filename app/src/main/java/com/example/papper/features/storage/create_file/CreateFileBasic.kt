@@ -1,7 +1,5 @@
 package com.example.papper.features.storage.create_file
 
-import android.annotation.SuppressLint
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,9 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
+import androidx.compose.ui.platform.LocalFocusManager
 import com.example.papper.features.common.components.PageProgressComponent
-import com.example.papper.features.storage.create_file.presentation.CreateFileScreenState
 import com.example.papper.features.storage.create_file.presentation.CreateFileViewModel
 import com.example.papper.features.storage.create_file.view.ContinueBtn
 import com.example.papper.features.storage.create_file.view.TopBar
@@ -29,57 +26,26 @@ import com.example.papper.theme.dimens
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
 
-@SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun CreateFileBasic(
     modifier: Modifier = Modifier,
     viewModel: CreateFileViewModel,
-    navHostController: NavHostController,
+    //pagerState: PagerState,
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     val pagerState = rememberPagerState(
         pageCount = {3}
     )
-
-    val coroutineScope = rememberCoroutineScope()
-
-    when (viewModel.createFileScreenState.value) {
-        CreateFileScreenState.TypingTitle -> {
-            coroutineScope.launch {
-                // Call scroll to on pagerState
-                pagerState.animateScrollToPage(
-                    0
-                )
-            }
-        }
-        CreateFileScreenState.AttachPhotos -> {
-            coroutineScope.launch {
-                // Call scroll to on pagerState
-                pagerState.animateScrollToPage(
-                    1
-                )
-            }
-        }
-        CreateFileScreenState.ConfirmCreating -> {
-            coroutineScope.launch {
-                // Call scroll to on pagerState
-                pagerState.animateScrollToPage(
-                    2
-                )
-            }
-        }
-        CreateFileScreenState.Error -> {
-            coroutineScope.launch {
-                // Call scroll to on pagerState
-                pagerState.animateScrollToPage(
-                    3
-                )
-            }
-        }
-    }
+    val focusManager = LocalFocusManager.current
 
     Scaffold (
         topBar = {
-            TopBar(viewModel = viewModel, navHostController = navHostController)
+            TopBar(
+                viewModel = viewModel,
+                //currentPage = pagerState.currentPage
+                pagerState = pagerState,
+            )
         },
         content = {
             Column(
@@ -94,8 +60,17 @@ fun CreateFileBasic(
                 ) { currentPage ->
                     when (currentPage) {
                         0 -> { TitleBasic (viewModel = viewModel) }
-                        1 -> { AttachPhotoBasic (viewModel = viewModel) }
-                        2 -> { ConfirmCreatingBasic(viewModel = viewModel) }
+                        1 -> {
+                            AttachPhotoBasic (
+                                viewModel = viewModel,
+                                onBackHandler = {
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(0)
+                                    }
+                                }
+                            )
+                        }
+                        2 -> { ConfirmCreatingBasic(viewModel = viewModel, pagerState = pagerState) }
                         3 -> {}
                     }
                 }
@@ -114,7 +89,10 @@ fun CreateFileBasic(
                             0 -> {
                                 ContinueBtn(
                                     onClick = {
-                                        viewModel.toAttachPhotos()
+                                        focusManager.clearFocus()
+                                        coroutineScope.launch {
+                                            pagerState.animateScrollToPage(1)
+                                        }
                                     },
                                     isEnable = viewModel.collectAsState().value.title.isNotEmpty()
                                 )
@@ -122,14 +100,18 @@ fun CreateFileBasic(
                             1 -> {
                                 ConvertPhotosBtn(
                                     onClick = {
-                                        viewModel.convertPhotos()
+                                        viewModel.convertPhotos().invokeOnCompletion {
+                                            coroutineScope.launch {
+                                                pagerState.animateScrollToPage(2)
+                                            }
+                                        }
                                     },
                                     viewModel = viewModel
                                 )
                             }
                             2 -> {
                                 ConfirmBtn(
-                                    onClick = { viewModel.navigateToCreateStorageScreen() },
+                                    onClick = { viewModel.navigatePopBack() },
                                     isEnable = viewModel.createFileBtnStatus.value.isEnable,
                                 )
                             }
