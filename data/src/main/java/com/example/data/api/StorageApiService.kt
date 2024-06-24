@@ -30,8 +30,9 @@ interface StorageApiService {
     ): Response<CreateStorageResponse>
 
     @Multipart
-    @POST(Constants.ADD_FILE_TO_VAULT)
+    @PATCH(Constants.ADD_FILE_TO_VAULT)
     suspend fun addFileToVault(
+        //@Body body: AddFileBody,
         @Part("vault_id") vaultId: RequestBody,
         @Part file: MultipartBody.Part,
     ): Response<AddFileIntoStorageResponse>

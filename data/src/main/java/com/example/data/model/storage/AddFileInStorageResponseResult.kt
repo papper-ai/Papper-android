@@ -2,6 +2,8 @@ package com.example.data.model.storage
 
 import com.example.data.base.BaseResponse
 import com.example.domain.model.storage.AddFileInStorageResult
+import com.google.gson.annotations.SerializedName
+import okhttp3.MultipartBody
 
 data class AddFileIntoStorageResponse(
     val id: String,
