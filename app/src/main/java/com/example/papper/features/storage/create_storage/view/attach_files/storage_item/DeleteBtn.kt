@@ -36,7 +36,7 @@ fun DeleteBtn(
         contentAlignment = Alignment.Center,
     ) {
         Icon(
-            painter = painterResource(id = R.drawable.error_icon),
+            painter = painterResource(id = R.drawable.error_icon_small),
             contentDescription = "Delete",
             tint = MaterialTheme.colorScheme.onPrimary,
         )
