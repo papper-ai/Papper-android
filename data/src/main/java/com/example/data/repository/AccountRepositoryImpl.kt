@@ -9,10 +9,10 @@ import com.example.domain.repository.AccountRepository
 import javax.inject.Inject
 
 class AccountRepositoryImpl @Inject constructor(
-    private val service: AuthRemoteDataSource,
+    private val authDataSource: AuthRemoteDataSource,
 ) : AccountRepository {
     override suspend fun checkApi() {
-        val result = service.checkApi()
+        val result = authDataSource.checkApi()
         if (result.baseResponse.isSuccess) {
             Log.d("Test", "checkApi: Запрос удачный. result: ${result}. Код: ${result.baseResponse.code}")
         }
@@ -28,7 +28,7 @@ class AccountRepositoryImpl @Inject constructor(
         password: String,
         code: String
     ): AccountResponseResult {
-        return service.registerUser(
+        return authDataSource.registerUser(
 //            name = name,
 //            surname = surname,
             login = login,
@@ -38,11 +38,11 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
     override suspend fun signIn(login: String, password: String): AccountResponseResult {
-        return service.signIn(login, password).mapToDomainModel()
+        return authDataSource.signIn(login, password).mapToDomainModel()
     }
 
     override suspend fun checkSignInData(): AccountResponseResult {
-        return service.checkSignInData().mapToDomainModel()
+        return authDataSource.checkSignInData().mapToDomainModel()
     }
 
     override suspend fun changePassword(): AccountResponseResult {
@@ -62,11 +62,11 @@ class AccountRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getLogin(): LoginResponseResult {
-        return service.getLogin().mapToDomainModel()
+        return authDataSource.getLogin().mapToDomainModel()
     }
 
     override suspend fun logOut() {
-        service.logOut()
+        authDataSource.logOut()
     }
 
 }

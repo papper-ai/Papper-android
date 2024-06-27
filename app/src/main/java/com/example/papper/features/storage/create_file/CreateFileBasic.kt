@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import com.example.papper.features.common.components.PageProgressComponent
 import com.example.papper.features.storage.create_file.presentation.CreateFileViewModel
@@ -23,6 +24,7 @@ import com.example.papper.features.storage.create_file.view.confirm_creating.Con
 import com.example.papper.features.storage.create_file.view.confirm_creating.ConfirmCreatingBasic
 import com.example.papper.features.storage.create_file.view.typing_title.TitleBasic
 import com.example.papper.theme.dimens
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.compose.collectAsState
 
@@ -30,9 +32,9 @@ import org.orbitmvi.orbit.compose.collectAsState
 fun CreateFileBasic(
     modifier: Modifier = Modifier,
     viewModel: CreateFileViewModel,
-    //pagerState: PagerState,
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     val pagerState = rememberPagerState(
         pageCount = {3}
@@ -43,7 +45,6 @@ fun CreateFileBasic(
         topBar = {
             TopBar(
                 viewModel = viewModel,
-                //currentPage = pagerState.currentPage
                 pagerState = pagerState,
             )
         },
@@ -100,7 +101,7 @@ fun CreateFileBasic(
                             1 -> {
                                 ConvertPhotosBtn(
                                     onClick = {
-                                        viewModel.convertPhotos().invokeOnCompletion {
+                                        viewModel.convertPhotos(context = context).invokeOnCompletion {
                                             coroutineScope.launch {
                                                 pagerState.animateScrollToPage(2)
                                             }

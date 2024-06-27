@@ -1,14 +1,16 @@
 package com.example.papper.features.storage.create_file.presentation
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.domain.model.storage.ConvertPhotoModel
-import com.example.domain.usecases.storage.ConvertPhotoIntoTextUseCase
+import com.example.domain.model.llm.ImageToConvert
+import com.example.domain.usecases.llm.ConvertImageToTextUseCase
 import com.example.papper.features.storage.create_file.model.PhotoModel
 import com.example.papper.features.storage.create_storage.view.attach_files.CreateStorageBtnStatus
 import com.example.papper.utils.CheckNetworkStatus
+import com.example.papper.utils.toBase64
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -20,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateFileViewModel @Inject constructor(
     private val networkStatus: CheckNetworkStatus,
-    private val convertPhotoIntoTextUseCase: ConvertPhotoIntoTextUseCase,
+    //private val convertPhotoIntoTextUseCase: ConvertPhotoIntoTextUseCase,
+    private val convertImageToTextUseCase: ConvertImageToTextUseCase,
 ): ViewModel(), ContainerHost<CreateFileState, CreateFileSideEffects> {
 
     override val container = container<CreateFileState, CreateFileSideEffects>(CreateFileState())
@@ -77,25 +80,25 @@ class CreateFileViewModel @Inject constructor(
         }
     }
 
-    fun convertPhotos() = intent {
+    fun convertPhotos(context: Context) = intent {
         networkStatus.isNetworkConnected(
             onSuccess = {
                 convertPhotoBtnStatus.value = CreateStorageBtnStatus(isLoading = true, isEnable = false)
-                val resultFromApi = convertPhotoIntoTextUseCase.execute(
-                    listOfPhoto = state.listOfPhotos.map {
-                        ConvertPhotoModel(
-                            id = it.id,
-                            //photo = BitmapFactory.decodeFile(it.imageUri.toFile().path).toBase64(),
-                            photo = it.imageUri.toString()
-                        )
-                    }
-                )
+
+                val list = state.listOfPhotos.map {
+                    ImageToConvert(
+                        uuid = it.id.toString(),
+                        image = it.imageUri.toBase64(context),
+                    )
+                }
+
+                val resultFromApi = convertImageToTextUseCase.execute(list = list)
                 if (resultFromApi.isSuccess) {
                     val newList = state.listOfPhotos.toMutableList()
                     for (convertedPhoto in resultFromApi.list) {
-                        newList[convertedPhoto.id-1] = PhotoModel(
-                            id = convertedPhoto.id,
-                            imageUri = newList[convertedPhoto.id-1].imageUri,
+                        newList[convertedPhoto.uuid.toInt() - 1] = PhotoModel(
+                            id = convertedPhoto.uuid.toInt(),
+                            imageUri = newList[convertedPhoto.uuid.toInt() - 1].imageUri,
                             text = convertedPhoto.text,
                         )
                     }
@@ -107,7 +110,7 @@ class CreateFileViewModel @Inject constructor(
                         Log.e("Test", "convertPhotos: ${text.text}\n")
                     }
                 } else {
-
+                    Log.e("TEST", "convertPhotos: попал в false", )
                 }
                 convertPhotoBtnStatus.value = CreateStorageBtnStatus(isLoading = false, isEnable = true)
             },
@@ -117,18 +120,16 @@ class CreateFileViewModel @Inject constructor(
         )
     }
 
-    fun reconvertPhoto(oldPhoto: PhotoModel, newPhoto: PhotoModel) = intent {
+    fun reconvertPhoto(context: Context, oldPhoto: PhotoModel, newPhoto: PhotoModel) = intent {
         networkStatus.isNetworkConnected(
             onSuccess = {
-                val resultFromApi = convertPhotoIntoTextUseCase.execute(
-                    listOfPhoto = listOf(newPhoto).map {
-                        ConvertPhotoModel(
-                            id = it.id,
-                            //photo = BitmapFactory.decodeFile(it.imageUri.toFile().path).toBase64(),
-                            photo = it.imageUri.toString()
-                        )
-                    }
-                )
+                val resultFromApi = convertImageToTextUseCase.execute(list = listOf(
+                    ImageToConvert(
+                        uuid = newPhoto.id.toString(),
+                        image = newPhoto.imageUri.toBase64(context),
+                    )
+                ))
+
                 if (resultFromApi.isSuccess) {
                     val newList = state.listOfPhotos
                     val element = newList.filter { photoModel ->

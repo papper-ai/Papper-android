@@ -24,6 +24,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okio.IOException
 import java.io.File
 import javax.inject.Inject
+import kotlin.io.encoding.ExperimentalEncodingApi
 
 
 class StorageRemoteDataSource @Inject constructor(
@@ -298,6 +299,7 @@ class StorageRemoteDataSource @Inject constructor(
         return result
     }
 
+    @OptIn(ExperimentalEncodingApi::class)
     suspend fun addFileInStorage(id: String, file: File): AddFileInStorageResponseResult {
         lateinit var result: AddFileInStorageResponseResult
 

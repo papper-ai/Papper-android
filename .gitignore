@@ -14,3 +14,4 @@
 .cxx
 local.properties
 /data/src/main/java/com/example/data/utils/Constants.kt
+/data/src/main/java/com/example/data/utils/Decrypt.kt

@@ -1,6 +1,8 @@
 package com.example.data.di
 
 import com.example.data.datasource.local.AuthLocalDataSource
+import com.example.data.di.annotations.MainServiceRetrofit
+import com.example.data.di.annotations.OntoLLMRetrofit
 import com.example.data.utils.Constants
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -52,11 +54,22 @@ object NetworkModule {
     }
 
 
+    @MainServiceRetrofit
     @Provides
     @Singleton
-    fun provideRetrofit(gsonConverterFactory: GsonConverterFactory, okHttpClient: OkHttpClient): Retrofit =
+    fun provideMainRetrofit(gsonConverterFactory: GsonConverterFactory, okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
+            .addConverterFactory(gsonConverterFactory)
+            .client(okHttpClient)
+            .build()
+
+    @OntoLLMRetrofit
+    @Provides
+    @Singleton
+    fun provideOntoLLMRetrofit(gsonConverterFactory: GsonConverterFactory, okHttpClient: OkHttpClient): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL_OCR)
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
             .build()

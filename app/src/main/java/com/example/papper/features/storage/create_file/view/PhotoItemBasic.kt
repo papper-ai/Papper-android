@@ -88,6 +88,7 @@ fun PhotoItemBasic(
                 )
             } else {
                 viewModel.reconvertPhoto(
+                    context = context,
                     oldPhoto = photo,
                     newPhoto = PhotoModel(
                         id = photo.id,
@@ -120,6 +121,7 @@ fun PhotoItemBasic(
                     )
                 } else {
                     viewModel.reconvertPhoto(
+                        context = context,
                         oldPhoto = photo,
                         newPhoto = PhotoModel(
                             id = photo.id,
@@ -134,7 +136,6 @@ fun PhotoItemBasic(
 
     Column(
         modifier = modifier
-            //.width(IntrinsicSize.Max)
             .fillMaxWidth(0.45f)
             .wrapContentHeight()
             .clickable {

@@ -1,12 +1,17 @@
 package com.example.papper.utils
 
-import android.graphics.Bitmap
+import android.content.Context
+import android.net.Uri
+import android.provider.MediaStore
 import android.util.Base64
-import java.io.ByteArrayOutputStream
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.core.net.toFile
+import java.io.File
+import java.net.URL
+import java.nio.charset.Charset
 
-fun Bitmap.toBase64(): String {
-    val byteArrayOutputStream = ByteArrayOutputStream()
-    this.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-    val byteArray = byteArrayOutputStream.toByteArray()
-    return Base64.encodeToString(byteArray, Base64.DEFAULT)
+fun Uri.toBase64(context: Context): String {
+    context.contentResolver.openInputStream(this).use { inputStream ->
+        return Base64.encodeToString(inputStream?.readBytes(), Base64.DEFAULT)
+    }
 }

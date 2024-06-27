@@ -2,6 +2,7 @@ package com.example.data.di
 
 import com.example.data.api.AuthApiService
 import com.example.data.api.ChatApiService
+import com.example.data.api.LLMApiService
 import com.example.data.api.StorageApiService
 import com.example.data.datasource.local.AuthLocalDataSource
 import com.example.data.datasource.remote.ChatRemoteDataSource
@@ -10,8 +11,11 @@ import com.example.data.repository.AccountRepositoryImpl
 import com.example.data.repository.ChatRepositoryImpl
 import com.example.data.repository.StorageRepositoryImpl
 import com.example.data.datasource.remote.AuthRemoteDataSource
+import com.example.data.datasource.remote.LLMRemoteDataSource
+import com.example.data.repository.LLMRepositoryImpl
 import com.example.domain.repository.AccountRepository
 import com.example.domain.repository.ChatRepository
+import com.example.domain.repository.LLMRepository
 import com.example.domain.repository.StorageRepository
 import dagger.Module
 import dagger.Provides
@@ -37,6 +41,12 @@ object DataSourceModule {
 
     @Provides
     @Singleton
+    fun provideLLMRemoteDataSource(apiService: LLMApiService): LLMRemoteDataSource {
+        return LLMRemoteDataSource(apiService = apiService)
+    }
+
+    @Provides
+    @Singleton
     fun provideAuthService(apiService: AuthApiService, authLocalDataSource: AuthLocalDataSource): AuthRemoteDataSource {
         return AuthRemoteDataSource(apiService = apiService, authLocalDataSource = authLocalDataSource)
     }
@@ -44,7 +54,7 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideAuthRepository(authRemoteDataSource: AuthRemoteDataSource): AccountRepository {
-        return AccountRepositoryImpl(service = authRemoteDataSource)
+        return AccountRepositoryImpl(authDataSource = authRemoteDataSource)
     }
 
     @Provides
@@ -57,6 +67,12 @@ object DataSourceModule {
     @Singleton
     fun provideStorageRepository(storageRemoteDataSource: StorageRemoteDataSource): StorageRepository {
         return StorageRepositoryImpl(storageDataSource = storageRemoteDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLLMRepository(llmRemoteDataSource: LLMRemoteDataSource): LLMRepository {
+        return LLMRepositoryImpl(llmDataSource = llmRemoteDataSource)
     }
 
 }
